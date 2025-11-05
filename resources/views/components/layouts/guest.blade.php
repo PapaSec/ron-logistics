@@ -4,13 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Ron | Logistics</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
 <body>
-    <i class="fas fa-home mr-2"></i>Home<br>
-    <i class="fab fa-laravel mr-2"></i>Lara
+    <div class="min-h-screen">
+        {{ $slot }} 
+    </div>
+    
+    @livewireScripts
 </body>
 </html>

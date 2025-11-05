@@ -1,3 +1,3 @@
-<x-layouts.sidebar>
+<x-layouts.guest>
     {{ $slot }}
 </x-layouts>
