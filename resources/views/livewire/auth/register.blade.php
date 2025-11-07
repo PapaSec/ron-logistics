@@ -57,10 +57,10 @@
                 <!-- Welcome text section -->
                 <div class="mb-8">
                     <h2 class="text-3xl font-bold text-gray-900 mb-2">
-                        Welcome Back to Ron Logistics!
+                        Welcome to Ron Logistics!
                     </h2>
                     <p class="text-gray-600 font-bold text-center">
-                        Sign in your account
+                        Create your account
                     </p>
                 </div>
                 
@@ -76,7 +76,7 @@
                             type="email"
                             wire:model="email"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            placeholder="info.madhu786@gmail.com"
+                            placeholder="info@gmail.com"
                         >
                         <!-- Email validation error -->
                         @error('email')
@@ -110,6 +110,33 @@
                             <span class="text-sm text-red-600 mt-1">{{ $message }}</span>
                         @enderror
                     </div>
+
+                    <!-- Confirm Password input field with show/hide toggle -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Confirm Password
+                        </label>
+                        <div class="relative" x-data="{ show: false }">
+                            <input 
+                                :type="show ? 'text' : 'password'"
+                                wire:model="password_confirmation"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-12"
+                                placeholder="••••••••"
+                            >
+                            <!-- Password visibility toggle button -->
+                            <button 
+                                type="button"
+                                @click="show = !show"
+                                class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                            >
+                                <i :class="show ? 'far fa-eye-slash' : 'far fa-eye'"></i>
+                            </button>
+                        </div>
+                        <!-- Confirm Password validation error -->
+                        @error('password_confirmation')
+                            <span class="text-sm text-red-600 mt-1">{{ $message }}</span>
+                        @enderror
+                    </div>
                     
                     <!-- Remember me and forgot password section -->
                     <div class="flex items-center justify-between">
@@ -121,9 +148,6 @@
                             >
                             <span class="ml-2 text-sm text-gray-700">Remember Me</span>
                         </label>
-                        <a href="#" class="text-sm text-gray-600 hover:text-gray-900">
-                            Forgot Password?
-                        </a>
                     </div>
                     
                     <!-- Login submit button -->
@@ -131,7 +155,7 @@
                         type="submit"
                         class="w-full py-3 bg-black text-white rounded-lg font-medium hover:bg-gray-800 transition"
                     >
-                        Login
+                        Register
                     </button>
                     
                     <!-- Divider between login and social buttons -->
@@ -140,33 +164,15 @@
                             <div class="w-full border-t border-gray-300"></div>
                         </div>
                         <div class="relative flex justify-center text-sm">
-                            <span class="px-4 bg-white text-gray-500">Instant Login</span>
+                            <span class="px-4 bg-white text-gray-500">or Login</span>
                         </div>
-                    </div>
-                    
-                    <!-- Social login buttons -->
-                    <div class="grid grid-cols-2 gap-4">
-                        <button 
-                            type="button"
-                            class="flex items-center justify-center gap-2 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
-                        >
-                            <i class="fab fa-google text-red-500"></i>
-                            <span class="text-sm font-medium">Continue with Google</span>
-                        </button>
-                        <button 
-                            type="button"
-                            class="flex items-center justify-center gap-2 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
-                        >
-                            <i class="fab fa-facebook text-blue-600"></i>
-                            <span class="text-sm font-medium">Continue with Facebook</span>
-                        </button>
                     </div>
                     
                     <!-- Registration link -->
                     <p class="text-center text-sm text-gray-600 mt-6">
-                        Don't have any account? 
+                        Do you have any account? 
                         <a href="" class="text-blue-600 hover:text-blue-700 font-medium">
-                            Register
+                            Login
                         </a>
                     </p>
                     
