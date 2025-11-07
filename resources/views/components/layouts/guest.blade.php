@@ -10,10 +10,11 @@
     @livewireStyles
 </head>
 <body>
-    <div class="min-h-screen">
+    <div class="min-h-screen bg-gray-600 flex flex-col justify-center items-center">
         {{ $slot }} 
     </div>
     
     @livewireScripts
+
 </body>
 </html>
