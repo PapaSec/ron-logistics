@@ -21,16 +21,16 @@
                     <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
                         <i class="fas fa-truck text-gray-800"></i>
                     </div>
-                    <span class="text-white text-2xl font-semibold">WeDeliver</span>
+                    <span class="text-white text-2xl font-semibold">Ron | Logistics</span>
                 </div>
                 
                 <!-- Main text content -->
                 <div class="text-white">
                     <h1 class="text-5xl font-bold mb-4">
-                        Find Your Sweet Home
+                        We provide logistics solutions
                     </h1>
                     <p class="text-lg text-white/90">
-                        Visiting your dream property is now just a few clicks away — fast, easy, reliable.
+                        We deliver your goods globally safe and quick.
                     </p>
                     
                     <!-- Carousel indicator dots -->
@@ -57,9 +57,9 @@
                 <!-- Welcome text section -->
                 <div class="mb-8">
                     <h2 class="text-3xl font-bold text-gray-900 mb-2">
-                        Welcome Back to WeDeliver!
+                        Welcome Back to Ron Logistics!
                     </h2>
-                    <p class="text-gray-600">
+                    <p class="text-gray-600 font-bold text-center">
                         Sign in your account
                     </p>
                 </div>
