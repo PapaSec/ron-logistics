@@ -138,18 +138,6 @@
                         @enderror
                     </div>
                     
-                    <!-- Remember me and forgot password section -->
-                    <div class="flex items-center justify-between">
-                        <label class="flex items-center">
-                            <input 
-                                type="checkbox" 
-                                wire:model="remember"
-                                class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                            >
-                            <span class="ml-2 text-sm text-gray-700">Remember Me</span>
-                        </label>
-                    </div>
-                    
                     <!-- Login submit button -->
                     <button 
                         type="submit"
