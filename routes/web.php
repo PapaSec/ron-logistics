@@ -17,6 +17,6 @@ Route::middleware('auth')->group(function () {
     })->name('dashboard');
 });
 
-//Route::get('/', function () {
-//    return view('welcome');
-//})->name('home');
+Route::get('/', function () {
+    return view('welcome');
+})->name('home');

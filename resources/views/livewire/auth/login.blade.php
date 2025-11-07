@@ -165,7 +165,7 @@
                     <!-- Registration link -->
                     <p class="text-center text-sm text-gray-600 mt-6">
                         Don't have any account? 
-                        <a href="" class="text-blue-600 hover:text-blue-700 font-medium">
+                        <a href="{{ route('rigister') }}" class="text-blue-600 hover:text-blue-700 font-medium">
                             Register
                         </a>
                     </p>

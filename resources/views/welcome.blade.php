@@ -10,7 +10,9 @@
     @livewireStyles
 </head>
 <body>
+    <h1 center>Hello There!
     <i class="fas fa-home mr-2"></i>Home<br>
     <i class="fab fa-laravel mr-2"></i>Lara
+    </h1>
 </body>
 </html>
