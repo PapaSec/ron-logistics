@@ -25,6 +25,14 @@ class User extends Authenticatable
     ];
 
     /**
+     * A user can have many roles.
+     */
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    /**
      * The attributes that should be hidden for serialization.
      *
      * @var list<string>

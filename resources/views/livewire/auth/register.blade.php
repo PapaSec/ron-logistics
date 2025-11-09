@@ -43,15 +43,15 @@
             </div>
         </div>
 
-        <!-- Right side - Login form section -->
+        <!-- Right side - Register form section -->
         <div class="w-full lg:w-1/2 flex items-center justify-center p-8 bg-white">
             <div class="w-full max-w-md">
 
                 <!-- Mobile-only sign in button (top right on mobile) -->
                 <div class="flex justify-end mb-8 lg:hidden">
-                    <button class="px-6 py-2 bg-black text-white rounded-full">
+                    <a href="{{ route('login') }}" class="px-6 py-2 bg-black text-white rounded-full">
                         Sign in
-                    </button>
+                    </a>
                 </div>
 
                 <!-- Welcome text section -->
@@ -64,8 +64,8 @@
                     </p>
                 </div>
 
-                <!-- Main login form -->
-                <form wire:submit="login" class="space-y-6">
+                <!-- Main register form -->
+                <form wire:submit="register" class="space-y-6">
 
                     <!-- Name input field -->
                     <div>
@@ -76,7 +76,7 @@
                             <i class="fas fa-user absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors pointer-events-none"
                                 aria-hidden="true"></i>
 
-                            <input type="name" wire:model="name" placeholder="Jack Doe"
+                            <input type="text" wire:model="name" placeholder="Jack Doe"
                                 class="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-transparent"
                                 required>
                         </div>
@@ -114,7 +114,7 @@
                             <div class="relative" x-data="{ show: false }">
                                 <input :type="show ? 'text' : 'password'" wire:model="password"
                                     class="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-transparent"
-                                    placeholder="••••••••">
+                                    placeholder="••••••••" required>
                                 <!-- Password visibility toggle button -->
                                 <button type="button" @click="show = !show"
                                     class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
@@ -128,25 +128,25 @@
                         @enderror
                     </div>
 
-                    <!-- Login submit button -->
+                    <!-- Register submit button -->
                     <button type="submit"
                         class="w-full py-3 bg-black text-white rounded-lg font-medium hover:bg-gray-800 transition">
                         Register
                     </button>
 
-                    <!-- Divider between login and social buttons -->
+                    <!-- Divider between register and login option -->
                     <div class="relative my-6">
                         <div class="absolute inset-0 flex items-center">
                             <div class="w-full border-t border-gray-300"></div>
                         </div>
                         <div class="relative flex justify-center text-sm">
-                            <span class="px-4 bg-white text-gray-500">or Login</span>
+                            <span class="px-4 bg-white text-gray-500">or Register with</span>
                         </div>
                     </div>
 
-                    <!-- Registration link -->
+                    <!-- Login link -->
                     <p class="text-center text-sm text-gray-600 mt-6">
-                        Do you have any account?
+                        Already have an account?
                         <a href="{{ route('login') }}" class="text-blue-600 hover:text-blue-700 font-medium">
                             Login
                         </a>
