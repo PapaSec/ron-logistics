@@ -12,7 +12,7 @@
 </head>
 
 <body>
-
+    <h1>Welcome to our </h1>
     <!-- Alpine.JS -->
     @livewireScripts
 </body>

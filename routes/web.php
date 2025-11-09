@@ -8,11 +8,17 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('guest')->group(function () {
-    Route::get('/register', Register::class)->name('rigister');
+    Route::get('/register', Register::class)->name('register');
 });
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
+
+Route::middleware('auth')->group(function() {
+    Route::get('/sidebar', function() {
         return view('dashboard');
     })->name('dashboard');
 });
