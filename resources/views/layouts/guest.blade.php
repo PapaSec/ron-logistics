@@ -1,19 +1,20 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $title ?? 'Ron | Logistics' }}</title>
 
-    <!-- <link rel="stylesheet" href="{{ mix('css/app.css') }}"> -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
 
-<body>
-    <h1>Welcome to our </h1>
-    <!-- Alpine.JS -->
+<body class="min-h-screen bg-gray-900 flex flex-col justify-center items-center">
+    
+    {{ $slot }}
+
     @livewireScripts
 </body>
 
