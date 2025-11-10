@@ -134,7 +134,7 @@
                             <div class="w-full border-t border-gray-300"></div>
                         </div>
                         <div class="relative flex justify-center text-sm">
-                            <span class="px-4 bg-white text-gray-500">Instant Login</span>
+                            <span class="px-4 bg-white text-gray-500">Instant Sign In</span>
                         </div>
                     </div>
 

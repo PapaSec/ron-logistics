@@ -5,7 +5,10 @@ namespace App\Livewire\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
+use Livewire\Attributes\{Layout, Title};
 
+#[Layout('layouts.guest')]
+#[Title('Register - Ron Logistics')]
 class Register extends Component
 {
     public $name, $email, $password;
@@ -27,7 +30,7 @@ class Register extends Component
         ]);
 
         // Optional: Login the user after registration
-       // auth()->login($user);
+        // auth()->login($user);
 
         // Redirect to dashboard or home page
         return redirect()->to('/dashboard');

@@ -129,9 +129,14 @@
                     </div>
 
                     <!-- Register submit button -->
-                    <button type="submit"
-                        class="w-full py-3 bg-black text-white rounded-lg font-medium hover:bg-gray-800 transition">
-                        Register
+                    <button type="submit" wire:loading.attr="disabled"
+                        class="w-full py-3 bg-black text-white rounded-lg font-medium hover:bg-gray-800 active:bg-gray-900 transition disabled:opacity-70 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2">
+
+                        <i wire:loading.remove wire:target="register" class="fas fa-user-plus"></i> <i wire:loading
+                            wire:target="register" class="fas fa-spinner fa-spin"></i>
+
+                        <span wire:loading.remove wire:target="register">Register</span>
+                        <span wire:loading wire:target="register">Registering...</span>
                     </button>
 
                     <!-- Divider between register and login option -->
@@ -140,7 +145,7 @@
                             <div class="w-full border-t border-gray-300"></div>
                         </div>
                         <div class="relative flex justify-center text-sm">
-                            <span class="px-4 bg-white text-gray-500">or Register with</span>
+                            <span class="px-4 bg-white text-gray-500">or Sign In Below</span>
                         </div>
                     </div>
 
@@ -148,7 +153,7 @@
                     <p class="text-center text-sm text-gray-600 mt-6">
                         Already have an account?
                         <a href="{{ route('login') }}" class="text-blue-600 hover:text-blue-700 font-medium">
-                            Login
+                            Sign In
                         </a>
                     </p>
 

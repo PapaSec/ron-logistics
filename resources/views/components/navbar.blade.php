@@ -9,6 +9,12 @@
     <!-- Right Side: Notifications & Profile -->
     <div class="flex items-center gap-4">
         
+         <!-- Theme Toggle -->
+        <button class="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition">
+            <i class="fas fa-bell text-xl"></i>
+            <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+        </button>
+
         <!-- Notifications -->
         <button class="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition">
             <i class="fas fa-bell text-xl"></i>
