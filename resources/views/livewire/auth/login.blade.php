@@ -1,21 +1,21 @@
 <div class="min-h-screen flex items-center justify-center p-8">
     <!-- Main container with shadow and rounded corners -->
     <div class="w-full max-w-7xl flex shadow-2xl rounded-xl overflow-hidden">
-        
+
         <!-- Left side - Background image section (hidden on mobile) -->
         <div class="hidden lg:flex lg:w-1/2 relative">
             <!-- Background image -->
-            <div class="absolute inset-0 bg-cover bg-center" 
-                 style="background-image: url('{{ asset('images/background.jpg') }}');">
+            <div class="absolute inset-0 bg-cover bg-center"
+                style="background-image: url('{{ asset('images/background.jpg') }}');">
             </div>
-            
+
             <!-- Dark overlay for better text readability -->
             <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/60">
             </div>
-            
+
             <!-- Content container for left side -->
             <div class="relative z-10 flex flex-col justify-between p-12 w-full">
-                
+
                 <!-- Logo section -->
                 <div class="flex items-center gap-3">
                     <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
@@ -23,7 +23,7 @@
                     </div>
                     <span class="text-white text-2xl font-semibold">Ron | Logistics</span>
                 </div>
-                
+
                 <!-- Main text content -->
                 <div class="text-white">
                     <h1 class="text-5xl font-bold mb-4">
@@ -32,7 +32,7 @@
                     <p class="text-lg text-white/90">
                         We deliver your goods globally safe and quick.
                     </p>
-                    
+
                     <!-- Carousel indicator dots -->
                     <div class="flex gap-2 mt-8">
                         <div class="w-12 h-1 bg-white rounded"></div>
@@ -42,18 +42,18 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Right side - Login form section -->
         <div class="w-full lg:w-1/2 flex items-center justify-center p-8 bg-white">
             <div class="w-full max-w-md">
-                
+
                 <!-- Mobile-only sign in button (top right on mobile) -->
                 <div class="flex justify-end mb-8 lg:hidden">
                     <button class="px-6 py-2 bg-black text-white rounded-full">
                         Sign in
                     </button>
                 </div>
-                
+
                 <!-- Welcome text section -->
                 <div class="mb-8">
                     <h2 class="text-3xl font-bold text-gray-900 mb-2">
@@ -63,45 +63,36 @@
                         Sign in your account
                     </p>
                 </div>
-                
+
                 <!-- Main login form -->
                 <form wire:submit="login" class="space-y-6">
-                    
+
                     <!-- Email input field -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
                             Your Email
                         </label>
-                        <input 
-                            type="email"
-                            wire:model="email"
+                        <input type="email" wire:model="email"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            placeholder="info@gmail.com"
-                        >
+                            placeholder="info@gmail.com">
                         <!-- Email validation error -->
                         @error('email')
                             <span class="text-sm text-red-600 mt-1">{{ $message }}</span>
                         @enderror
                     </div>
-                    
+
                     <!-- Password input field with show/hide toggle -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
                             Password
                         </label>
                         <div class="relative" x-data="{ show: false }">
-                            <input 
-                                :type="show ? 'text' : 'password'"
-                                wire:model="password"
+                            <input :type="show ? 'text' : 'password'" wire:model="password"
                                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-12"
-                                placeholder="••••••••"
-                            >
+                                placeholder="••••••••">
                             <!-- Password visibility toggle button -->
-                            <button 
-                                type="button"
-                                @click="show = !show"
-                                class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                            >
+                            <button type="button" @click="show = !show"
+                                class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
                                 <i :class="show ? 'far fa-eye-slash' : 'far fa-eye'"></i>
                             </button>
                         </div>
@@ -110,30 +101,33 @@
                             <span class="text-sm text-red-600 mt-1">{{ $message }}</span>
                         @enderror
                     </div>
-                    
+
                     <!-- Remember me and forgot password section -->
                     <div class="flex items-center justify-between">
                         <label class="flex items-center">
-                            <input 
-                                type="checkbox" 
-                                wire:model="remember"
-                                class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                            >
+                            <input type="checkbox" wire:model="remember"
+                                class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
                             <span class="ml-2 text-sm text-gray-700">Remember Me</span>
                         </label>
                         <a href="#" class="text-sm text-gray-600 hover:text-gray-900">
                             Forgot Password?
                         </a>
                     </div>
-                    
+
                     <!-- Login submit button -->
-                    <button 
-                        type="submit"
-                        class="w-full py-3 bg-black text-white rounded-lg font-medium hover:bg-gray-800 transition"
-                    >
-                        Login
+                    <button type="submit" wire:loading.attr="disabled"
+                        class="w-full py-3 bg-black text-white rounded-lg font-medium hover:bg-gray-800 active:bg-gray-900 transition disabled:opacity-70 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2">
+                        <!-- Icon (changes based on loading state) -->
+                        <i wire:loading.remove wire:target="login" class="fas fa-sign-in-alt"></i>
+                        <i wire:loading wire:target="login" class="fas fa-spinner fa-spin"></i>
+
+                        <!-- Text -->
+                        <span wire:loading.remove wire:target="login">Sign In</span>
+                        <span wire:loading wire:target="login">Signing in...</span>
                     </button>
-                    
+
+
+
                     <!-- Divider between login and social buttons -->
                     <div class="relative my-6">
                         <div class="absolute inset-0 flex items-center">
@@ -143,37 +137,34 @@
                             <span class="px-4 bg-white text-gray-500">Instant Login</span>
                         </div>
                     </div>
-                    
+
                     <!-- Social login buttons -->
                     <div class="grid grid-cols-2 gap-4">
-                        <button 
-                            type="button"
-                            class="flex items-center justify-center gap-2 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
-                        >
+                        <button type="button"
+                            class="flex items-center justify-center gap-2 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
                             <i class="fab fa-google text-red-500"></i>
                             <span class="text-sm font-medium">Continue with Google</span>
                         </button>
-                        <button 
-                            type="button"
-                            class="flex items-center justify-center gap-2 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
-                        >
+
+                        <button type="button"
+                            class="flex items-center justify-center gap-2 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
                             <i class="fab fa-facebook text-blue-600"></i>
                             <span class="text-sm font-medium">Continue with Facebook</span>
                         </button>
                     </div>
-                    
+
                     <!-- Registration link -->
                     <p class="text-center text-sm text-gray-600 mt-6">
-                        Don't have any account? 
+                        Don't have any account?
                         <a href="{{ route('register') }}" class="text-blue-600 hover:text-blue-700 font-medium">
                             Register
                         </a>
                     </p>
-                    
+
                 </form>
             </div>
         </div>
-        
+
     </div>
 
 </div>
