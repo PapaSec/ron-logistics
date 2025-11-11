@@ -12,13 +12,14 @@
     <nav class="flex-1 overflow-y-auto py-4 sidebar-scrollbar">
         <div class="px-3 space-y-1">
             <!-- Your existing navigation content -->
-            <span class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 block mb-1 mt-2">DASHBOARD</span>
-            
+            <span
+                class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 block mb-1 mt-2">DASHBOARD</span>
+
             <a href="{{ route('dashboard') }}"
                 class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all {{ request()->routeIs('dashboard') ? 'bg-blue-300 dark:bg-[#191d3f] text-blue-600 dark:text-blue-400' : '' }}">
                 <i class="fas fa-chart-pie w-5"></i> <span class="font-medium">Overview</span>
             </a>
-            
+
             <a href="#"
                 class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
                 <i class="fas fa-chart-line w-5"></i>
@@ -73,6 +74,52 @@
             </a>
 
             <span
+                class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 block mb-1 mt-4">Orders</span>
+
+            <a href="#"
+                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+                <i class="fas fa-gas-pump w-5"></i> <span class="font-medium">All Orders</span>
+            </a>
+
+            <a href="#"
+                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+                <i class="fas fa-gas-pump w-5"></i> <span class="font-medium">Schedulled Deliveries</span>
+            </a>
+
+            <a href="#"
+                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+                <i class="fas fa-gas-pump w-5"></i> <span class="font-medium">Returns</span>
+            </a>
+            <a href="#"
+                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+                <i class="fas fa-gas-pump w-5"></i> <span class="font-medium">Cancellations</span>
+            </a>
+
+            <span
+                class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 block mb-1 mt-4">Vendors
+                & Clients
+            </span>
+
+            <a href="#"
+                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+                <i class="fas fa-gas-pump w-5"></i> <span class="font-medium">Vendors Directory</span>
+            </a>
+
+            <a href="#"
+                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+                <i class="fas fa-gas-pump w-5"></i> <span class="font-medium">Add Vendor</span>
+            </a>
+
+            <a href="#"
+                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+                <i class="fas fa-gas-pump w-5"></i> <span class="font-medium">Client List</span>
+            </a>
+            <a href="#"
+                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+                <i class="fas fa-gas-pump w-5"></i> <span class="font-medium">Client Feedback</span>
+            </a>
+
+            <span
                 class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 block mb-1 mt-4">ADMINISTRATION</span>
 
             <a href="#"
@@ -97,7 +144,7 @@
                 <i class="fas fa-user-cog w-5"></i>
                 <span class="font-medium">User Management</span>
             </a>
-            
+
         </div>
     </nav>
 </aside>
