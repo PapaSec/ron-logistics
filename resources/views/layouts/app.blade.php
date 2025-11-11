@@ -22,7 +22,7 @@
     </script>
 </head>
 
-<body class="h-full bg-gray-50 dark:bg-[#252b3b] transition-colors duration-200">
+<body class="h-full bg-gray-100 dark:bg-[#252b3b] transition-colors duration-200">
     
     <div class="flex h-screen overflow-hidden">
         
@@ -36,7 +36,7 @@
             <x-navbar />
             
             <!-- Page Content -->
-            <main class="flex-1 overflow-y-auto p-6 bg-gray-50 dark:bg-[#252b3b]">
+            <main class="flex-1 overflow-y-auto p-6 bg-gray-300 dark:bg-gray-800 transition-colors duration-200">
                 {{ $slot }}
             </main>
             
