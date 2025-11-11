@@ -15,7 +15,7 @@
             <span class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 block mb-1 mt-2">DASHBOARD</span>
             
             <a href="{{ route('dashboard') }}"
-                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all {{ request()->routeIs('dashboard') ? 'bg-blue-300 dark:bg-gray-800 text-blue-600 dark:text-blue-400' : '' }}">
+                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all {{ request()->routeIs('dashboard') ? 'bg-blue-300 dark:bg-[#191d3f] text-blue-600 dark:text-blue-400' : '' }}">
                 <i class="fas fa-chart-pie w-5"></i> <span class="font-medium">Overview</span>
             </a>
             
@@ -134,10 +134,10 @@
     /* Firefox scrollbar */
     .sidebar-scrollbar {
         scrollbar-width: thin;
-        scrollbar-color: #5c0852 transparent;
+        scrollbar-color: #138898 transparent;
     }
 
     .dark .sidebar-scrollbar {
-        scrollbar-color: #9f1313 transparent;
+        scrollbar-color: #191d3f transparent;
     }
 </style>
