@@ -1,62 +1,62 @@
 <div class="space-y-6">
     
     <!-- Welcome Message -->
-    <div class="bg-white rounded-lg shadow p-6">
-        <h2 class="text-2xl font-bold text-gray-900">Welcome back, {{ auth()->user()->name }}! 👋</h2>
-        <p class="text-gray-600 mt-2">Here's what's happening with your logistics today.</p>
+    <div class="bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 dark:border-gray-800 p-6 transition-colors duration-200">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Welcome back, {{ auth()->user()->name }}! 👋</h2>
+        <p class="text-gray-600 dark:text-gray-400 mt-2">Here's what's happening with your logistics today.</p>
     </div>
     
     <!-- Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         
         <!-- Card 1 -->
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 dark:border-gray-800 p-6 transition-colors duration-200">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-gray-600">Total Shipments</p>
-                    <p class="text-3xl font-bold text-gray-900 mt-2">1,234</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Total Shipments</p>
+                    <p class="text-3xl font-bold text-gray-900 dark:text-white mt-2">1,234</p>
                 </div>
-                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-box text-blue-600 text-xl"></i>
+                <div class="w-12 h-12 bg-blue-100 dark:bg-blue-950/50 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-box text-blue-600 dark:text-blue-400 text-xl"></i>
                 </div>
             </div>
         </div>
         
         <!-- Card 2 -->
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 dark:border-gray-800 p-6 transition-colors duration-200">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-gray-600">Active Deliveries</p>
-                    <p class="text-3xl font-bold text-gray-900 mt-2">89</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Active Deliveries</p>
+                    <p class="text-3xl font-bold text-gray-900 dark:text-white mt-2">89</p>
                 </div>
-                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-truck text-green-600 text-xl"></i>
+                <div class="w-12 h-12 bg-green-100 dark:bg-green-950/50 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-truck text-green-600 dark:text-green-400 text-xl"></i>
                 </div>
             </div>
         </div>
         
         <!-- Card 3 -->
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 dark:border-gray-800 p-6 transition-colors duration-200">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-gray-600">Completed</p>
-                    <p class="text-3xl font-bold text-gray-900 mt-2">567</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Completed</p>
+                    <p class="text-3xl font-bold text-gray-900 dark:text-white mt-2">567</p>
                 </div>
-                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-check-circle text-purple-600 text-xl"></i>
+                <div class="w-12 h-12 bg-purple-100 dark:bg-purple-950/50 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-check-circle text-purple-600 dark:text-purple-400 text-xl"></i>
                 </div>
             </div>
         </div>
         
         <!-- Card 4 -->
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 dark:border-gray-800 p-6 transition-colors duration-200">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-gray-600">Revenue</p>
-                    <p class="text-3xl font-bold text-gray-900 mt-2">$45K</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Revenue</p>
+                    <p class="text-3xl font-bold text-gray-900 dark:text-white mt-2">$45K</p>
                 </div>
-                <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-dollar-sign text-yellow-600 text-xl"></i>
+                <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-950/50 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-dollar-sign text-yellow-600 dark:text-yellow-400 text-xl"></i>
                 </div>
             </div>
         </div>

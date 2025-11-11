@@ -1,5 +1,8 @@
 @import 'tailwindcss';
 
+/* DARK MODE */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* FONTAWESOME ICONS */
 @import '@fortawesome/fontawesome-free/css/all.css';
 
