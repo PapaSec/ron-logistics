@@ -48,18 +48,18 @@
                     :class="{ 
                 // Color switching based on the 'isSlow' state
                 'bg-blue-600/10 border border-blue-500/20': !isSlow, 
-                'bg-red-600/10 border border-red-500/30': isSlow 
+                'bg-yellow-600/10 border border-yellow-500/30': isSlow 
             }">
 
                     <i class="w-4 h-4 transition-colors duration-300" :class="{ 
-                   'fas fa-wifi text-blue-500': !isSlow,
-                   'fas fa-exclamation-triangle text-red-500': isSlow
+                   'fas fa-wifi text-green-500': !isSlow,
+                   'fas fa-wifi text-yellow-500': isSlow
                }">
                     </i>
 
                     <span class="text-xs font-medium" :class="{ 
                     'text-blue-400': !isSlow, 
-                    'text-red-400': isSlow 
+                    'text-yellow-400': isSlow 
                 }" x-text="isSlow ? 'Slow Connection' : 'Good Connection'">
                     </span>
 

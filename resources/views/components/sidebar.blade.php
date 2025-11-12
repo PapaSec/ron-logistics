@@ -1,7 +1,7 @@
 <aside class="w-64 bg-[#E4EBE7] dark:bg-[#272d3e] dark:border-gray-800 flex flex-col transition-colors duration-200">
     <div class="h-18 flex items-center justify-center bg-[#1f2431] dark:border-gray-800">
         <div class="flex items-center gap-2">
-            <div class="w-10 h-10 bg-blue-600 dark:bg-blue-500 rounded-lg flex items-center justify-center">
+            <div class="w-10 h-10 bg-blue-500 dark:bg-blue-500 rounded-lg flex items-center justify-center">
                 <i class="fas fa-truck text-white"></i>
             </div>
             <span class="text-xl font-bold text-white">Ron Logistics</span>
@@ -11,12 +11,12 @@
     <!-- Add sidebar-scrollbar class here -->
     <nav class="flex-1 overflow-y-auto py-4 sidebar-scrollbar">
         <div class="px-3 space-y-1">
-            <!-- Your existing navigation content -->
+            <!-- Dashboard -->
             <span
                 class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 block mb-1 mt-2">DASHBOARD</span>
 
             <a href="{{ route('dashboard') }}"
-                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all {{ request()->routeIs('dashboard') ? 'bg-blue-300 dark:bg-[#191d3f] text-blue-600 dark:text-blue-400' : '' }}">
+                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all {{ request()->routeIs('dashboard') ? 'bg-blue-300 dark:bg-blue-500 text-blue-600 dark:text-blue-400' : '' }}">
                 <i class="fas fa-chart-pie w-5"></i> <span class="font-medium">Overview</span>
             </a>
 
@@ -31,6 +31,7 @@
                 <i class="fas fa-map-marker-alt w-5"></i> <span class="font-medium">Live Map</span>
             </a>
 
+            <!-- Shipments -->
             <span
                 class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 block mb-1 mt-4">SHIPMENTS</span>
 
@@ -41,17 +42,18 @@
 
             <a href="#"
                 class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
-                <i class="fas fa-route w-5"></i> <span class="font-medium">Track Shipment</span>
-            </a>
-
-            <a href="#"
-                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
                 <i class="fas fa-plus-circle w-5"></i> <span class="font-medium">Create Shipment</span>
             </a>
 
             <a href="#"
                 class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
-                <i class="fas fa-exclamation-triangle w-5"></i> <span class="font-medium">Delayed</span>
+                <i class="fas fa-route w-5"></i> <span class="font-medium">Track Shipment</span>
+            </a>
+
+
+            <a href="#"
+                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+                <i class="fas fa-clock w-5"></i> <span class="font-medium">Delayed</span>
             </a>
 
             <span
@@ -78,21 +80,21 @@
 
             <a href="#"
                 class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
-                <i class="fas fa-gas-pump w-5"></i> <span class="font-medium">All Orders</span>
+                <i class="fas fa-clipboard-list w-5"></i> <span class="font-medium">All Orders</span>
             </a>
 
             <a href="#"
                 class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
-                <i class="fas fa-gas-pump w-5"></i> <span class="font-medium">Schedulled Deliveries</span>
+                <i class="fas fa-calendar-alt w-5"></i> <span class="font-medium">Schedulled Deliveries</span>
             </a>
 
             <a href="#"
                 class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
-                <i class="fas fa-gas-pump w-5"></i> <span class="font-medium">Returns</span>
+                <i class="fas fa-undo w-5"></i> <span class="font-medium">Returns</span>
             </a>
             <a href="#"
                 class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
-                <i class="fas fa-gas-pump w-5"></i> <span class="font-medium">Cancellations</span>
+                <i class="fas fa-ban w-5"></i> <span class="font-medium">Cancellations</span>
             </a>
 
             <span
@@ -102,21 +104,21 @@
 
             <a href="#"
                 class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
-                <i class="fas fa-gas-pump w-5"></i> <span class="font-medium">Vendors Directory</span>
+                <i class="fas fa-building w-5"></i> <span class="font-medium">Vendors Directory</span>
             </a>
 
             <a href="#"
                 class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
-                <i class="fas fa-gas-pump w-5"></i> <span class="font-medium">Add Vendor</span>
+                <i class="fas fa-user-plus w-5"></i> <span class="font-medium">Add Vendor</span>
             </a>
 
             <a href="#"
                 class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
-                <i class="fas fa-gas-pump w-5"></i> <span class="font-medium">Client List</span>
+                <i class="fas fa-users w-5"></i> <span class="font-medium">Client List</span>
             </a>
             <a href="#"
                 class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
-                <i class="fas fa-gas-pump w-5"></i> <span class="font-medium">Client Feedback</span>
+                <i class="fas fa-comment-dots w-5"></i> <span class="font-medium">Client Feedback</span>
             </a>
 
             <span
@@ -185,6 +187,6 @@
     }
 
     .dark .sidebar-scrollbar {
-        scrollbar-color: #191d3f transparent;
+        scrollbar-color: #138898 transparent;
     }
 </style>
