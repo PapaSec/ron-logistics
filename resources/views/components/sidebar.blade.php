@@ -1,4 +1,5 @@
 <aside class="w-64 bg-[#E4EBE7] dark:bg-[#272d3e] dark:border-gray-800 flex flex-col transition-colors duration-200">
+    <!-- Sidebar header with logo -->
     <div class="h-18 flex items-center justify-center bg-[#1f2431] dark:border-gray-800">
         <div class="flex items-center gap-2">
             <div class="w-10 h-10 bg-blue-500 dark:bg-blue-500 rounded-lg flex items-center justify-center">
@@ -8,141 +9,117 @@
         </div>
     </div>
 
-    <!-- Add sidebar-scrollbar class here -->
+    <!-- Scrollable navigation area -->
     <nav class="flex-1 overflow-y-auto py-4 sidebar-scrollbar">
         <div class="px-3 space-y-1">
-            <!-- Dashboard -->
-            <span
-                class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 block mb-1 mt-2">DASHBOARD</span>
+            <!-- Dashboard section -->
+            <span class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 block mb-1 mt-2">DASHBOARD</span>
 
+            <!-- Active dashboard link -->
             <a href="{{ route('dashboard') }}"
                 class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all {{ request()->routeIs('dashboard') ? 'bg-blue-300 dark:bg-blue-500 text-blue-600 dark:text-blue-400' : '' }}">
                 <i class="fas fa-chart-pie w-5"></i> <span class="font-medium">Overview</span>
             </a>
 
-            <a href="#"
-                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
                 <i class="fas fa-chart-line w-5"></i>
                 <span class="font-medium">Fleet Status</span>
             </a>
 
-            <a href="#"
-                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
                 <i class="fas fa-map-marker-alt w-5"></i> <span class="font-medium">Live Map</span>
             </a>
 
-            <!-- Shipments -->
-            <span
-                class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 block mb-1 mt-4">SHIPMENTS</span>
+            <!-- Shipments section -->
+            <span class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 block mb-1 mt-4">SHIPMENTS</span>
 
-            <a href="#"
-                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
                 <i class="fas fa-list-ul w-5"></i> <span class="font-medium">All Shipments</span>
             </a>
 
-            <a href="#"
-                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
                 <i class="fas fa-plus-circle w-5"></i> <span class="font-medium">Create Shipment</span>
             </a>
 
-            <a href="#"
-                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
                 <i class="fas fa-route w-5"></i> <span class="font-medium">Track Shipment</span>
             </a>
 
-
-            <a href="#"
-                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
                 <i class="fas fa-clock w-5"></i> <span class="font-medium">Delayed</span>
             </a>
 
-            <span
-                class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 block mb-1 mt-4">FLEET
-                MANAGEMENT</span>
+            <!-- Fleet Management section -->
+            <span class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 block mb-1 mt-4">FLEET MANAGEMENT</span>
 
-            <a href="#"
-                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
                 <i class="fas fa-truck-moving w-5"></i> <span class="font-medium">Vehicle List</span>
             </a>
 
-            <a href="#"
-                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
                 <i class="fas fa-users w-5"></i> <span class="font-medium">Drivers</span>
             </a>
 
-            <a href="#"
-                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
                 <i class="fas fa-gas-pump w-5"></i> <span class="font-medium">Fuel & Maintenance</span>
             </a>
 
-            <span
-                class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 block mb-1 mt-4">Orders</span>
+            <!-- Orders section -->
+            <span class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 block mb-1 mt-4">Orders</span>
 
-            <a href="#"
-                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
                 <i class="fas fa-clipboard-list w-5"></i> <span class="font-medium">All Orders</span>
             </a>
 
-            <a href="#"
-                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
-                <i class="fas fa-calendar-alt w-5"></i> <span class="font-medium">Schedulled Deliveries</span>
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+                <i class="fas fa-calendar-alt w-5"></i> <span class="font-medium">Scheduled Deliveries</span>
             </a>
 
-            <a href="#"
-                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
                 <i class="fas fa-undo w-5"></i> <span class="font-medium">Returns</span>
             </a>
-            <a href="#"
-                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
                 <i class="fas fa-ban w-5"></i> <span class="font-medium">Cancellations</span>
             </a>
 
-            <span
-                class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 block mb-1 mt-4">Vendors
-                & Clients
-            </span>
+            <!-- Vendors & Clients section -->
+            <span class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 block mb-1 mt-4">VENDORS & CLIENTS</span>
 
-            <a href="#"
-                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
                 <i class="fas fa-building w-5"></i> <span class="font-medium">Vendors Directory</span>
             </a>
 
-            <a href="#"
-                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
                 <i class="fas fa-user-plus w-5"></i> <span class="font-medium">Add Vendor</span>
             </a>
 
-            <a href="#"
-                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
                 <i class="fas fa-users w-5"></i> <span class="font-medium">Client List</span>
             </a>
-            <a href="#"
-                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
                 <i class="fas fa-comment-dots w-5"></i> <span class="font-medium">Client Feedback</span>
             </a>
 
-            <span
-                class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 block mb-1 mt-4">ADMINISTRATION</span>
+            <!-- Administration section -->
+            <span class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 block mb-1 mt-4">ADMINISTRATION</span>
 
-            <a href="#"
-                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
                 <i class="fas fa-file-invoice-dollar w-5"></i> <span class="font-medium">Invoicing & Billing</span>
             </a>
 
-            <a href="#"
-                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
                 <i class="fas fa-chart-bar w-5"></i>
                 <span class="font-medium">Reports & Analytics</span>
             </a>
 
-            <a href="#"
-                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
                 <i class="fas fa-user w-5"></i>
                 <span class="font-medium">Add User</span>
             </a>
 
-            <a href="#"
-                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
                 <i class="fas fa-user-cog w-5"></i>
                 <span class="font-medium">User Management</span>
             </a>
@@ -151,8 +128,9 @@
     </nav>
 </aside>
 
+<!-- Custom scrollbar styles -->
 <style>
-    /* Custom scrollbar for sidebar */
+    /* Webkit scrollbar styles */
     .sidebar-scrollbar::-webkit-scrollbar {
         width: 6px;
     }
@@ -171,7 +149,7 @@
         background: #94a3b8;
     }
 
-    /* Dark mode styles */
+    /* Dark mode scrollbar styles */
     .dark .sidebar-scrollbar::-webkit-scrollbar-thumb {
         background: #4b5563;
     }
@@ -180,7 +158,7 @@
         background: #6b7280;
     }
 
-    /* Firefox scrollbar */
+    /* Firefox scrollbar styles */
     .sidebar-scrollbar {
         scrollbar-width: thin;
         scrollbar-color: #138898 transparent;
