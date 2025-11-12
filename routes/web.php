@@ -10,6 +10,7 @@ use App\Livewire\Dashboard\Index as DashboardIndex;
 |--------------------------------------------------------------------------
 | Routes accessible to everyone (no authentication required)
 */
+
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
@@ -34,10 +35,10 @@ Route::middleware('guest')->group(function () {
 | If guest tries to access, they'll be redirected to login
 */
 Route::middleware('auth')->group(function () {
-    
+
     // Dashboard
     Route::get('/dashboard', DashboardIndex::class)->name('dashboard');
-    
+
     // Logout
     Route::post('/logout', function () {
         Auth::logout();
@@ -45,11 +46,13 @@ Route::middleware('auth')->group(function () {
         request()->session()->regenerateToken();
         return redirect()->route('login');
     })->name('logout');
-    
-    // Add more authenticated routes here as you build features
-    // Route::get('/shipments', ShipmentList::class)->name('shipments');
-    // Route::get('/fleet', FleetManagement::class)->name('fleet');
-    // Route::get('/reports', ReportsList::class)->name('reports');
-    // Route::get('/settings', Settings::class)->name('settings');
-    
+
+    // Shipments Management
+    Route::middleware('auth')->prefix('shipments')->name('shipments.')->group(function () {
+        Route::get('/', \App\Livewire\Shipments\Index::class)->name('index');
+        Route::get('/create', \App\Livewire\Shipments\Create::class)->name('create');
+        Route::get('/{shipment}', \App\Livewire\Shipments\Show::class)->name('show');
+        Route::get('/{shipment}/edit', \App\Livewire\Shipments\Edit::class)->name('edit');
+    });
+
 });

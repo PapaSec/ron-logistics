@@ -1,3 +1,3 @@
 <div>
-    {{-- Success is as dangerous as failure. --}}
+    <h1>Edit Shipments</h1>
 </div>
