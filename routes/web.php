@@ -54,4 +54,5 @@ Route::middleware('auth')->group(function () {
         request()->session()->regenerateToken();
         return redirect()->route('login');
     })->name('logout');
+
 });
