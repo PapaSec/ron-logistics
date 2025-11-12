@@ -39,14 +39,6 @@ Route::middleware('auth')->group(function () {
     // Dashboard
     Route::get('/dashboard', DashboardIndex::class)->name('dashboard');
 
-    // Logout
-    Route::post('/logout', function () {
-        Auth::logout();
-        request()->session()->invalidate();
-        request()->session()->regenerateToken();
-        return redirect()->route('login');
-    })->name('logout');
-
     // Shipments Management
     Route::middleware('auth')->prefix('shipments')->name('shipments.')->group(function () {
         Route::get('/', \App\Livewire\Shipments\Index::class)->name('index');
@@ -55,4 +47,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/{shipment}/edit', \App\Livewire\Shipments\Edit::class)->name('edit');
     });
 
+    // Logout
+    Route::post('/logout', function () {
+        Auth::logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+        return redirect()->route('login');
+    })->name('logout');
 });
