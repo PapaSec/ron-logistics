@@ -2,7 +2,7 @@
     
     <!-- Welcome Message -->
     <div class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-lg shadow-sm border border-gray-200 dark:border-gray-800 p-6 transition-colors duration-200">
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Welcome back, {{ auth()->user()->name }}! 👋</h2>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Welcome back, {{ auth()->user()->name }}</h2>
         <p class="text-gray-600 dark:text-gray-400 mt-2">Here's what's happening with your logistics today.</p>
     </div>
     
