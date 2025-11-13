@@ -44,17 +44,6 @@
                 <i class="fas fa-list-ul w-5"></i> <span class="font-medium">All Shipments</span>
             </a>
 
-            <a href="{{ route('shipments.create') }}"
-                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all 
-                    {{ request()->routeIs('shipments.create') ? 'bg-blue-300 dark:bg-blue-500 text-blue-600 dark:text-blue-400' : '' }}">
-                <i class="fas fa-plus-circle w-5"></i> <span class="font-medium">Create Shipment</span>
-            </a>
-
-            <a href="#"
-                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
-                <i class="fas fa-route w-5"></i> <span class="font-medium">Track Shipment</span>
-            </a>
-
             <a href="#"
                 class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
                 <i class="fas fa-route w-5"></i> <span class="font-medium">Track Shipment</span>
