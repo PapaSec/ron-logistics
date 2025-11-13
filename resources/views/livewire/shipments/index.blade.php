@@ -1,4 +1,5 @@
 <div class="space-y-6">
+    <!-- Header Section -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
         <div>
             <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
@@ -10,6 +11,7 @@
         <x-button href="{{ route('shipments.create') }}" icon="fas fa-plus-circle">
             New Shipments
         </x-button>
-
     </div>
+
+    <!-- Shipments Table -->
 </div>
