@@ -10,7 +10,7 @@
     // Define specific colors/styles based on the 'style' prop
     $styleClasses = match ($style) {
         'secondary' => 'bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200',
-        'back' => 'bg-black hover:bg-gray-800 text-white',
+        'back' => 'bg-black hover:bg-gray-900 text-white',
         'submit' => 'bg-green-600 hover:bg-green-700 text-white',
         'reset' => 'bg-yellow-500 hover:bg-yellow-600 text-white',
         default => 'bg-blue-500 hover:bg-blue-600 text-white', // 'primary'
