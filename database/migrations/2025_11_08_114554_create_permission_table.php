@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique(); // e.g., 'access-admin-dashboard', 'manage-routes'
             $table->string('display_name')->nullable(); // e.g., 'Access Admin Dashboard'
-            $table->text('description')->nullable();
-            $table->timestamps();
+            $table->text('description')->nullable(); 
+            $table->timestamps(); 
         });
     }
 

@@ -18,7 +18,7 @@ return new class extends Migration
 
             // Basic Info
             $table->string('sender_name');
-            $table->string('sender_name');
+            $table->string('sender_phone');
             $table->string('receiver_name');
             $table->string('receiver_phone');
 
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('origin_city');
             $table->string('destination_city');
 
-            // Package Details, 
+            // Package Details
             $table->text('description');
             $table->decimal('weight', 8, 2);
             $table->integer('quantity')->default(1);
@@ -36,7 +36,7 @@ return new class extends Migration
             $table->enum('status', ['pending', 'in_transit', 'delivered', 'cancelled'])->default('pending');
 
             // Priority
-            $table->enum('priority', ['standard', 'express', 'economy']);
+            $table->enum('priority', ['standard', 'express', 'economy'])->default('standard');
 
             // Dates
             $table->date('pickup_date');
