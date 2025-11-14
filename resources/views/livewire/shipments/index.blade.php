@@ -13,28 +13,35 @@
         </x-button>
     </div>
 
-    <!-- Filters -->
-    <div class="grid grid-cols-4 gap-4">
-        <!-- Search input -->
-        <!-- Status filter -->
-        <!-- Priority filter -->
-        <!-- Per page selector -->
-    </div>
+    <div class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-lg shadow-sm border-gray-200 dark:border-gray-700 p-6">
+        <!-- Filters -->
+        <div class="grid grid-cols-4 gap-4">
+            <div>
+                <!-- Search input -->
+                <div class="relative w-full md:w-1/2 lg:w-1/3">
+                   <x-button sthref="#" icon="fas fa-edit">Edit</x-button>
+                </div>
+                <!-- Status filter -->
+                <!-- Priority filter -->
+                <!-- Per page selector -->
+            </div>
+        </div>
 
-    <!-- Shipments Table -->
-    <div class="bg-white dark:bg-gray-900 rounded-lg shadow">
-        <table class="w-full">
-            <thead>
-                <!-- Headers -->
-            </thead>
-            <tbody>
-                <!-- Rows -->
-            </tbody>
-        </table>
-    </div>
-    
-    <!-- Pagination -->
-    <div>
-        
+        <!-- Shipments Table -->
+        <div class="bg-white dark:bg-gray-900 rounded-lg shadow">
+            <table class="w-full">
+                <thead>
+                    <!-- Headers -->
+                </thead>
+                <tbody>
+                    <!-- Rows -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div>
+
+        </div>
     </div>
 </div>

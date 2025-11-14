@@ -13,6 +13,8 @@
         'back' => 'bg-black hover:bg-gray-900 text-white',
         'submit' => 'bg-green-600 hover:bg-green-700 text-white',
         'reset' => 'bg-yellow-500 hover:bg-yellow-600 text-white',
+        'edit' => 'bg-blue-500 hover:bg-blue-600',
+        'delete' => 'bg-red-500 hover:bg-red-600',
         default => 'bg-blue-500 hover:bg-blue-600 text-white', // 'primary'
     };
 @endphp
