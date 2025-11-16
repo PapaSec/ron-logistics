@@ -18,9 +18,7 @@
         <div class="grid grid-cols-4 gap-4">
             <div>
                 <!-- Search input -->
-                <div class="relative w-full md:w-1/2 lg:w-1/3">
-                   <x-button sthref="#" icon="fas fa-edit">Edit</x-button>
-                </div>
+                
                 <!-- Status filter -->
                 <!-- Priority filter -->
                 <!-- Per page selector -->

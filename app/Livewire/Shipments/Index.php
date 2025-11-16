@@ -2,14 +2,15 @@
 
 namespace App\Livewire\Shipments;
 
-use Livewire\{Component, WithPagination};
+use App\Models\Shipment;
+use Livewire\{Component, WithPagination, WithoutUrlPagination};
 use Livewire\Attributes\{Layout, Title};
 
 #[Layout('layouts.app')]
 #[Title('Dashboard - Ron Logistics')]
 class Index extends Component
 {
-    use WithPagination;
+    use WithPagination, WithoutUrlPagination;
 
     // Public Properties
     public $search = '';
@@ -31,6 +32,8 @@ class Index extends Component
 
     public function render()
     {
-        return view('livewire.shipments.index');
+        return view('livewire.shipments.index', [
+            'shipments' => Shipment::latest()->paginate(10), 
+        ]);
     }
 }
