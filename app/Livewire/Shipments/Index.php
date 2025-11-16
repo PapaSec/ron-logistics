@@ -32,8 +32,6 @@ class Index extends Component
 
     public function render()
     {
-        return view('livewire.shipments.index', [
-            'shipments' => Shipment::latest()->paginate(10), 
-        ]);
+        return view('livewire.shipments.index');
     }
 }
