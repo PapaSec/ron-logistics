@@ -24,6 +24,18 @@ class Index extends Component
         $this->resetPage();
     }
 
+    // Reset 
+    public function updatingStatusFilter()
+    {
+        $this->resetPage();
+    }
+
+    // Reset
+    public function updatingPriorityFilter()
+    {
+        $this->resetPage();
+    }
+
     // Delete Shipment method
     public function delete($id)
     {
