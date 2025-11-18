@@ -3,78 +3,51 @@
 namespace App\Livewire\Shipments;
 
 use App\Models\Shipment;
-use Livewire\{Component, WithPagination};
+use Livewire\{Component, WithPagination, WithoutUrlPagination};
 use Livewire\Attributes\{Layout, Title};
 
 #[Layout('layouts.app')]
-#[Title('Shipments - Ron Logistics')]
+#[Title('Dashboard - Ron Logistics')]
 class Index extends Component
 {
-    // TRAITS
-    use WithPagination;
+    use WithPagination, WithoutUrlPagination;
 
-    // PUBLIC PROPERTIES
+    // Public Properties
     public $search = '';
     public $statusFilter = 'all';
+    public $priorityFilter = 'all';
     public $perPage = 10;
-    public $showDeleteModal = false;
-    public $shipmentToDelete = null;
 
-    // PROTECTED PROPERTIES (optional)
-    protected $queryString = ['search', 'statusFilter'];
-
-    // LIFECYCLE HOOKS
-    public function mount()
-    {
-        // Runs once when page loads
-    }
-
+    // Reset pagination when search changes
     public function updatingSearch()
     {
         $this->resetPage();
     }
 
+    // Reset pagination when status filter changes
     public function updatingStatusFilter()
     {
         $this->resetPage();
     }
 
-    // CUSTOM METHODS
-    public function confirmDelete($id)
+    // Reset pagination when priority filter changes
+    public function updatingPriorityFilter()
     {
-        $this->shipmentToDelete = $id;
-        $this->showDeleteModal = true;
-    }
-
-    public function delete()
-    {
-        if ($this->shipmentToDelete) {
-            Shipment::findOrFail($this->shipmentToDelete)->delete();
-            $this->showDeleteModal = false;
-            $this->shipmentToDelete = null;
-            session()->flash('success', 'Shipment deleted!');
-        }
-    }
-
-    public function clearFilters()
-    {
-        $this->reset(['search', 'statusFilter']);
         $this->resetPage();
     }
 
-    // RENDER METHOD 
+
+    // Clear all filters and reset to defaults
+    
+
+    // Delete Shipment method
+    public function delete($id)
+    {
+        //
+    }
+
     public function render()
     {
-        $shipments = Shipment::query()
-            ->when($this->search, fn($q) => 
-                $q->where('tracking_number', 'LIKE', "%{$this->search}%")
-            )
-            ->when($this->statusFilter !== 'all', fn($q) => 
-                $q->where('status', $this->statusFilter)
-            )
-            ->latest()
-            ->paginate($this->perPage);
-
-        return view('livewire.shipments.index', compact('shipments'));
+        return view('livewire.shipments.index');
     }
 }
