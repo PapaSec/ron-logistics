@@ -89,7 +89,7 @@ class Index extends Component
     public function getShipmentsProperty()
     {
         return Shipment::query()
-            ->with('user:id,name') // Eager load user relationship
+            ->with('user:id,name') // load user relationship
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
                     $q->where('tracking_number', 'LIKE', "%{$this->search}%")
@@ -104,9 +104,7 @@ class Index extends Component
             })
             ->when($this->priorityFilter !== 'all', function ($query) {
                 $query->where('priority', $this->priorityFilter);
-            })
-            ->latest()
-            ->paginate($this->perPage);
+            })->latest()->paginate($this->perPage);
     }
 
     // Get statistics for dashboard cards

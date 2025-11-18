@@ -29,4 +29,9 @@ class Shipment extends Model
         'pickup_date' => 'date',
         'estimated'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
