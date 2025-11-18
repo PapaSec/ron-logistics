@@ -68,7 +68,6 @@ class Index extends Component
     }
 
     // Delete shipment
-
     public function delete()
     {
         try {

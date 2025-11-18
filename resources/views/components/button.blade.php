@@ -13,6 +13,7 @@
         'back' => 'bg-black hover:bg-gray-900 text-white',
         'submit' => 'bg-green-600 hover:bg-green-700 text-white',
         'reset' => 'bg-yellow-500 hover:bg-yellow-600 text-white',
+        'clear' => 'bg-gray-200 hover:bg-blue-200 text-black',
         'edit' => 'bg-blue-500 hover:bg-blue-600',
         'delete' => 'bg-red-500 hover:bg-red-600',
         default => 'bg-blue-500 hover:bg-blue-600 text-white', // 'primary'

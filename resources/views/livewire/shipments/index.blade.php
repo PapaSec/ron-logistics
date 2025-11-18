@@ -18,10 +18,10 @@
         <div class="grid grid-cols-4 gap-4">
             <div>
                 <!-- Search input -->
-                
                 <!-- Status filter -->
                 <!-- Priority filter -->
                 <!-- Per page selector -->
+                <!-- Clear Search x-button -->
             </div>
         </div>
 
