@@ -21,8 +21,8 @@
                     <p class="text-2xl font-bold">898</p>
                     <p class="text-sm opacity-60">Pending</p>
                 </div>
-                <div class="w-12 h-12 bg-yellow-700 dark:bg-yellow-600 rounded-lg flex items-center justify-center">
-                <i class="fa-solid fa-p text-yellow-600 dark:text-yellow-400"></i>
+                <div class="w-12 h-12 bg-green-100 dark:bg-green-950/50 rounded-lg flex items-center justify-center">
+                    <i class="fa-solid fa-p text-green-600 dark:text-green-400 text-xl"></i>
                 </div>
             </div>
         </div>
@@ -34,7 +34,9 @@
                     <p class="text-2xl font-bold">898</p>
                     <p class="text-sm opacity-60">In Transit</p>
                 </div>
-                <i class="fas fa-shipping-fast"></i>
+                <div class="w-12 h-12 bg-purple-100 dark:bg-purple-950/50 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-shipping-fast  text-purple-600 dark:text-purple-400 text-xl"></i>
+                </div>
             </div>
         </div>
 
@@ -45,7 +47,9 @@
                     <p class="text-2xl font-bold">898</p>
                     <p class="text-sm opacity-60">Delivered</p>
                 </div>
-                <i class="fas fa-truck"></i>
+                <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-950/50 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-truck text-yellow-600 dark:text-yellow-400 text-xl"></i>
+                </div>
             </div>
         </div>
     </div>
@@ -67,13 +71,21 @@
     <div class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-lg shadow-sm border-gray-200 dark:border-gray-700 p-6">
         <!-- Filters -->
         <div class="grid grid-cols-4 gap-4">
-            <div>
-                <!-- Search input -->
-                <!-- Status filter -->
-                <!-- Priority filter -->
-                <!-- Per page selector -->
-                <!-- Clear Search button -->
+            <!-- Search input -->
+            <div class="relative">
+                <div class="absolute inset-y-0 pl-3 flex items-center pointer-events-none">
+                    <i class="fas fa-search text-gray-400"></i>
+                </div>
+                <input type="text" id="search-input" placeholder="Search Shipments here..."
+                    class="pl-10 pr-4 py-2.5 form-input-cool block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                        value="{{ request('search') }}">
             </div>
+            
+            <!-- Status filter -->
+            <!-- Priority filter -->
+            <!-- Per page selector -->
+            <!-- Clear Search button -->
+
         </div>
 
         <!-- Shipments Table -->
