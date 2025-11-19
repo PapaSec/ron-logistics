@@ -76,7 +76,7 @@
                 <div class="absolute inset-y-0 pl-3 flex items-center pointer-events-none">
                     <i class="fas fa-search text-gray-400 transition-colors duration-200 group-focus-within:text-blue-400"></i>
                 </div>
-                <input type="text" wire:model.live="search" placeholder="Search Shipments..."
+                <input type="text" wire:model.live="search" placeholder="Search Shipments here..."
                     class="w-full pl-10 pr-4 py-2.5 bg-white/5 text-gray-700 dark:text-white placeholder-gray-500 rounded-xl border border-gray-500 focus:border-blue-500/50 focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-200"
                     value="{{ request('search') }}">
             </div>
@@ -298,21 +298,21 @@
         }
 
         .table-scrollbar::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
+            background: #023543;
             border-radius: 10px;
         }
 
         .table-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
+            background: #138898;
         }
 
         /* Dark mode horizontal scrollbar styles */
         .dark .table-scrollbar::-webkit-scrollbar-thumb {
-            background: #4b5563;
+            background: #138898;
         }
 
         .dark .table-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #6b7280;
+            background: #138898;
         }
 
         /* Firefox horizontal scrollbar styles */
