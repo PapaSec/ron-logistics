@@ -68,7 +68,7 @@
         </x-button>
     </div>
 
-    <!-- Flash Messages (ADD HERE) -->
+    <!-- Flash Messages -->
     @if (session()->has('success'))
         <div class="bg-green-50 dark:bg-green-900/30 border-l-4 border-green-500 p-4 rounded-lg mb-4">
             <div class="flex items-center">
@@ -141,6 +141,12 @@
                     Clear Filters
                 </x-button>
             </div>
+        </div>
+
+        <!-- Loading -->
+        <div wire:loading class="flex items-center justify-center py-4">
+            <i class="fas fa-spinner fa-spin text-blue-500 text-2xl mr-3"></i>
+            <span class="text-gray-600 dark:text-gray-400">Loading shipments...</span>
         </div>
 
         <!-- Shipments Table with Horizontal Scrollbar -->
@@ -248,10 +254,10 @@
                                 <!-- Priority -->
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <span class="px-3 py-1 text-xs font-medium rounded-full
-                                                                {{ $shipment->priority === 'express' ? 'bg-purple-100 dark:bg-purple-950/50 text-purple-800 dark:text-purple-300' : '' }}
-                                                                {{ $shipment->priority === 'standard' ? 'bg-blue-100 dark:bg-blue-950/50 text-blue-800 dark:text-blue-300' : '' }}
-                                                                {{ $shipment->priority === 'economy' ? 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300' : '' }}
-                                                            ">
+                                                                    {{ $shipment->priority === 'express' ? 'bg-purple-100 dark:bg-purple-950/50 text-purple-800 dark:text-purple-300' : '' }}
+                                                                    {{ $shipment->priority === 'standard' ? 'bg-blue-100 dark:bg-blue-950/50 text-blue-800 dark:text-blue-300' : '' }}
+                                                                    {{ $shipment->priority === 'economy' ? 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300' : '' }}
+                                                                ">
                                         {{ ucfirst($shipment->priority) }}
                                     </span>
                                 </td>
