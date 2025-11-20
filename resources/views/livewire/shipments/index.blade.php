@@ -6,7 +6,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-2xl font-bold">{{ $stats['total'] }}</p>
-                    <p class="text-sm opacity-60">Total Items</p>
+                    <p class="text-sm text-gray-400">Total Items</p>
                 </div>
                 <div class="w-12 h-12 bg-blue-100 dark:bg-blue-950/50 rounded-lg flex items-center justify-center">
                     <i class="fas fa-box text-blue-600 dark:text-blue-400 text-xl"></i>
@@ -19,7 +19,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-2xl font-bold">{{ $stats['pending'] }}</p>
-                    <p class="text-sm opacity-60">Pending</p>
+                    <p class="text-sm text-gray-400">Pending</p>
                 </div>
                 <div class="w-12 h-12 bg-green-100 dark:bg-green-950/50 rounded-lg flex items-center justify-center">
                     <i class="fa-solid fa-p text-green-600 dark:text-green-400 text-xl"></i>
@@ -32,7 +32,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-2xl font-bold">{{ $stats['in_transit'] }}</p>
-                    <p class="text-sm opacity-60">In Transit</p>
+                    <p class="text-sm text-gray-400">In Transit</p>
                 </div>
                 <div class="w-12 h-12 bg-purple-100 dark:bg-purple-950/50 rounded-lg flex items-center justify-center">
                     <i class="fas fa-shipping-fast  text-purple-600 dark:text-purple-400 text-xl"></i>
@@ -45,7 +45,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-2xl font-bold">{{ $stats['delivered'] }}</p>
-                    <p class="text-sm opacity-60">Delivered</p>
+                    <p class="text-sm text-gray-400">Delivered</p>
                 </div>
                 <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-950/50 rounded-lg flex items-center justify-center">
                     <i class="fas fa-truck text-yellow-600 dark:text-yellow-400 text-xl"></i>
@@ -74,7 +74,8 @@
             <!-- Search input -->
             <div class="relative">
                 <div class="absolute inset-y-0 pl-3 flex items-center pointer-events-none">
-                    <i class="fas fa-search text-gray-400 transition-colors duration-200 group-focus-within:text-blue-400"></i>
+                    <i
+                        class="fas fa-search text-gray-400 transition-colors duration-200 group-focus-within:text-blue-400"></i>
                 </div>
                 <input type="text" wire:model.live="search" placeholder="Search Shipments here..."
                     class="w-full pl-10 pr-4 py-2.5 bg-white/5 text-gray-700 dark:text-white placeholder-gray-500 rounded-xl border border-gray-500 focus:border-blue-500/50 focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-200"
@@ -84,7 +85,7 @@
             <!-- Status filter -->
             <div>
                 <select wire:model.live="statusFilter"
-                    class="w-full px-4 py-2.5 bg-white/5 text-gray-700 dark:text-white border border-gray-500 rounded-xl focus:border-blue-500/50 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all">
+                    class="w-full px-4 py-2.5 bg-white/5 text-gray-700 dark:text-gray-500 border border-gray-500 rounded-xl focus:border-blue-500/50 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all">
                     <option value="all">All Status</option>
                     <option value="pending">Pending</option>
                     <option value="in_transit">In Transit</option>
@@ -96,7 +97,7 @@
             <!-- Priority filter -->
             <div>
                 <select wire:model.live="priorityFilter"
-                    class="w-full px-4 py-2.5 bg-white/5 text-gray-700 dark:text-white border border-gray-500 rounded-xl focus:border-blue-500/50 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all">
+                    class="w-full px-4 py-2.5 bg-white/5 text-gray-700 dark:text-gray-500 border border-gray-500 rounded-xl focus:border-blue-500/50 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all">
                     <option value="all">All Priority</option>
                     <option value="standard">Standard</option>
                     <option value="express">Express</option>
@@ -107,7 +108,7 @@
             <!-- Per page selector -->
             <div>
                 <select wire:model.live="perPage"
-                    class="w-full px-4 py-2.5 bg-white/5 text-gray-700 dark:text-white border border-gray-500 rounded-xl focus:border-blue-500/50 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all">
+                    class="w-full px-4 py-2.5 bg-white/5 text-gray-700 dark:text-gray-500 border border-gray-500 rounded-xl focus:border-blue-500/50 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all">
                     <option value="10">10 per page</option>
                     <option value="25">25 per page</option>
                     <option value="50">50 per page</option>
@@ -117,11 +118,9 @@
 
             <!-- Clear Filters button - Always visible -->
             <div>
-                <button wire:click="clearFilters"
-                    class="w-full px-4 py-2.5 bg-red-500 hover:bg-red-600 text-white rounded-xl transition-all duration-200">
-                    <i class="fas fa-times-circle mr-2"></i>
+                <x-button style="clear" wire:click="clearFilters" icon="fas fa-times-circle">
                     Clear Filters
-                </button>
+                </x-button>
             </div>
         </div>
 
@@ -133,43 +132,43 @@
                         <!-- Headers -->
                         <tr>
                             <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                                 ID
                             </th>
                             <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                                 Customer
                             </th>
                             <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                                 Origin
                             </th>
                             <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                                 Destination
                             </th>
                             <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                                 Description
                             </th>
                             <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                                 Weight
                             </th>
                             <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                                 Quantity
                             </th>
                             <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                                 Status
                             </th>
                             <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                                 Priority
                             </th>
                             <th scope="col"
-                                class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                class="px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                                 Actions
                             </th>
                         </tr>
@@ -230,10 +229,10 @@
                                 <!-- Priority -->
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <span class="px-3 py-1 text-xs font-medium rounded-full
-                        {{ $shipment->priority === 'express' ? 'bg-purple-100 dark:bg-purple-950/50 text-purple-800 dark:text-purple-300' : '' }}
-                        {{ $shipment->priority === 'standard' ? 'bg-blue-100 dark:bg-blue-950/50 text-blue-800 dark:text-blue-300' : '' }}
-                        {{ $shipment->priority === 'economy' ? 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300' : '' }}
-                    ">
+                                                    {{ $shipment->priority === 'express' ? 'bg-purple-100 dark:bg-purple-950/50 text-purple-800 dark:text-purple-300' : '' }}
+                                                    {{ $shipment->priority === 'standard' ? 'bg-blue-100 dark:bg-blue-950/50 text-blue-800 dark:text-blue-300' : '' }}
+                                                    {{ $shipment->priority === 'economy' ? 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300' : '' }}
+                                                ">
                                         {{ ucfirst($shipment->priority) }}
                                     </span>
                                 </td>
@@ -258,6 +257,52 @@
                                             class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300">
                                             <i class="fas fa-trash"></i>
                                         </button>
+
+                                        <!-- Delete logic and Modal -->
+                                        @if ($deleteId)
+                                            <div class="fixed inset-0 z-50 overflow-y-auto" x-data="{ show: true }"
+                                                x-show="show">
+                                                <!-- Backdrop -->
+                                                <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"></div>
+
+                                                <!-- Modal -->
+                                                <div class="flex min-h-screen items-center justify-center p-4">
+                                                    <div
+                                                        class="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6">
+
+                                                        <!-- Icon -->
+                                                        <div
+                                                            class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-red-900/30">
+                                                            <i
+                                                                class="fas fa-exclamation-triangle text-red-600 dark:text-red-400 text-xl"></i>
+                                                        </div>
+
+                                                        <!-- Content -->
+                                                        <div class="mt-4 text-center">
+                                                            <h3 class="text-lg font-medium text-gray-900 dark:text-white">Delete
+                                                                Shipment?</h3>
+                                                            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                                                                Are you sure you want to delete this shipment #{{ $deleteId }}?
+                                                            </p>
+                                                        </div>
+
+                                                        <!-- Buttons -->
+                                                        <div class="mt-6 flex gap-3">
+                                                            <button wire:click="cancelDelete"
+                                                                class="flex-1 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition">
+                                                                Cancel
+                                                            </button>
+                                                            <button wire:click="delete"
+                                                                class="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition">
+                                                                Delete
+                                                            </button>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+
                                     </div>
                                 </td>
 

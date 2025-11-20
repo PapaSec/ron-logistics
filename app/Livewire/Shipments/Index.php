@@ -128,9 +128,7 @@ class Index extends Component
         ];
     }
 
-    /**
-     * Render the component
-     */
+    // Render the component
     public function render()
     {
         return view('livewire.shipments.index', [
