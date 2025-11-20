@@ -8,10 +8,9 @@ use Livewire\Attributes\{Layout, Title};
 
 #[Layout('layouts.app')]
 #[Title('Create Shipment - Ron Logistics')]
-
 class Create extends Component
 {
-    // Form Properties
+    // FORM PROPERTIES (all your form fields)
     public $tracking_number;
     public $sender_name = '';
     public $sender_phone = '';
@@ -28,7 +27,7 @@ class Create extends Component
     public $pickup_date;
     public $estimated_delivery_date;
 
-    // Validation Rules
+    // VALIDATION RULES
     protected $rules = [
         'sender_name' => 'required|string|max:255',
         'sender_phone' => 'required|string|max:20',
@@ -45,33 +44,58 @@ class Create extends Component
         'estimated_delivery_date' => 'required|date|after:pickup_date',
     ];
 
-    // Custom Validation Messages
+    // CUSTOM VALIDATION MESSAGES
     protected $messages = [
         'sender_name.required' => 'Sender name is required',
         'pickup_date.after_or_equal' => 'Pickup date cannot be in the past',
-        'estimated_delivery_date.after' => 'Delivery date must be after pickup date'
+        'estimated_delivery_date.after' => 'Delivery date must be after pickup date',
     ];
 
-    // Lifecycle Hooks
+    // LIFECYCLE HOOKS
     public function mount()
     {
         // Generate tracking number on page load
         $this->tracking_number = $this->generateTrackingNumber();
-
+        
         // Set default dates
         $this->pickup_date = now()->format('Y-m-d');
         $this->estimated_delivery_date = now()->addDays(3)->format('Y-m-d');
     }
 
-    // Custom Methods
-    private function generateTrackingNumber()
+    // CUSTOM METHODS
+    private function generateTrackingNumber(): string
     {
         $year = now()->year;
         $lastShipment = Shipment::latest('id')->first();
         $nextNumber = $lastShipment ? $lastShipment->id + 1 : 1;
-
+        
         return 'SHIP-' . $year . '-' . str_pad($nextNumber, 6, '0', STR_PAD_LEFT);
     }
+
+    public function save()
+    {
+        // Validate all fields
+        $validated = $this->validate();
+        
+        // Add user_id and tracking_number
+        $validated['user_id'] = auth()->id();
+        $validated['tracking_number'] = $this->tracking_number;
+        
+        // Create shipment
+        Shipment::create($validated);
+        
+        // Flash success message
+        session()->flash('success', 'Shipment created successfully!');
+        
+        // Redirect to index
+        return $this->redirect(route('shipments.index'), navigate: true);
+    }
+
+    public function cancel()
+    {
+        return $this->redirect(route('shipments.index'), navigate: true);
+    }
+
     public function render()
     {
         return view('livewire.shipments.create');
