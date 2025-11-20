@@ -68,6 +68,25 @@
         </x-button>
     </div>
 
+    <!-- Flash Messages (ADD HERE) -->
+    @if (session()->has('success'))
+        <div class="bg-green-50 dark:bg-green-900/30 border-l-4 border-green-500 p-4 rounded-lg mb-4">
+            <div class="flex items-center">
+                <i class="fas fa-check-circle text-green-500 mr-3 text-xl"></i>
+                <p class="text-green-800 dark:text-green-300 font-medium">{{ session('success') }}</p>
+            </div>
+        </div>
+    @endif
+
+    @if (session()->has('error'))
+        <div class="bg-red-50 dark:bg-red-900/30 border-l-4 border-red-500 p-4 rounded-lg mb-4">
+            <div class="flex items-center">
+                <i class="fas fa-times-circle text-red-500 mr-3 text-xl"></i>
+                <p class="text-red-800 dark:text-red-300 font-medium">{{ session('error') }}</p>
+            </div>
+        </div>
+    @endif
+
     <div class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-lg shadow-sm border-gray-200 dark:border-gray-700 p-6">
         <!-- Filters -->
         <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-4">
@@ -229,10 +248,10 @@
                                 <!-- Priority -->
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <span class="px-3 py-1 text-xs font-medium rounded-full
-                                                    {{ $shipment->priority === 'express' ? 'bg-purple-100 dark:bg-purple-950/50 text-purple-800 dark:text-purple-300' : '' }}
-                                                    {{ $shipment->priority === 'standard' ? 'bg-blue-100 dark:bg-blue-950/50 text-blue-800 dark:text-blue-300' : '' }}
-                                                    {{ $shipment->priority === 'economy' ? 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300' : '' }}
-                                                ">
+                                                                {{ $shipment->priority === 'express' ? 'bg-purple-100 dark:bg-purple-950/50 text-purple-800 dark:text-purple-300' : '' }}
+                                                                {{ $shipment->priority === 'standard' ? 'bg-blue-100 dark:bg-blue-950/50 text-blue-800 dark:text-blue-300' : '' }}
+                                                                {{ $shipment->priority === 'economy' ? 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300' : '' }}
+                                                            ">
                                         {{ ucfirst($shipment->priority) }}
                                     </span>
                                 </td>
@@ -257,51 +276,6 @@
                                             class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300">
                                             <i class="fas fa-trash"></i>
                                         </button>
-
-                                        <!-- Delete logic and Modal -->
-                                        @if ($deleteId)
-                                            <div class="fixed inset-0 z-50 overflow-y-auto" x-data="{ show: true }"
-                                                x-show="show">
-                                                <!-- Backdrop -->
-                                                <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"></div>
-
-                                                <!-- Modal -->
-                                                <div class="flex min-h-screen items-center justify-center p-4">
-                                                    <div
-                                                        class="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6">
-
-                                                        <!-- Icon -->
-                                                        <div
-                                                            class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-red-900/30">
-                                                            <i
-                                                                class="fas fa-exclamation-triangle text-red-600 dark:text-red-400 text-xl"></i>
-                                                        </div>
-
-                                                        <!-- Content -->
-                                                        <div class="mt-4 text-center">
-                                                            <h3 class="text-lg font-medium text-gray-900 dark:text-white">Delete
-                                                                Shipment?</h3>
-                                                            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                                                                Are you sure you want to delete this shipment #{{ $deleteId }}?
-                                                            </p>
-                                                        </div>
-
-                                                        <!-- Buttons -->
-                                                        <div class="mt-6 flex gap-3">
-                                                            <button wire:click="cancelDelete"
-                                                                class="flex-1 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition">
-                                                                Cancel
-                                                            </button>
-                                                            <button wire:click="delete"
-                                                                class="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition">
-                                                                Delete
-                                                            </button>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endif
 
                                     </div>
                                 </td>
@@ -328,6 +302,47 @@
             {{ $shipments->links() }}
         </div>
     </div>
+
+    <!-- Delete Modal -->
+    @if ($deleteId)
+        <div class="fixed inset-0 z-50 overflow-y-auto">
+            <!-- Backdrop -->
+            <div class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"></div>
+
+            <!-- Modal -->
+            <div class="flex min-h-screen items-center justify-center p-4">
+                <div class="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6 z-10">
+
+                    <!-- Icon -->
+                    <div
+                        class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-red-900/30">
+                        <i class="fas fa-exclamation-triangle text-red-600 dark:text-red-400 text-xl"></i>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="mt-4 text-center">
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-white">Delete Shipment?</h3>
+                        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                            Are you sure you want to delete this shipment? This action cannot be undone.
+                        </p>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="mt-6 flex gap-3">
+                        <button wire:click="cancelDelete"
+                            class="flex-1 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition">
+                            Cancel
+                        </button>
+                        <button wire:click="delete"
+                            class="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition">
+                            Delete
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    @endif
 
     <!-- Custom horizontal scrollbar styles -->
     <style>
