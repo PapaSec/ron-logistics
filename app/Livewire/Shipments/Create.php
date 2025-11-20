@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Shipments;
 
+use App\Models\Shipment;
 use Livewire\Component;
 use Livewire\Attributes\{Layout, Title};
 
@@ -43,6 +44,34 @@ class Create extends Component
         'pickup_date' => 'required|date|after_or_equal:today',
         'estimated_delivery_date' => 'required|date|after:pickup_date',
     ];
+
+    // Custom Validation Messages
+    protected $messages = [
+        'sender_name.required' => 'Sender name is required',
+        'pickup_date.after_or_equal' => 'Pickup date cannot be in the past',
+        'estimated_delivery_date.after' => 'Delivery date must be after pickup date'
+    ];
+
+    // Lifecycle Hooks
+    public function mount()
+    {
+        // Generate tracking number on page load
+        $this->tracking_number = $this->generateTrackingNumber();
+
+        // Set default dates
+        $this->pickup_date = now()->format('Y-m-d');
+        $this->estimated_delivery_date = now()->addDays(3)->format('Y-m-d');
+    }
+
+    // Custom Methods
+    private function generateTrackingNumber()
+    {
+        $year = now()->year;
+        $lastShipment = Shipment::latest('id')->first();
+        $nextNumber = $lastShipment ? $lastShipment->id + 1 : 1;
+
+        return 'SHIP-' . $year . '-' . str_pad($nextNumber, 6, '0', STR_PAD_LEFT);
+    }
     public function render()
     {
         return view('livewire.shipments.create');
