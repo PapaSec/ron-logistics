@@ -24,7 +24,8 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Sender Full Names Field -->
                     <div>
-                        <label for="sender_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <label for="sender_name"
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Full Names <span class="text-red-500">*</span>
                         </label>
                         <div class="relative">
@@ -42,7 +43,8 @@
 
                     <!-- Sender Phone -->
                     <div>
-                        <label for="sender_phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <label for="sender_phone"
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Sender Phone <span class="text-red-500">*</span>
                         </label>
                         <div class="relative">
@@ -60,7 +62,8 @@
 
                     <!-- Origin City -->
                     <div>
-                        <label for="origin_city" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <label for="origin_city"
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Origin City <span class="text-red-500">*</span>
                         </label>
                         <div class="relative">
@@ -86,7 +89,8 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Receiver Full Names Field -->
                     <div>
-                        <label for="receiver_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <label for="receiver_name"
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Full Names <span class="text-red-500">*</span>
                         </label>
                         <div class="relative">
@@ -104,7 +108,8 @@
 
                     <!-- Receiver Phone -->
                     <div>
-                        <label for="receiver_phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <label for="receiver_phone"
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Receiver Phone <span class="text-red-500">*</span>
                         </label>
                         <div class="relative">
@@ -122,7 +127,8 @@
 
                     <!-- Destination City -->
                     <div>
-                        <label for="destination_city" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <label for="destination_city"
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Destination City <span class="text-red-500">*</span>
                         </label>
                         <div class="relative">
@@ -148,7 +154,8 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Description Field -->
                     <div>
-                        <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <label for="description"
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Description <span class="text-red-500">*</span>
                         </label>
                         <div class="relative">
@@ -236,9 +243,9 @@
                                 class="pl-10 pr-4 py-2.5 text-gray-700 dark:text-white form-select block w-full rounded-lg border border-gray-300 dark:border-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200 bg-white dark:bg-gray-800"
                                 required>
                                 <option value="">Select priority</option>
-                                <option value="low">Standard</option>
-                                <option value="medium">Express</option>
-                                <option value="high">Economy</option>
+                                <option value="standard">Standard</option>
+                                <option value="express">Express</option>
+                                <option value="economy">Economy</option>
                             </select>
                         </div>
                         @error('priority')
@@ -248,7 +255,8 @@
 
                     <!-- Pickup Date -->
                     <div>
-                        <label for="pickup_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <label for="pickup_date"
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Pickup Date <span class="text-red-500">*</span>
                         </label>
                         <div class="relative">
@@ -266,7 +274,8 @@
 
                     <!-- Estimated Delivery Date -->
                     <div>
-                        <label for="estimated_delivery_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <label for="estimated_delivery_date"
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Estimated Delivery Date <span class="text-red-500">*</span>
                         </label>
                         <div class="relative">
@@ -285,12 +294,12 @@
             </div>
 
             <div class="flex justify-end pt-4 space-x-4">
-                
+
                 <!-- Clear Buutton -->
                 <x-button type="button" style="clear" wire:click="resetForm" icon="fas fa-broom">
                     Clear
                 </x-button>
-                
+
                 <!-- Submit Button -->
                 <x-button type="submit" style="submit" icon="fas fa-paper-plane">
                     Create Shipment
