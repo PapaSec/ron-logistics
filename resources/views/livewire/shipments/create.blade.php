@@ -26,7 +26,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <!-- Sender Full Names Field -->
                     <div>
-                        <label for="sender_name"
+                        <label for="receiver_name"
                             class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Full Names <span class="text-red-500">*</span>
                         </label>
@@ -90,12 +90,12 @@
             <!-- Receiver Information -->
             <div>
                 <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
-                    <i class="fas fa-user-circle text-blue-600 mr-4 text-3xl"></i>Sender Information
+                    <i class="fas fa-user-circle text-blue-600 mr-4 text-3xl"></i>Receiver Information
                 </h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Sender Full Names Field -->
+                    <!-- Receiver Full Names Field -->
                     <div>
-                        <label for="sender_name"
+                        <label for="receiver_name"
                             class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Full Names <span class="text-red-500">*</span>
                         </label>
@@ -104,51 +104,117 @@
                                 <i
                                     class="fas fa-user text-gray-400 transition-colors duration-200 group-focus-within:text-blue-400"></i>
                             </div>
-                            <input type="text" id="sender_name" wire:model="sender_name"
+                            <input type="text" id="receiver_name" wire:model="receiver_name"
                                 class="pl-12 pr-4 py-3 text-gray-700 dark:text-white form-input block w-full rounded-lg shadow-sm border border-gray-500 focus:border-blue-500/50 focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-200"
                                 required placeholder="Enter full names">
                         </div>
-                        @error('sender_name')
+                        @error('receiver_name')
                             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <!-- Sender Phone -->
                     <div>
-                        <label for="sender_phone"
+                        <label for="receiver_phone"
                             class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Sender Phone <span class="text-red-500">*</span>
+                            Receiver Phone <span class="text-red-500">*</span>
                         </label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                                 <i
                                     class="fa-solid fa-address-book text-gray-400 transition-colors duration-200 group-focus-within:text-blue-400"></i>
                             </div>
-                            <input type="text" id="sender_phone" wire:model="sender_phone"
+                            <input type="text" id="receiver_phone" wire:model="receiver_phone"
                                 class="pl-12 pr-4 py-3 text-gray-700 dark:text-white form-input block w-full rounded-lg shadow-sm border border-gray-500 focus:border-blue-500/50 focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-200"
                                 required placeholder="Enter Phone Number">
                         </div>
-                        @error('sender_phone')
+                        @error('receiver_phone')
                             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
 
-                    <!-- Origin City -->
+                    <!-- Destination City -->
                     <div>
-                        <label for="origin_city"
+                        <label for="destination_city"
                             class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Origin City <span class="text-red-500">*</span>
+                            Destination City <span class="text-red-500">*</span>
                         </label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                                 <i
                                     class="fa-regular fa-address-book text-gray-400 transition-colors duration-200 group-focus-within:text-blue-400"></i>
                             </div>
-                            <input type="text" id="origin_city" wire:model="origin_city"
+                            <input type="text" id="destination_city" wire:model="destination_city"
                                 class="pl-12 pr-4 py-3 text-gray-700 dark:text-white form-input block w-full rounded-lg shadow-sm border border-gray-500 focus:border-blue-500/50 focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-200"
                                 required placeholder="Enter Origin City">
                         </div>
-                        @error('origin_city')
+                        @error('destination_city')
+                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Package Details -->
+            <div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Description Field -->
+                    <div>
+                        <label for="description"
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Description <span class="text-red-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i
+                                    class="fas fa-user text-gray-400 transition-colors duration-200 group-focus-within:text-blue-400"></i>
+                            </div>
+                            <input type="text" id="description" wire:model="description"
+                                class="pl-12 pr-4 py-3 text-gray-700 dark:text-white form-input block w-full rounded-lg shadow-sm border border-gray-500 focus:border-blue-500/50 focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-200"
+                                required placeholder="Enter Description">
+                        </div>
+                        @error('description')
+                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Package weight -->
+                    <div>
+                        <label for="weight"
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Weight <span class="text-red-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i
+                                    class="fa-solid fa-address-book text-gray-400 transition-colors duration-200 group-focus-within:text-blue-400"></i>
+                            </div>
+                            <input type="text" id="weight" wire:model="weight"
+                                class="pl-12 pr-4 py-3 text-gray-700 dark:text-white form-input block w-full rounded-lg shadow-sm border border-gray-500 focus:border-blue-500/50 focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-200"
+                                required placeholder="Enter Phone Number">
+                        </div>
+                        @error('weight')
+                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Items -->
+                    <div>
+                        <label for="quantity"
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Items <span class="text-red-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i
+                                    class="fa-regular fa-address-book text-gray-400 transition-colors duration-200 group-focus-within:text-blue-400"></i>
+                            </div>
+                            <input type="text" id="quantity" wire:model="quantity"
+                                class="pl-12 pr-4 py-3 text-gray-700 dark:text-white form-input block w-full rounded-lg shadow-sm border border-gray-500 focus:border-blue-500/50 focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-200"
+                                required placeholder="Enter Origin City">
+                        </div>
+                        @error('quantity')
                             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
