@@ -51,6 +51,30 @@ class Create extends Component
         'estimated_delivery_date.after' => 'Delivery date must be after pickup date',
     ];
 
+    // RESET FORM METHOD
+    public function resetForm()
+{
+    $this->reset([
+        'sender_name',
+        'sender_phone',
+        'receiver_name',
+        'receiver_phone',
+        'origin_city',
+        'destination_city',
+        'description',
+        'weight',
+        'value',
+        'priority'
+    ]);
+    
+    // Keep tracking number, quantity, and dates
+    $this->quantity = 1;
+    $this->pickup_date = now()->format('Y-m-d');
+    $this->estimated_delivery_date = now()->addDays(3)->format('Y-m-d');
+    
+    session()->flash('success', 'Form cleared successfully!');
+}
+
     // LIFECYCLE HOOKS
     public function mount()
     {

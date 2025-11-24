@@ -13,6 +13,46 @@
         </x-button>
     </div>
 
+    <!-- Tracking Number Display -->
+    <div
+        class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-blue-500 p-4 rounded-lg mb-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm font-medium text-gray-700 dark:text-gray-300">Tracking Number</p>
+                <p class="text-2xl font-bold text-blue-600 dark:text-blue-400 mt-1">
+                    {{ $tracking_number }}
+                </p>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    This tracking number will be auto-assigned to your shipment
+                    <span class="inline-block w-2 h-2 bg-blue-500 rounded-full animate-pulse ml-2"></span>
+                </p>
+            </div>
+            <div class="text-blue-500 dark:text-blue-400">
+                <i class="fas fa-barcode text-4xl"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Flash Messages -->
+    @if (session()->has('success'))
+        <div class="bg-green-50 dark:bg-green-900/30 border-l-4 border-green-500 p-4 rounded-lg mb-4">
+            <div class="flex items-center">
+                <i class="fas fa-check-circle text-green-500 mr-3 text-xl"></i>
+                <p class="text-green-800 dark:text-green-300 font-medium">{{ session('success') }}</p>
+            </div>
+        </div>
+    @endif
+
+    @if (session()->has('error'))
+        <div class="bg-red-50 dark:bg-red-900/30 border-l-4 border-red-500 p-4 rounded-lg mb-4">
+            <div class="flex items-center">
+                <i class="fas fa-times-circle text-red-500 mr-3 text-xl"></i>
+                <p class="text-red-800 dark:text-red-300 font-medium">{{ session('error') }}</p>
+            </div>
+        </div>
+    @endif
+
     <!-- Shipment Creation Form -->
     <div class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-lg shadow-sm border-gray-200 dark:border-gray-700 p-6">
         <form wire:submit="save" class="space-y-6">
