@@ -5,6 +5,7 @@ namespace App\Livewire\Shipments;
 use App\Models\Shipment;
 use Livewire\Component;
 use Livewire\Attributes\{Layout, Title};
+use Illuminate\Support\Facades\Auth;
 
 #[Layout('layouts.app')]
 #[Title('Create Shipment - Ron Logistics')]
@@ -87,39 +88,38 @@ class Create extends Component
         $this->estimated_delivery_date = now()->addDays(3)->format('Y-m-d');
     }
 
-    // CUSTOM METHODS
     private function generateTrackingNumber(): string
     {
         $year = now()->year;
         $lastShipment = Shipment::latest('id')->first();
-        $nextNumber = $lastShipment ? $lastShipment->id + 1 : 1;
+        $nextNumber = $lastShipment ? ((int) $lastShipment->id + 1) : 1;
 
         return 'SHIP-' . $year . '-' . str_pad($nextNumber, 6, '0', STR_PAD_LEFT);
     }
 
     public function save()
-{
-    // Validate all fields (tracking_number is NOT in rules)
-    $validated = $this->validate();
-    
-    // Add user_id and tracking_number MANUALLY
-    $validated['user_id'] = auth()->id();
-    $validated['tracking_number'] = $this->tracking_number;
-    
-    try {
-        // Create shipment
-        Shipment::create($validated); 
-        // Flash success message
-        session()->flash('success', 'Shipment created successfully!');
+    {
+        // Validate all fields (tracking_number is NOT in rules)
+        $validated = $this->validate();
         
-        // Redirect to index
-        return $this->redirect(route('shipments.index'), navigate: true);
+        // Add user_id and tracking_number MANUALLY
+        $validated['user_id'] = Auth::id();
+        $validated['tracking_number'] = $this->tracking_number;
         
-    } catch (\Exception $e) {
-        // Show error if creation fails
-        session()->flash('error', 'Failed to create shipment: ' . $e->getMessage());
+        try {
+            // Create shipment
+            Shipment::create($validated); 
+            // Flash success message
+            session()->flash('success', 'Shipment created successfully!');
+            
+            // Redirect to index
+            return $this->redirect(route('shipments.index'), navigate: true);
+            
+        } catch (\Exception $e) {
+            // Show error if creation fails
+            session()->flash('error', 'Failed to create shipment: ' . $e->getMessage());
+        }
     }
-}
 
     public function cancel()
     {
