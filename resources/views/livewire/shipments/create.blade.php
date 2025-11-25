@@ -52,14 +52,13 @@
     @endif
 
     <!-- Shipment Creation Form -->
-    <!-- Shipment Creation Form -->
     <div class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-lg shadow-sm p-6">
-        <!-- Debug Info -->
+        <!-- Debug Info 
         <div class="mb-4 p-3 bg-yellow-100 dark:bg-yellow-900 rounded">
             <p class="text-sm text-yellow-800 dark:text-yellow-200">
                 Form Debug: Check browser console for submission events
             </p>
-        </div>
+        </div> -->
 
         <form wire:submit.prevent="save" class="space-y-6">
             @csrf <!-- Add CSRF protection -->
@@ -94,7 +93,6 @@
                 </div>
             </div>
 
-            <!-- Add similar error displays for other fields -->
             <!-- Receiver Information -->
             <div>
                 <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
