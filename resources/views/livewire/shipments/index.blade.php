@@ -87,53 +87,39 @@
         </div>
     @endif
 
-    <div class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-lg shadow-sm border-gray-200 dark:border-gray-700 p-6">
+    <div class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-lg shadow-sm p-6">
         <!-- Filters -->
         <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-4">
             <!-- Search input -->
-            <div class="relative">
-                <div class="absolute inset-y-0 pl-3 flex items-center pointer-events-none">
-                    <i
-                        class="fas fa-search text-gray-400 transition-colors duration-200 group-focus-within:text-blue-400"></i>
-                </div>
-                <input type="text" wire:model.live="search" placeholder="Search Shipments here..."
-                    class="w-full pl-10 pr-4 py-2.5 bg-white/5 text-gray-700 dark:text-white placeholder-gray-500 rounded-xl border border-gray-500 focus:border-blue-500/50 focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-200"
-                    value="{{ request('search') }}">
-            </div>
+            <x-inputs.text name="search" placeholder="Search Shipments..." icon="fas fa-search" model="live"
+                value="{{ request('search') }}" />
 
             <!-- Status filter -->
-            <div>
-                <select wire:model.live="statusFilter"
-                    class="w-full px-4 py-2.5 bg-white/5 text-gray-700 dark:text-gray-500 border border-gray-500 rounded-xl focus:border-blue-500/50 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all">
-                    <option value="all">All Status</option>
-                    <option value="pending">Pending</option>
-                    <option value="in_transit">In Transit</option>
-                    <option value="delivered">Delivered</option>
-                    <option value="cancelled">Cancelled</option>
-                </select>
-            </div>
+            <x-inputs.select name="statusFilter" model="statusFilter" icon="fas fa-filter" :options="[
+        'all' => 'All Status',
+        'pending' => 'Pending',
+        'in_transit' => 'In Transit',
+        'delivered' => 'Delivered',
+        'cancelled' => 'Cancelled'
+    ]" selected="{{ $statusFilter ?? 'all' }}" />
 
             <!-- Priority filter -->
-            <div>
-                <select wire:model.live="priorityFilter"
-                    class="w-full px-4 py-2.5 bg-white/5 text-gray-700 dark:text-gray-500 border border-gray-500 rounded-xl focus:border-blue-500/50 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all">
-                    <option value="all">All Priority</option>
-                    <option value="standard">Standard</option>
-                    <option value="express">Express</option>
-                    <option value="economy">Economy</option>
-                </select>
-            </div>
+            <x-inputs.select name="priorityFilter" model="priorityFilter" icon="fas fa-flag" :options="[
+        'all' => 'All Priority',
+        'standard' => 'Standard',
+        'express' => 'Express',
+        'economy' => 'Economy'
+    ]"
+            selected="{{ $priorityFilter ?? 'all' }}" />
 
             <!-- Per page selector -->
-            <div>
-                <select wire:model.live="perPage"
-                    class="w-full px-4 py-2.5 bg-white/5 text-gray-700 dark:text-gray-500 border border-gray-500 rounded-xl focus:border-blue-500/50 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all">
-                    <option value="10">10 per page</option>
-                    <option value="25">25 per page</option>
-                    <option value="50">50 per page</option>
-                    <option value="100">100 per page</option>
-                </select>
-            </div>
+            <x-inputs.select name="perPage" model="perPage" icon="fas fa-list-ol" :options="[
+        '10' => '10 per page',
+        '25' => '25 per page',
+        '50' => '50 per page',
+        '100' => '100 per page'
+    ]"
+    selected="{{ $perPage ?? '10' }}" />
 
             <!-- Clear Filters button - Always visible -->
             <div>
@@ -254,10 +240,10 @@
                                 <!-- Priority -->
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <span class="px-3 py-1 text-xs font-medium rounded-full
-                                                                    {{ $shipment->priority === 'express' ? 'bg-purple-100 dark:bg-purple-950/50 text-purple-800 dark:text-purple-300' : '' }}
-                                                                    {{ $shipment->priority === 'standard' ? 'bg-blue-100 dark:bg-blue-950/50 text-blue-800 dark:text-blue-300' : '' }}
-                                                                    {{ $shipment->priority === 'economy' ? 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300' : '' }}
-                                                                ">
+                                                                                {{ $shipment->priority === 'express' ? 'bg-purple-100 dark:bg-purple-950/50 text-purple-800 dark:text-purple-300' : '' }}
+                                                                                {{ $shipment->priority === 'standard' ? 'bg-blue-100 dark:bg-blue-950/50 text-blue-800 dark:text-blue-300' : '' }}
+                                                                                {{ $shipment->priority === 'economy' ? 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300' : '' }}
+                                                                            ">
                                         {{ ucfirst($shipment->priority) }}
                                     </span>
                                 </td>

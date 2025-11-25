@@ -40,6 +40,7 @@ class Create extends Component
         'quantity' => 'required|integer|min:1',
         'value' => 'nullable|numeric|min:0',
         'priority' => 'required|in:standard,express,economy',
+        'status' => 'required|in:pending,in_transit,delivered,cancelled',
         'pickup_date' => 'required|date|after_or_equal:today',
         'estimated_delivery_date' => 'required|date|after:pickup_date',
     ];
@@ -53,34 +54,34 @@ class Create extends Component
 
     // RESET FORM METHOD
     public function resetForm()
-{
-    $this->reset([
-        'sender_name',
-        'sender_phone',
-        'receiver_name',
-        'receiver_phone',
-        'origin_city',
-        'destination_city',
-        'description',
-        'weight',
-        'value',
-        'priority'
-    ]);
-    
-    // Keep tracking number, quantity, and dates
-    $this->quantity = 1;
-    $this->pickup_date = now()->format('Y-m-d');
-    $this->estimated_delivery_date = now()->addDays(3)->format('Y-m-d');
-    
-    session()->flash('success', 'Form cleared successfully!');
-}
+    {
+        $this->reset([
+            'sender_name',
+            'sender_phone',
+            'receiver_name',
+            'receiver_phone',
+            'origin_city',
+            'destination_city',
+            'description',
+            'weight',
+            'value',
+            'priority'
+        ]);
+
+        // Keep tracking number, quantity, and dates
+        $this->quantity = 1;
+        $this->pickup_date = now()->format('Y-m-d');
+        $this->estimated_delivery_date = now()->addDays(3)->format('Y-m-d');
+
+        session()->flash('success', 'Form cleared successfully!');
+    }
 
     // LIFECYCLE HOOKS
     public function mount()
     {
         // Generate tracking number on page load
         $this->tracking_number = $this->generateTrackingNumber();
-        
+
         // Set default dates
         $this->pickup_date = now()->format('Y-m-d');
         $this->estimated_delivery_date = now()->addDays(3)->format('Y-m-d');
@@ -92,28 +93,33 @@ class Create extends Component
         $year = now()->year;
         $lastShipment = Shipment::latest('id')->first();
         $nextNumber = $lastShipment ? $lastShipment->id + 1 : 1;
-        
+
         return 'SHIP-' . $year . '-' . str_pad($nextNumber, 6, '0', STR_PAD_LEFT);
     }
 
     public function save()
-    {
-        // Validate all fields
-        $validated = $this->validate();
-        
-        // Add user_id and tracking_number
-        $validated['user_id'] = auth()->id();
-        $validated['tracking_number'] = $this->tracking_number;
-        
+{
+    // Validate all fields (tracking_number is NOT in rules)
+    $validated = $this->validate();
+    
+    // Add user_id and tracking_number MANUALLY
+    $validated['user_id'] = auth()->id();
+    $validated['tracking_number'] = $this->tracking_number;
+    
+    try {
         // Create shipment
-        Shipment::create($validated);
-        
+        Shipment::create($validated); 
         // Flash success message
         session()->flash('success', 'Shipment created successfully!');
         
         // Redirect to index
         return $this->redirect(route('shipments.index'), navigate: true);
+        
+    } catch (\Exception $e) {
+        // Show error if creation fails
+        session()->flash('error', 'Failed to create shipment: ' . $e->getMessage());
     }
+}
 
     public function cancel()
     {
