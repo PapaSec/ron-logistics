@@ -3,7 +3,7 @@
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
         <div>
             <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
-                <i class="fas fa-boxes text-blue-500 mr-2"></i> Shipment Details
+                <i class="fas fa-boxes text-[#138898] mr-2"></i> Shipment Details
             </h2>
             <p class="text-gray-600 dark:text-gray-400">Complete information for tracking number: {{ $shipment->tracking_number }}</p>
         </div>
@@ -19,7 +19,7 @@
     </div>
 
     <!-- Tracking Number Banner -->
-    <div class="bg-blue-500 rounded-xl p-6 text-white">
+    <div class="bg-[#138898] rounded-xl p-6 text-white">
         <div class="flex flex-col md:flex-row items-start md:items-center justify-between">
             <div>
                 <p class="text-sm font-medium text-blue-100">Tracking Number</p>
@@ -39,7 +39,7 @@
     <!-- Progress Tracking -->
     <div class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-xl p-6">
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-            <i class="fas fa-shipping-fast text-blue-500 mr-3"></i>
+            <i class="fas fa-shipping-fast text-[#138898] mr-3"></i>
             Delivery Progress
         </h3>
         
@@ -65,9 +65,9 @@
                         </span>
                     </div>
                 </div>
-                <div class="overflow-hidden h-3 mb-4 text-xs flex rounded-full bg-gray-200 dark:bg-gray-700">
+                <div class="overflow-hidden h-3 mb-4 text-xs flex rounded-full bg-gray-300 dark:bg-gray-700">
                     <div style="width: {{ $progress }}%" 
-                         class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500 transition-all duration-500"></div>
+                         class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#138898] transition-all duration-500"></div>
                 </div>
             </div>
 
@@ -90,13 +90,13 @@
                     <div class="text-center">
                         <div class="relative">
                             <div class="mx-auto w-12 h-12 rounded-full flex items-center justify-center 
-                                {{ $isActive ? 'bg-blue-500 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-400' }}
+                                {{ $isActive ? 'bg-[#138898] text-white' : 'bg-gray-300 dark:bg-gray-700 text-gray-400' }}
                                 {{ $isCurrent ? 'ring-4 ring-blue-200 dark:ring-blue-800' : '' }}">
                                 <i class="{{ $step['icon'] }}"></i>
                             </div>
                             @if(!$loop->last)
                                 <div class="hidden md:block absolute top-6 left-1/2 w-full h-0.5 
-                                    {{ $isActive ? 'bg-blue-500' : 'bg-gray-200 dark:bg-gray-700' }}"></div>
+                                    {{ $isActive ? 'bg-[#138898]' : 'bg-gray-300 dark:bg-gray-700' }}"></div>
                             @endif
                         </div>
                         <div class="mt-3">

@@ -18,7 +18,7 @@
         'edit' => 'bg-blue-500 hover:bg-blue-600',
         'delete' => 'bg-red-500 hover:bg-red-600',
         'print' => 'bg-gray-900 hover:bg-gray-800 text-white',
-        default => 'bg-blue-500 hover:bg-blue-600 text-white',
+        default => 'bg-[#138898] hover:bg-[#1388980] text-white',
     };
 @endphp
 

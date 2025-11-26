@@ -3,7 +3,7 @@
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
         <div>
             <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
-                <i class="fas fa-plus text-blue-500 mr-2"></i> Create New Shipments
+                <i class="fas fa-plus text-[#138898] mr-2"></i> Create New Shipments
             </h2>
             <p class="text-gray-600 dark:text-gray-400">Add new shipments in our system</p>
         </div>
@@ -19,14 +19,14 @@
         <div class="flex items-center justify-between">
             <div>
                 <p class="text-sm font-medium text-gray-700 dark:text-gray-300">Tracking Number</p>
-                <p class="text-2xl font-bold text-blue-600 dark:text-blue-400 mt-1">{{ $tracking_number }}</p>
+                <p class="text-2xl font-bold text-[#138898] mt-1">{{ $tracking_number }}</p>
                 <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
                     <i class="fas fa-info-circle mr-1"></i>
                     This tracking number will be auto-assigned to your shipment
-                    <span class="inline-block w-2 h-2 bg-blue-500 rounded-full animate-pulse ml-2"></span>
+                    <span class="inline-block w-2 h-2 bg-[#138898] rounded-full animate-pulse ml-2"></span>
                 </p>
             </div>
-            <div class="text-blue-500 dark:text-blue-400">
+            <div class="text-[#138898]">
                 <i class="fas fa-barcode text-4xl"></i>
             </div>
         </div>
@@ -66,7 +66,7 @@
             <!-- Sender Information -->
             <div>
                 <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
-                    <i class="fas fa-user text-blue-600 mr-3"></i>Sender Information
+                    <i class="fas fa-user text-[#138898] mr-3"></i>Sender Information
                 </h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <x-inputs.text label="Full Names" name="sender_name" model="sender_name" icon="fas fa-user"
@@ -96,7 +96,7 @@
             <!-- Receiver Information -->
             <div>
                 <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
-                    <i class="fas fa-user-tag text-blue-600 mr-3"></i>Receiver Information
+                    <i class="fas fa-user-tag text-[#138898] mr-3"></i>Receiver Information
                 </h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <x-inputs.text label="Full Names" name="receiver_name" model="receiver_name" icon="fas fa-user"
@@ -116,7 +116,7 @@
             <!-- Package Details -->
             <div>
                 <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
-                    <i class="fas fa-box text-blue-600 mr-3"></i>Package Details
+                    <i class="fas fa-box text-[#138898] mr-3"></i>Package Details
                 </h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <x-inputs.text label="Description" name="description" model="description" icon="fas fa-file-alt"
