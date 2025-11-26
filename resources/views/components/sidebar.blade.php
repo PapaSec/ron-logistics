@@ -2,7 +2,7 @@
     <!-- Sidebar header with logo -->
     <div class="h-18 flex items-center justify-center bg-[#232838] dark:border-gray-800">
         <div class="flex items-center gap-2">
-            <div class="w-10 h-10 bg-blue-500 dark:bg-blue-500 rounded-lg flex items-center justify-center">
+            <div class="w-10 h-10 bg-[#138898] dark:bg-[#138898] rounded-lg flex items-center justify-center">
                 <i class="fas fa-truck text-white"></i>
             </div>
             <span class="text-xl font-bold text-white">Ron Logistics</span>
@@ -17,9 +17,8 @@
                 class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 block mb-1 mt-2">DASHBOARD</span>
 
             <!-- Active dashboard link -->
-            <a href="{{ route('dashboard') }}"
-                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all 
-                    {{ request()->routeIs('dashboard') ? 'bg-blue-300 dark:bg-[#138898] text-blue-600 dark:text-blue-400' : '' }}">
+            <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all 
+        {{ request()->routeIs('dashboard') ? 'bg-[#138898] dark:bg-[#138898] text-white dark:text-white' : '' }}">
                 <i class="fas fa-chart-pie w-5"></i> <span class="font-medium">Overview</span>
             </a>
 
@@ -40,7 +39,7 @@
 
             <a href="{{ route('shipments.index') }}"
                 class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all 
-                    {{ request()->routeIs('shipments.index') ? 'bg-blue-300 dark:bg-blue-500 text-blue-600 dark:text-blue-400' : '' }}">
+                    {{ request()->routeIs('shipments.index') ? 'bg-[#138898] dark:bg-[#138898] text-white dark:text-white' : '' }}">
                 <i class="fas fa-list-ul w-5"></i> <span class="font-medium">All Shipments</span>
             </a>
 
