@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Shipments;
 
+use App\Models\Shipment;
 use Livewire\Component;
 use Livewire\Attributes\{Layout, Title};
 
@@ -10,8 +11,18 @@ use Livewire\Attributes\{Layout, Title};
 
 class Show extends Component
 {
+    // Shipment Model Instance
+    public Shipment $shipment;
+    
+    public function mount(Shipment $shipment)
+    {
+        $this->shipment = $shipment;
+    }
+    
     public function render()
     {
-        return view('livewire.shipments.show');
+        return view('livewire.shipments.show', [
+            'shipment' => $this->shipment
+        ]);
     }
 }

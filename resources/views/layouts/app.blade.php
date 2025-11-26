@@ -72,7 +72,7 @@
 
             <x-navbar />
 
-            <main class="flex-1 overflow-y-auto p-6 bg-gray-300 dark:bg-gray-800 transition-colors duration-200">
+            <main class="flex-1 overflow-y-auto p-6 bg-gray-300 dark:bg-[#212529] transition-colors duration-200">
                 {{ $slot }}
             </main>
 

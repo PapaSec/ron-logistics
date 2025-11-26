@@ -17,6 +17,7 @@
         'clear' => 'px-4 py-2.5 bg-red-500 hover:bg-red-600 text-white transition-all duration-200 flex items-center justify-center',
         'edit' => 'bg-blue-500 hover:bg-blue-600',
         'delete' => 'bg-red-500 hover:bg-red-600',
+        'print' => 'bg-gray-900 hover:bg-gray-800 text-white',
         default => 'bg-blue-500 hover:bg-blue-600 text-white',
     };
 @endphp

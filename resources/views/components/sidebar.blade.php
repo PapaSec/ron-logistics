@@ -1,6 +1,6 @@
 <aside class="w-64 bg-[#E4EBE7] dark:bg-[#272d3e] dark:border-gray-800 flex flex-col transition-colors duration-200">
     <!-- Sidebar header with logo -->
-    <div class="h-18 flex items-center justify-center bg-[#1f2431] dark:border-gray-800">
+    <div class="h-18 flex items-center justify-center bg-[#232838] dark:border-gray-800">
         <div class="flex items-center gap-2">
             <div class="w-10 h-10 bg-blue-500 dark:bg-blue-500 rounded-lg flex items-center justify-center">
                 <i class="fas fa-truck text-white"></i>

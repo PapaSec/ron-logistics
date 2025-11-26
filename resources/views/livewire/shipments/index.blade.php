@@ -252,13 +252,13 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <div class="flex items-center justify-end gap-2">
                                         <!-- View Button -->
-                                        <a href="#"
+                                        <a href="{{ route('shipments.show', $shipment->id) }}"
                                             class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
                                             <i class="fas fa-eye"></i>
                                         </a>
 
                                         <!-- Edit Button -->
-                                        <a href="#"
+                                        <a href="{{ route('shipments.edit', $shipment->id) }}"
                                             class="text-yellow-600 hover:text-yellow-800 dark:text-yellow-400 dark:hover:text-yellow-300">
                                             <i class="fas fa-edit"></i>
                                         </a>

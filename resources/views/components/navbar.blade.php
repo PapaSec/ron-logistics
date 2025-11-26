@@ -1,4 +1,4 @@
-<header class="h-18 bg-[#1f2431] border-b border-gray-800/50 backdrop-blur-sm shadow-lg" x-data="{ 
+<header class="h-18 bg-[#232838] border-b border-gray-800/50 backdrop-blur-sm shadow-lg" x-data="{ 
         darkMode: localStorage.getItem('darkMode') === 'true', 
         searchFocused: false,
         profileOpen: false 
@@ -86,13 +86,13 @@
                     class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 transition-colors duration-200 group-focus-within:text-blue-400"></i>
                 <input type="text" placeholder="Search shipments, fleet, or users..." @focus="searchFocused = true"
                     @blur="searchFocused = false"
-                    class="w-full pl-11 pr-4 py-2.5 bg-white/5 text-white placeholder-gray-500 rounded-xl border border-white/10 focus:border-blue-500/50 focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-200">
+                    class="w-full pl-11 pr-4 py-2.5 bg-[#2a3042] text-white placeholder-gray-500 rounded-full focus:border-blue-500/50 focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-200">
                 <div x-show="searchFocused" x-transition
                     class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
                     <kbd
-                        class="px-2 py-0.5 text-xs font-semibold text-gray-400 bg-white/5 border border-white/10 rounded">Ctrl</kbd>
+                        class="px-2 py-0.5 text-xs font-semibold text-gray-400 bg-white/5 rounded">Ctrl</kbd>
                     <kbd
-                        class="px-2 py-0.5 text-xs font-semibold text-gray-400 bg-white/5 border border-white/10 rounded">K</kbd>
+                        class="px-2 py-0.5 text-xs font-semibold text-gray-400 bg-white/5 rounded">K</kbd>
                 </div>
             </div>
         </div>
