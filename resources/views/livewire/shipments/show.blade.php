@@ -37,7 +37,7 @@
     </div>
 
     <!-- Progress Tracking -->
-    <div class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-xl p-6">
+    <div class="bg-[#E4EBE7] dark:bg-[#1f2431] rounded-xl p-6">
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
             <i class="fas fa-shipping-fast text-[#138898] mr-3"></i>
             Delivery Progress
@@ -114,7 +114,7 @@
     <!-- Main Information Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <!-- Sender Information -->
-        <div class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-xl p-6">
+        <div class="bg-[#E4EBE7] dark:bg-[#1f2431] rounded-xl p-6">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
                 <i class="fas fa-user text-blue-500 mr-3"></i>
                 Sender Information
@@ -136,7 +136,7 @@
         </div>
 
         <!-- Receiver Information -->
-        <div class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-xl p-6">
+        <div class="bg-[#E4EBE7] dark:bg-[#1f2431] rounded-xl p-6">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
                 <i class="fas fa-user-tag text-green-500 mr-3"></i>
                 Receiver Information
@@ -159,7 +159,7 @@
     </div>
 
     <!-- Package Details -->
-    <div class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-xl p-6">
+    <div class="bg-[#E4EBE7] dark:bg-[#1f2431] rounded-xl p-6">
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
             <i class="fas fa-box text-yellow-500 mr-3"></i>
             Package Details
@@ -195,7 +195,7 @@
     <!-- Additional Information -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Shipment Metadata -->
-        <div class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-xl p-6">
+        <div class="bg-[#E4EBE7] dark:bg-[#1f2431] rounded-xl p-6">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
                 <i class="fas fa-info-circle text-gray-500 mr-3"></i>
                 Shipment Info
@@ -222,7 +222,7 @@
         </div>
 
         <!-- Schedule Information -->
-        <div class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-xl p-6">
+        <div class="bg-[#E4EBE7] dark:bg-[#1f2431] rounded-xl p-6">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
                 <i class="fas fa-calendar-alt text-blue-500 mr-3"></i>
                 Schedule
@@ -254,7 +254,7 @@
         </div>
 
         <!-- Quick Actions -->
-        <div class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-xl p-6">
+        <div class="bg-[#E4EBE7] dark:bg-[#1f2431] rounded-xl p-6">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
                 <i class="fas fa-bolt text-yellow-500 mr-3"></i>
                 Quick Actions

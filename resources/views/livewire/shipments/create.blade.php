@@ -52,7 +52,7 @@
     @endif
 
     <!-- Shipment Creation Form -->
-    <div class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-lg shadow-sm p-6">
+    <div class="bg-[#E4EBE7] dark:bg-[#1f2431] rounded-lg shadow-sm p-6">
         <!-- Debug Info 
         <div class="mb-4 p-3 bg-yellow-100 dark:bg-yellow-900 rounded">
             <p class="text-sm text-yellow-800 dark:text-yellow-200">

@@ -1,4 +1,4 @@
-<aside class="w-64 bg-[#E4EBE7] dark:bg-[#272d3e] dark:border-gray-800 flex flex-col transition-colors duration-200">
+<aside class="w-64 bg-[#E4EBE7] dark:bg-[#1f2431] dark:border-gray-800 flex flex-col transition-colors duration-200">
     <!-- Sidebar header with logo -->
     <div class="h-18 flex items-center justify-center bg-[#232838] dark:border-gray-800">
         <div class="flex items-center gap-2">

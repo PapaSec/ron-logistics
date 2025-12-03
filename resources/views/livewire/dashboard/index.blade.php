@@ -1,5 +1,4 @@
 <div class="space-y-6">
-
     <!-- Welcome Message -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
@@ -9,18 +8,17 @@
             <p class="text-gray-600 dark:text-gray-400">Welcome back! Here's what's happening today.</p>
         </div>
         <div class="flex items-center space-x-3">
-            <!-- Quick Action Buttons -->
             <x-button href="{{ route('shipments.create') }}" icon="fas fa-plus-circle">
                 New Shipment
             </x-button>
         </div>
     </div>
 
-    <!-- TOP METRICS ROW -->
+    <!-- TOP METRICS ROW WITH MINI-CHARTS -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <!-- Card 1: Total Shipments-->
-        <div class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-sm shadow-sm p-6 transition-colors duration-200">
-            <div class="flex items-center justify-between">
+        <div class="bg-[#E4EBE7] dark:bg-[#1f2431] rounded-xl shadow-sm p-6 transition-colors duration-200">
+            <div class="flex items-center justify-between mb-4">
                 <div>
                     <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $stats['total'] }}</p>
                     <p class="text-sm text-gray-500 dark:text-gray-400">Total Shipments</p>
@@ -29,16 +27,33 @@
                     <i class="fas fa-boxes text-blue-600 dark:text-blue-400 text-xl"></i>
                 </div>
             </div>
-            <div class="mt-4">
-                <span class="text-xs text-green-500 font-medium">
-                    <i class="fas fa-arrow-up mr-1"></i>+12% from last month
-                </span>
+            
+            <!-- Mini Chart -->
+            <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                <div class="flex items-center justify-between text-xs">
+                    <span class="text-green-500 font-medium">
+                        <i class="fas fa-arrow-up mr-1"></i>+12%
+                    </span>
+                    <span class="text-gray-500">from last month</span>
+                </div>
+                <!-- Mini bar chart -->
+                <div class="mt-2 flex items-end h-8 space-x-1">
+                    @php
+                        $totalData = [20, 40, 35, 50, 49, 60, 70, 81, 95, 110, 125, 140];
+                    @endphp
+                    @foreach(array_slice($totalData, -8) as $height)
+                        <div class="flex-1">
+                            <div class="bg-blue-500/20 dark:bg-blue-500/30 rounded-t" 
+                                 style="height: {{ ($height / max($totalData)) * 100 }}%"></div>
+                        </div>
+                    @endforeach
+                </div>
             </div>
         </div>
 
         <!-- Card 2: Monthly Revenue -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-            <div class="flex items-center justify-between">
+        <div class="bg-[#E4EBE7] dark:bg-[#1f2431] rounded-xl shadow-sm p-6 transition-colors duration-200">
+            <div class="flex items-center justify-between mb-4">
                 <div>
                     <p class="text-2xl font-bold text-gray-900 dark:text-white">
                         ${{ number_format($stats['monthly_revenue'], 2) }}</p>
@@ -48,16 +63,44 @@
                     <i class="fas fa-dollar-sign text-green-600 dark:text-green-400 text-xl"></i>
                 </div>
             </div>
-            <div class="mt-4">
-                <span class="text-xs text-green-500 font-medium">
-                    <i class="fas fa-arrow-up mr-1"></i>+8.5% from last month
-                </span>
+            
+            <!-- Mini Line Chart -->
+            <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                <div class="flex items-center justify-between text-xs">
+                    <span class="text-green-500 font-medium">
+                        <i class="fas fa-arrow-up mr-1"></i>+8.5%
+                    </span>
+                    <span class="text-gray-500">from last month</span>
+                </div>
+                <!-- Mini line chart -->
+                <div class="mt-2 h-8 relative">
+                    @php
+                        $revenueData = [30, 40, 45, 50, 49, 60, 70, 91];
+                        $maxRev = max($revenueData);
+                        $points = [];
+                        $width = 100 / (count($revenueData) - 1);
+                        foreach($revenueData as $i => $value) {
+                            $x = $i * $width;
+                            $y = 100 - (($value / $maxRev) * 100);
+                            $points[] = "{$x},{$y}";
+                        }
+                        $path = "M " . implode(" L ", $points);
+                    @endphp
+                    <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <path d="{{ $path }}" 
+                              fill="none" 
+                              stroke="rgb(34, 197, 94)" 
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+                </div>
             </div>
         </div>
 
         <!-- Card 3: On-Time Delivery -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-            <div class="flex items-center justify-between">
+        <div class="bg-[#E4EBE7] dark:bg-[#1f2431] rounded-xl shadow-sm p-6 transition-colors duration-200">
+            <div class="flex items-center justify-between mb-4">
                 <div>
                     <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $stats['on_time_rate'] }}%</p>
                     <p class="text-sm text-gray-500 dark:text-gray-400">On-Time Delivery</p>
@@ -66,16 +109,48 @@
                     <i class="fas fa-clock text-purple-600 dark:text-purple-400 text-xl"></i>
                 </div>
             </div>
-            <div class="mt-4">
-                <span class="text-xs text-green-500 font-medium">
-                    <i class="fas fa-check-circle mr-1"></i>+2.3% improvement
-                </span>
+            
+            <!-- Mini Progress Ring -->
+            <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                <div class="flex items-center justify-between text-xs">
+                    <span class="text-green-500 font-medium">
+                        <i class="fas fa-check-circle mr-1"></i>+2.3%
+                    </span>
+                    <span class="text-gray-500">improvement</span>
+                </div>
+                <!-- Mini circular progress -->
+                <div class="mt-2 flex justify-center">
+                    <div class="relative w-12 h-12">
+                        <svg class="w-full h-full" viewBox="0 0 36 36">
+                            <!-- Background circle -->
+                            <circle cx="18" cy="18" r="15.9155" 
+                                    fill="none" 
+                                    stroke="#e5e7eb" 
+                                    stroke-width="3"
+                                    class="dark:stroke-gray-700"/>
+                            
+                            <!-- Progress circle -->
+                            <circle cx="18" cy="18" r="15.9155" 
+                                    fill="none" 
+                                    stroke="rgb(168, 85, 247)" 
+                                    stroke-width="3"
+                                    stroke-dasharray="{{ $stats['on_time_rate'] }}, 100"
+                                    stroke-linecap="round"
+                                    transform="rotate(-90 18 18)"/>
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span class="text-xs font-bold text-gray-700 dark:text-gray-300">
+                                {{ $stats['on_time_rate'] }}%
+                            </span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Card 4: Active Vehicles -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-            <div class="flex items-center justify-between">
+        <div class="bg-[#E4EBE7] dark:bg-[#1f2431] rounded-xl shadow-sm p-6 transition-colors duration-200">
+            <div class="flex items-center justify-between mb-4">
                 <div>
                     <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $stats['active_vehicles'] }}</p>
                     <p class="text-sm text-gray-500 dark:text-gray-400">Active Vehicles</p>
@@ -84,10 +159,24 @@
                     <i class="fas fa-truck text-orange-600 dark:text-orange-400 text-xl"></i>
                 </div>
             </div>
-            <div class="mt-4">
-                <span class="text-xs text-gray-500">
-                    3 on route, 9 available
-                </span>
+            
+            <!-- Mini Vehicle Status Chart -->
+            <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                <div class="flex items-center justify-between text-xs">
+                    <span class="text-blue-500 font-medium">3 on route</span>
+                    <span class="text-gray-500">9 available</span>
+                </div>
+                <!-- Mini stacked bar -->
+                <div class="mt-2 h-4 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                    <div class="flex h-full">
+                        <div class="bg-blue-500" style="width: 25%"></div>
+                        <div class="bg-green-500" style="width: 75%"></div>
+                    </div>
+                </div>
+                <div class="flex justify-between text-xs text-gray-500 mt-1">
+                    <span>En route</span>
+                    <span>Available</span>
+                </div>
             </div>
         </div>
     </div>
@@ -95,8 +184,7 @@
     <!-- MIDDLE SECTION - Charts and Distribution -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Shipment Status Chart (Left) -->
-        <div
-            class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+        <div class="lg:col-span-2 bg-[#E4EBE7] dark:bg-[#1f2431] rounded-xl shadow-sm p-6 transition-colors duration-200">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                 <i class="fas fa-chart-line text-blue-500 mr-2"></i>
                 Shipment Status Overview
@@ -112,18 +200,44 @@
         </div>
 
         <!-- Recent Activity (Right) -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+        <div class="bg-[#E4EBE7] dark:bg-[#1f2431] rounded-xl shadow-sm p-6 transition-colors duration-200">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                 <i class="fas fa-history text-green-500 mr-2"></i>
                 Recent Activity
             </h3>
             <div class="space-y-4">
-                <!-- We'll add dynamic activity feed here -->
-                <div class="text-center py-8 text-gray-400">
-                    <i class="fas fa-list-alt text-3xl mb-3"></i>
-                    <p>Recent shipments timeline</p>
-                    <p class="text-sm">(Will show last 5 shipments)</p>
+                <!-- Dynamic activity feed -->
+                @php
+                    $recentShipments = App\Models\Shipment::latest()->take(5)->get();
+                @endphp
+                
+                @forelse($recentShipments as $shipment)
+                <div class="flex items-start space-x-3 p-3 hover:bg-gray-100 dark:hover:bg-gray-800/50 rounded-lg transition-colors">
+                    <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center 
+                        {{ $shipment->status === 'delivered' ? 'bg-green-100 dark:bg-green-900/30 text-green-600' : '' }}
+                        {{ $shipment->status === 'in_transit' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600' : '' }}
+                        {{ $shipment->status === 'pending' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-600' : '' }}
+                        {{ $shipment->status === 'cancelled' ? 'bg-red-100 dark:bg-red-900/30 text-red-600' : '' }}">
+                        <i class="fas fa-{{ $shipment->status === 'delivered' ? 'check' : ($shipment->status === 'in_transit' ? 'truck' : ($shipment->status === 'pending' ? 'clock' : 'times')) }} text-xs"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium text-gray-900 dark:text-white truncate">
+                            {{ $shipment->tracking_number }}
+                        </p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">
+                            {{ $shipment->origin_city }} → {{ $shipment->destination_city }}
+                        </p>
+                    </div>
+                    <span class="text-xs text-gray-500 whitespace-nowrap">
+                        {{ $shipment->created_at->diffForHumans() }}
+                    </span>
                 </div>
+                @empty
+                <div class="text-center py-8 text-gray-400">
+                    <i class="fas fa-inbox text-3xl mb-3"></i>
+                    <p>No recent shipments</p>
+                </div>
+                @endforelse
             </div>
         </div>
     </div>
@@ -131,59 +245,81 @@
     <!-- BOTTOM SECTION - Detailed Stats -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Status Breakdown -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+        <div class="bg-[#E4EBE7] dark:bg-[#1f2431] rounded-xl shadow-sm p-6 transition-colors duration-200">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                 <i class="fas fa-chart-pie text-purple-500 mr-2"></i>
                 Status Breakdown
             </h3>
             <div class="space-y-3">
                 @foreach(['pending', 'in_transit', 'delivered', 'cancelled'] as $status)
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center">
-                            <span class="w-3 h-3 rounded-full mr-3 
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <span class="w-3 h-3 rounded-full mr-3 
+                            {{ $status === 'pending' ? 'bg-amber-500' : '' }}
+                            {{ $status === 'in_transit' ? 'bg-blue-500' : '' }}
+                            {{ $status === 'delivered' ? 'bg-green-500' : '' }}
+                            {{ $status === 'cancelled' ? 'bg-red-500' : '' }}">
+                        </span>
+                        <span class="text-sm text-gray-700 dark:text-gray-300">
+                            {{ ucfirst(str_replace('_', ' ', $status)) }}
+                        </span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="text-sm font-medium text-gray-900 dark:text-white mr-3">
+                            {{ $stats[$status] }}
+                        </span>
+                        <div class="w-20 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                            <div class="h-full 
                                 {{ $status === 'pending' ? 'bg-amber-500' : '' }}
                                 {{ $status === 'in_transit' ? 'bg-blue-500' : '' }}
                                 {{ $status === 'delivered' ? 'bg-green-500' : '' }}
-                                {{ $status === 'cancelled' ? 'bg-red-500' : '' }}">
-                            </span>
-                            <span class="text-sm text-gray-700 dark:text-gray-300">
-                                {{ ucfirst(str_replace('_', ' ', $status)) }}
-                            </span>
+                                {{ $status === 'cancelled' ? 'bg-red-500' : '' }}"
+                                style="width: {{ ($stats[$status] / $stats['total']) * 100 }}%">
+                            </div>
                         </div>
-                        <span class="text-sm font-medium text-gray-900 dark:text-white">
-                            {{ $stats[$status . '_shipments'] ?? 0 }}
-                        </span>
                     </div>
+                </div>
                 @endforeach
             </div>
         </div>
 
         <!-- Priority Distribution -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+        <div class="bg-[#E4EBE7] dark:bg-[#1f2431] rounded-xl shadow-sm p-6 transition-colors duration-200">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                 <i class="fas fa-flag text-yellow-500 mr-2"></i>
                 Priority Distribution
             </h3>
             <div class="space-y-3">
-                @foreach(['express', 'standard', 'economy'] as $priority)
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center">
-                            <span
-                                class="px-3 py-1 text-xs font-medium rounded-full mr-3
-                                {{ $priority === 'express' ? 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300' : '' }}
-                                {{ $priority === 'standard' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300' : '' }}
-                                {{ $priority === 'economy' ? 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300' : '' }}">
-                                {{ ucfirst($priority) }}
-                            </span>
-                        </div>
-                        <span class="text-sm font-medium text-gray-900 dark:text-white">
-                            {{ Shipment::where('priority', $priority)->count() }}
+                @php
+                    $priorities = [
+                        'express' => ['count' => $stats['express'] ?? 0, 'color' => 'bg-purple-500'],
+                        'standard' => ['count' => $stats['standard'] ?? 0, 'color' => 'bg-blue-500'],
+                        'economy' => ['count' => $stats['economy'] ?? 0, 'color' => 'bg-gray-500']
+                    ];
+                    $totalPriority = array_sum(array_column($priorities, 'count'));
+                @endphp
+                
+                @foreach($priorities as $priority => $data)
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <span class="w-3 h-3 rounded-full mr-3 {{ $data['color'] }}"></span>
+                        <span class="text-sm text-gray-700 dark:text-gray-300">
+                            {{ ucfirst($priority) }}
                         </span>
                     </div>
+                    <div class="flex items-center">
+                        <span class="text-sm font-medium text-gray-900 dark:text-white mr-3">
+                            {{ $data['count'] }}
+                        </span>
+                        <div class="w-20 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                            <div class="h-full {{ $data['color'] }}"
+                                 style="width: {{ $totalPriority > 0 ? ($data['count'] / $totalPriority) * 100 : 0 }}%">
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 @endforeach
             </div>
         </div>
     </div>
-</div>
-
 </div>

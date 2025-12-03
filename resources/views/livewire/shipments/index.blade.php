@@ -2,7 +2,7 @@
     <!-- Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <!-- Total Items -->
-        <div class="bg-[#E4EBE7] dark:bg-[#272d3e] text-black/50 dark:text-white p-6">
+        <div class="bg-[#E4EBE7] dark:bg-[#1f2431] text-black/50 dark:text-white p-6">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-2xl font-bold">{{ $stats['total'] }}</p>
@@ -15,7 +15,7 @@
         </div>
 
         <!-- Pending -->
-        <div class="bg-[#E4EBE7] dark:bg-[#272d3e] text-black/50 dark:text-white p-6">
+        <div class="bg-[#E4EBE7] dark:bg-[#1f2431] text-black/50 dark:text-white p-6">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-2xl font-bold">{{ $stats['pending'] }}</p>
@@ -28,7 +28,7 @@
         </div>
 
         <!-- In Transit -->
-        <div class="bg-[#E4EBE7] dark:bg-[#272d3e] text-black/50 dark:text-white p-6">
+        <div class="bg-[#E4EBE7] dark:bg-[#1f2431] text-black/50 dark:text-white p-6">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-2xl font-bold">{{ $stats['in_transit'] }}</p>
@@ -41,7 +41,7 @@
         </div>
 
         <!-- Delivered -->
-        <div class="bg-[#E4EBE7] dark:bg-[#272d3e] text-black/50 dark:text-white p-6">
+        <div class="bg-[#E4EBE7] dark:bg-[#1f2431] text-black/50 dark:text-white p-6">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-2xl font-bold">{{ $stats['delivered'] }}</p>
@@ -87,7 +87,7 @@
         </div>
     @endif
 
-    <div class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-lg shadow-sm p-6">
+    <div class="bg-[#E4EBE7] dark:bg-[#1f2431] rounded-lg shadow-sm p-6">
         <!-- Filters -->
         <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-4">
             <!-- Search input -->
