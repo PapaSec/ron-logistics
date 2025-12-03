@@ -1,5 +1,5 @@
 <div class="space-y-6">
-    
+
     <!-- Welcome Message -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
@@ -15,12 +15,14 @@
             </x-button>
         </div>
     </div>
-    
+
+    <!-- TOP METRICS ROW -->
     <!-- Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        
+
         <!-- Card 1 -->
-        <div class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-lg shadow-sm border border-gray-200 dark:border-gray-800 p-6 transition-colors duration-200">
+        <div
+            class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-lg shadow-sm border border-gray-200 dark:border-gray-800 p-6 transition-colors duration-200">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm text-gray-600 dark:text-gray-400">Total Shipments</p>
@@ -31,9 +33,10 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Card 2 -->
-        <div class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-lg shadow-sm border border-gray-200 dark:border-gray-800 p-6 transition-colors duration-200">
+        <div
+            class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-lg shadow-sm border border-gray-200 dark:border-gray-800 p-6 transition-colors duration-200">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm text-gray-600 dark:text-gray-400">Active Deliveries</p>
@@ -44,9 +47,10 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Card 3 -->
-        <div class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-lg shadow-sm border border-gray-200 dark:border-gray-800 p-6 transition-colors duration-200">
+        <div
+            class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-lg shadow-sm border border-gray-200 dark:border-gray-800 p-6 transition-colors duration-200">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm text-gray-600 dark:text-gray-400">Completed</p>
@@ -57,9 +61,10 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Card 4 -->
-        <div class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-lg shadow-sm border border-gray-200 dark:border-gray-800 p-6 transition-colors duration-200">
+        <div
+            class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-lg shadow-sm border border-gray-200 dark:border-gray-800 p-6 transition-colors duration-200">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm text-gray-600 dark:text-gray-400">Revenue</p>
@@ -70,7 +75,7 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
-    
+
 </div>
