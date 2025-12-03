@@ -14,9 +14,9 @@
         </div>
     </div>
 
-    <!-- TOP METRICS ROW WITH MINI-CHARTS -->
+    <!-- TOP METRICS ROW WITH PROFESSIONAL CHARTS -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- Card 1: Total Shipments-->
+        <!-- Card 1: Total Shipments -->
         <div class="bg-[#E4EBE7] dark:bg-[#1f2431] rounded-xl shadow-sm p-6 transition-colors duration-200">
             <div class="flex items-center justify-between mb-4">
                 <div>
@@ -27,8 +27,8 @@
                     <i class="fas fa-boxes text-blue-600 dark:text-blue-400 text-xl"></i>
                 </div>
             </div>
-            
-            <!-- Mini Chart -->
+
+            <!-- Mini Chart Container -->
             <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
                 <div class="flex items-center justify-between text-xs">
                     <span class="text-green-500 font-medium">
@@ -36,17 +36,9 @@
                     </span>
                     <span class="text-gray-500">from last month</span>
                 </div>
-                <!-- Mini bar chart -->
-                <div class="mt-2 flex items-end h-8 space-x-1">
-                    @php
-                        $totalData = [20, 40, 35, 50, 49, 60, 70, 81, 95, 110, 125, 140];
-                    @endphp
-                    @foreach(array_slice($totalData, -8) as $height)
-                        <div class="flex-1">
-                            <div class="bg-blue-500/20 dark:bg-blue-500/30 rounded-t" 
-                                 style="height: {{ ($height / max($totalData)) * 100 }}%"></div>
-                        </div>
-                    @endforeach
+                <!-- Chart.js Mini Chart -->
+                <div class="h-16">
+                    <canvas id="miniChart1"></canvas>
                 </div>
             </div>
         </div>
@@ -63,8 +55,8 @@
                     <i class="fas fa-dollar-sign text-green-600 dark:text-green-400 text-xl"></i>
                 </div>
             </div>
-            
-            <!-- Mini Line Chart -->
+
+            <!-- Mini Chart Container -->
             <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
                 <div class="flex items-center justify-between text-xs">
                     <span class="text-green-500 font-medium">
@@ -72,28 +64,9 @@
                     </span>
                     <span class="text-gray-500">from last month</span>
                 </div>
-                <!-- Mini line chart -->
-                <div class="mt-2 h-8 relative">
-                    @php
-                        $revenueData = [30, 40, 45, 50, 49, 60, 70, 91];
-                        $maxRev = max($revenueData);
-                        $points = [];
-                        $width = 100 / (count($revenueData) - 1);
-                        foreach($revenueData as $i => $value) {
-                            $x = $i * $width;
-                            $y = 100 - (($value / $maxRev) * 100);
-                            $points[] = "{$x},{$y}";
-                        }
-                        $path = "M " . implode(" L ", $points);
-                    @endphp
-                    <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                        <path d="{{ $path }}" 
-                              fill="none" 
-                              stroke="rgb(34, 197, 94)" 
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"/>
-                    </svg>
+                <!-- Chart.js Mini Bar Chart -->
+                <div class="h-16">
+                    <canvas id="miniChart2"></canvas>
                 </div>
             </div>
         </div>
@@ -109,8 +82,8 @@
                     <i class="fas fa-clock text-purple-600 dark:text-purple-400 text-xl"></i>
                 </div>
             </div>
-            
-            <!-- Mini Progress Ring -->
+
+            <!-- Mini Chart Container -->
             <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
                 <div class="flex items-center justify-between text-xs">
                     <span class="text-green-500 font-medium">
@@ -118,32 +91,9 @@
                     </span>
                     <span class="text-gray-500">improvement</span>
                 </div>
-                <!-- Mini circular progress -->
-                <div class="mt-2 flex justify-center">
-                    <div class="relative w-12 h-12">
-                        <svg class="w-full h-full" viewBox="0 0 36 36">
-                            <!-- Background circle -->
-                            <circle cx="18" cy="18" r="15.9155" 
-                                    fill="none" 
-                                    stroke="#e5e7eb" 
-                                    stroke-width="3"
-                                    class="dark:stroke-gray-700"/>
-                            
-                            <!-- Progress circle -->
-                            <circle cx="18" cy="18" r="15.9155" 
-                                    fill="none" 
-                                    stroke="rgb(168, 85, 247)" 
-                                    stroke-width="3"
-                                    stroke-dasharray="{{ $stats['on_time_rate'] }}, 100"
-                                    stroke-linecap="round"
-                                    transform="rotate(-90 18 18)"/>
-                        </svg>
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <span class="text-xs font-bold text-gray-700 dark:text-gray-300">
-                                {{ $stats['on_time_rate'] }}%
-                            </span>
-                        </div>
-                    </div>
+                <!-- Chart.js Donut Chart -->
+                <div class="h-16 flex justify-center">
+                    <canvas id="miniChart3" class="w-16 h-16"></canvas>
                 </div>
             </div>
         </div>
@@ -159,168 +109,355 @@
                     <i class="fas fa-truck text-orange-600 dark:text-orange-400 text-xl"></i>
                 </div>
             </div>
-            
-            <!-- Mini Vehicle Status Chart -->
+
+            <!-- Mini Chart Container -->
             <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
                 <div class="flex items-center justify-between text-xs">
                     <span class="text-blue-500 font-medium">3 on route</span>
                     <span class="text-gray-500">9 available</span>
                 </div>
-                <!-- Mini stacked bar -->
-                <div class="mt-2 h-4 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                    <div class="flex h-full">
-                        <div class="bg-blue-500" style="width: 25%"></div>
-                        <div class="bg-green-500" style="width: 75%"></div>
-                    </div>
-                </div>
-                <div class="flex justify-between text-xs text-gray-500 mt-1">
-                    <span>En route</span>
-                    <span>Available</span>
+                <!-- Chart.js Stacked Bar Chart -->
+                <div class="h-16">
+                    <canvas id="miniChart4"></canvas>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- MIDDLE SECTION - Charts and Distribution -->
+    <!-- MIDDLE SECTION - Main Charts -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Shipment Status Chart (Left) -->
-        <div class="lg:col-span-2 bg-[#E4EBE7] dark:bg-[#1f2431] rounded-xl shadow-sm p-6 transition-colors duration-200">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                <i class="fas fa-chart-line text-blue-500 mr-2"></i>
-                Shipment Status Overview
-            </h3>
-            <div class="h-64 flex items-center justify-center text-gray-400">
-                <!-- We'll add Chart.js here later -->
-                <div class="text-center">
-                    <i class="fas fa-chart-pie text-4xl mb-3"></i>
-                    <p>Status Distribution Chart</p>
-                    <p class="text-sm">(Chart.js will go here)</p>
+        <!-- Shipment Trends Chart -->
+        <div
+            class="lg:col-span-2 bg-[#E4EBE7] dark:bg-[#1f2431] rounded-xl shadow-sm p-6 transition-colors duration-200">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                    <i class="fas fa-chart-line text-blue-500 mr-2"></i>
+                    Shipment Trends (Last 6 Months)
+                </h3>
+                <div class="flex items-center space-x-2">
+                    <button
+                        class="text-xs px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
+                        Monthly
+                    </button>
+                    <button
+                        class="text-xs px-3 py-1 rounded-full text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800">
+                        Weekly
+                    </button>
                 </div>
+            </div>
+            <!-- Main Area Chart -->
+            <div class="h-64">
+                <canvas id="mainAreaChart"></canvas>
             </div>
         </div>
 
-        <!-- Recent Activity (Right) -->
+        <!-- Status Distribution Chart -->
         <div class="bg-[#E4EBE7] dark:bg-[#1f2431] rounded-xl shadow-sm p-6 transition-colors duration-200">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">
+                <i class="fas fa-chart-pie text-purple-500 mr-2"></i>
+                Status Distribution
+            </h3>
+
+            <!-- Modern Donut with Inner Text -->
+            <div class="relative h-64 flex items-center justify-center">
+                <canvas id="modernStatusChart"></canvas>
+                <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                    <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ $stats['total'] }}</span>
+                    <span class="text-sm text-gray-500 dark:text-gray-400">Total Shipments</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div
+            class="lg:col-span-2 bg-[#E4EBE7] dark:bg-[#1f2431] rounded-xl shadow-sm p-6 transition-colors duration-200">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                 <i class="fas fa-history text-green-500 mr-2"></i>
-                Recent Activity
+                Recent Shipment Activity
             </h3>
-            <div class="space-y-4">
-                <!-- Dynamic activity feed -->
+            <div class="space-y-3">
                 @php
                     $recentShipments = App\Models\Shipment::latest()->take(5)->get();
                 @endphp
-                
+
                 @forelse($recentShipments as $shipment)
-                <div class="flex items-start space-x-3 p-3 hover:bg-gray-100 dark:hover:bg-gray-800/50 rounded-lg transition-colors">
-                    <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center 
-                        {{ $shipment->status === 'delivered' ? 'bg-green-100 dark:bg-green-900/30 text-green-600' : '' }}
-                        {{ $shipment->status === 'in_transit' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600' : '' }}
-                        {{ $shipment->status === 'pending' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-600' : '' }}
-                        {{ $shipment->status === 'cancelled' ? 'bg-red-100 dark:bg-red-900/30 text-red-600' : '' }}">
-                        <i class="fas fa-{{ $shipment->status === 'delivered' ? 'check' : ($shipment->status === 'in_transit' ? 'truck' : ($shipment->status === 'pending' ? 'clock' : 'times')) }} text-xs"></i>
+                    <div
+                        class="flex items-start space-x-3 p-3 hover:bg-gray-100 dark:hover:bg-gray-800/50 rounded-lg transition-colors">
+                        <div
+                            class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center 
+                                        {{ $shipment->status === 'delivered' ? 'bg-green-100 dark:bg-green-900/30 text-green-600' : '' }}
+                                        {{ $shipment->status === 'in_transit' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600' : '' }}
+                                        {{ $shipment->status === 'pending' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-600' : '' }}
+                                        {{ $shipment->status === 'cancelled' ? 'bg-red-100 dark:bg-red-900/30 text-red-600' : '' }}">
+                            <i
+                                class="fas fa-{{ $shipment->status === 'delivered' ? 'check' : ($shipment->status === 'in_transit' ? 'truck' : ($shipment->status === 'pending' ? 'clock' : 'times')) }} text-xs"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium text-gray-900 dark:text-white truncate">
+                                {{ $shipment->tracking_number }}
+                            </p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">
+                                {{ $shipment->origin_city }} → {{ $shipment->destination_city }}
+                            </p>
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <span class="text-xs font-medium text-gray-900 dark:text-white">
+                                {{ $shipment->weight }} kg
+                            </span>
+                            <span class="text-xs text-gray-500">
+                                {{ $shipment->created_at->diffForHumans() }}
+                            </span>
+                        </div>
                     </div>
-                    <div class="flex-1 min-w-0">
-                        <p class="text-sm font-medium text-gray-900 dark:text-white truncate">
-                            {{ $shipment->tracking_number }}
-                        </p>
-                        <p class="text-xs text-gray-500 dark:text-gray-400">
-                            {{ $shipment->origin_city }} → {{ $shipment->destination_city }}
-                        </p>
-                    </div>
-                    <span class="text-xs text-gray-500 whitespace-nowrap">
-                        {{ $shipment->created_at->diffForHumans() }}
-                    </span>
-                </div>
                 @empty
-                <div class="text-center py-8 text-gray-400">
-                    <i class="fas fa-inbox text-3xl mb-3"></i>
-                    <p>No recent shipments</p>
-                </div>
+                    <div class="text-center py-8 text-gray-400">
+                        <i class="fas fa-inbox text-3xl mb-3"></i>
+                        <p>No recent shipments</p>
+                    </div>
                 @endforelse
             </div>
         </div>
-    </div>
 
-    <!-- BOTTOM SECTION - Detailed Stats -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Status Breakdown -->
+        <!-- Quick Stats -->
         <div class="bg-[#E4EBE7] dark:bg-[#1f2431] rounded-xl shadow-sm p-6 transition-colors duration-200">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                <i class="fas fa-chart-pie text-purple-500 mr-2"></i>
-                Status Breakdown
+                <i class="fas fa-tachometer-alt text-yellow-500 mr-2"></i>
+                Quick Stats
             </h3>
-            <div class="space-y-3">
-                @foreach(['pending', 'in_transit', 'delivered', 'cancelled'] as $status)
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                        <span class="w-3 h-3 rounded-full mr-3 
-                            {{ $status === 'pending' ? 'bg-amber-500' : '' }}
-                            {{ $status === 'in_transit' ? 'bg-blue-500' : '' }}
-                            {{ $status === 'delivered' ? 'bg-green-500' : '' }}
-                            {{ $status === 'cancelled' ? 'bg-red-500' : '' }}">
-                        </span>
-                        <span class="text-sm text-gray-700 dark:text-gray-300">
-                            {{ ucfirst(str_replace('_', ' ', $status)) }}
-                        </span>
-                    </div>
-                    <div class="flex items-center">
-                        <span class="text-sm font-medium text-gray-900 dark:text-white mr-3">
-                            {{ $stats[$status] }}
-                        </span>
-                        <div class="w-20 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                            <div class="h-full 
-                                {{ $status === 'pending' ? 'bg-amber-500' : '' }}
-                                {{ $status === 'in_transit' ? 'bg-blue-500' : '' }}
-                                {{ $status === 'delivered' ? 'bg-green-500' : '' }}
-                                {{ $status === 'cancelled' ? 'bg-red-500' : '' }}"
-                                style="width: {{ ($stats[$status] / $stats['total']) * 100 }}%">
-                            </div>
-                        </div>
-                    </div>
+            <div class="space-y-4">
+                <div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Average Delivery Time</p>
+                    <p class="text-xl font-bold text-gray-900 dark:text-white">2.3 days</p>
                 </div>
-                @endforeach
-            </div>
-        </div>
-
-        <!-- Priority Distribution -->
-        <div class="bg-[#E4EBE7] dark:bg-[#1f2431] rounded-xl shadow-sm p-6 transition-colors duration-200">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                <i class="fas fa-flag text-yellow-500 mr-2"></i>
-                Priority Distribution
-            </h3>
-            <div class="space-y-3">
-                @php
-                    $priorities = [
-                        'express' => ['count' => $stats['express'] ?? 0, 'color' => 'bg-purple-500'],
-                        'standard' => ['count' => $stats['standard'] ?? 0, 'color' => 'bg-blue-500'],
-                        'economy' => ['count' => $stats['economy'] ?? 0, 'color' => 'bg-gray-500']
-                    ];
-                    $totalPriority = array_sum(array_column($priorities, 'count'));
-                @endphp
-                
-                @foreach($priorities as $priority => $data)
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                        <span class="w-3 h-3 rounded-full mr-3 {{ $data['color'] }}"></span>
-                        <span class="text-sm text-gray-700 dark:text-gray-300">
-                            {{ ucfirst($priority) }}
-                        </span>
-                    </div>
-                    <div class="flex items-center">
-                        <span class="text-sm font-medium text-gray-900 dark:text-white mr-3">
-                            {{ $data['count'] }}
-                        </span>
-                        <div class="w-20 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                            <div class="h-full {{ $data['color'] }}"
-                                 style="width: {{ $totalPriority > 0 ? ($data['count'] / $totalPriority) * 100 : 0 }}%">
-                            </div>
-                        </div>
-                    </div>
+                <div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Shipments This Week</p>
+                    <p class="text-xl font-bold text-gray-900 dark:text-white">147</p>
                 </div>
-                @endforeach
+                <div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Revenue Today</p>
+                    <p class="text-xl font-bold text-gray-900 dark:text-white">$1,845</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Pending Pickups</p>
+                    <p class="text-xl font-bold text-gray-900 dark:text-white">23</p>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Chart.js Scripts -->
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Chart.js default config for your theme
+            const isDark = document.documentElement.classList.contains('dark');
+            const gridColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+            const textColor = isDark ? '#9ca3af' : '#6b7280';
+
+            Chart.defaults.color = textColor;
+            Chart.defaults.borderColor = gridColor;
+
+            // 1. Mini Sparkline - Total Shipments
+            const miniChart1 = new Chart(document.getElementById('miniChart1'), {
+                type: 'line',
+                data: {
+                    labels: ['', '', '', '', '', '', '', ''],
+                    datasets: [{
+                        data: {{ json_encode($weeklyData) }},
+                        borderColor: 'rgb(59, 130, 246)',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 0,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                    scales: {
+                        x: { display: false },
+                        y: { display: false }
+                    }
+                }
+            });
+
+            // 2. Mini Bar Chart - Revenue
+            const miniChart2 = new Chart(document.getElementById('miniChart2'), {
+                type: 'bar',
+                data: {
+                    labels: ['', '', '', '', '', '', '', ''],
+                    datasets: [{
+                        data: [30, 40, 45, 50, 49, 60, 70, 91],
+                        backgroundColor: 'rgba(34, 197, 94, 0.6)',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                    scales: {
+                        x: { display: false },
+                        y: { display: false }
+                    }
+                }
+            });
+
+            // 3. Donut Chart - On-Time Rate
+            const modernStatusChart = new Chart(document.getElementById('modernStatusChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Pending', 'In Transit', 'Delivered', 'Cancelled'],
+                    datasets: [{
+                        data: [
+                            {{ $stats['pending'] }},
+                            {{ $stats['in_transit'] }},
+                            {{ $stats['delivered'] }},
+                            {{ $stats['cancelled'] }}
+                        ],
+                        backgroundColor: [
+                            'rgb(251, 191, 36)',
+                            'rgb(59, 130, 246)',
+                            'rgb(34, 197, 94)',
+                            'rgb(239, 68, 68)'
+                        ],
+                        borderWidth: 0,
+                        borderRadius: 8,
+                        spacing: 2,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: isDark ? '#1f2937' : '#ffffff',
+                            titleColor: isDark ? '#f9fafb' : '#111827',
+                            bodyColor: isDark ? '#f9fafb' : '#111827',
+                            borderColor: gridColor,
+                            borderWidth: 1,
+                        }
+                    },
+                    cutout: '75%',
+                }
+            });
+
+            // 4. Mini Stacked Bar - Vehicles (placeholder data)
+            const miniChart4 = new Chart(document.getElementById('miniChart4'), {
+                type: 'bar',
+                data: {
+                    labels: [''],
+                    datasets: [
+                        {
+                            data: [3],
+                            backgroundColor: 'rgb(59, 130, 246)',
+                        },
+                        {
+                            data: [9],
+                            backgroundColor: 'rgb(34, 197, 94)',
+                        }
+                    ]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                    scales: {
+                        x: { display: false, stacked: true },
+                        y: { display: false, stacked: true }
+                    }
+                }
+            });
+
+            // 5. Large Area Chart - Shipment Trends
+            const mainAreaChart = new Chart(document.getElementById('mainAreaChart'), {
+                type: 'line',
+                data: {
+                    labels: {!! json_encode(array_column($monthlyData, 'month')) !!},
+                    datasets: [{
+                        label: 'Shipments',
+                        data: {!! json_encode(array_column($monthlyData, 'count')) !!},
+                        borderColor: 'rgb(59, 130, 246)',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: isDark ? '#1f2937' : '#ffffff',
+                            titleColor: isDark ? '#f9fafb' : '#111827',
+                            bodyColor: isDark ? '#f9fafb' : '#111827',
+                            borderColor: gridColor,
+                            borderWidth: 1,
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: gridColor },
+                            ticks: { color: textColor }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: textColor }
+                        }
+                    }
+                }
+            });
+
+            // 6. Donut Chart - Status Distribution
+            const statusDonutChart = new Chart(document.getElementById('statusDonutChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Pending', 'In Transit', 'Delivered', 'Cancelled'],
+                    datasets: [{
+                        data: [
+                                    {{ $stats['pending'] }},
+                                    {{ $stats['in_transit'] }},
+                                    {{ $stats['delivered'] }},
+                            {{ $stats['cancelled'] }}
+                        ],
+                        backgroundColor: [
+                            'rgb(251, 191, 36)',
+                            'rgb(59, 130, 246)',
+                            'rgb(34, 197, 94)',
+                            'rgb(239, 68, 68)'
+                        ],
+                        borderWidth: 0,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: textColor, padding: 15 }
+                        },
+                        tooltip: {
+                            backgroundColor: isDark ? '#1f2937' : '#ffffff',
+                            titleColor: isDark ? '#f9fafb' : '#111827',
+                            bodyColor: isDark ? '#f9fafb' : '#111827',
+                            borderColor: gridColor,
+                            borderWidth: 1,
+                        }
+                    },
+                    cutout: '60%',
+                }
+            });
+        });
+    </script>
+@endpush
