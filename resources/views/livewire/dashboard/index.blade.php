@@ -17,20 +17,22 @@
     </div>
 
     <!-- TOP METRICS ROW -->
-    <!-- Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-
-        <!-- Card 1 -->
-        <div
-            class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-lg shadow-sm border border-gray-200 dark:border-gray-800 p-6 transition-colors duration-200">
+        <!-- Card 1: Total Shipments-->
+        <div class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-lg shadow-sm p-6">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">Total Shipments</p>
-                    <p class="text-3xl font-bold text-gray-900 dark:text-white mt-2">1,234</p>
+                    <p class="text-2xl font-bold text-gray-900 dark:text-white">1,448</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Total Shipments</p>
                 </div>
-                <div class="w-12 h-12 bg-blue-100 dark:bg-blue-950/50 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-box text-blue-600 dark:text-blue-400 text-xl"></i>
+                <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-boxes text-blue-600 dark:text-blue-400 text-xl"></i>
                 </div>
+            </div>
+            <div class="mt-4">
+                <span class="text-xs text-green-500 font-medium">
+                    <i class="fas fa-arrow-up mr-1"></i>+12% from last month
+                </span>
             </div>
         </div>
 
