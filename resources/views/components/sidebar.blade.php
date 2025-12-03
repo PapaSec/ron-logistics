@@ -65,7 +65,7 @@
 
             <a href="#"
                 class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
-                <i class="fas fa-users w-5"></i> <span class="font-medium">Drivers</span>
+                <i class="fas fa-users w-5"></i> <span class="font-medium">Driver Assignments</span>
             </a>
 
             <a href="#"

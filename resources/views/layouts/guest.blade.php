@@ -27,7 +27,7 @@
     </style>
 </head>
 
-<body class="min-h-screen bg-gray-900 flex flex-col justify-center items-center"
+<body class="min-h-screen bg-[#141822] flex flex-col justify-center items-center"
     x-init="
         // Logic to hide the loader automatically
         window.addEventListener('load', () => { 
