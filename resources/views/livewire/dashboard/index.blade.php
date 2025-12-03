@@ -19,10 +19,10 @@
     <!-- TOP METRICS ROW -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <!-- Card 1: Total Shipments-->
-        <div class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-lg shadow-sm p-6">
+        <div class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded- shadow-sm p-6">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-2xl font-bold text-gray-900 dark:text-white">1,448</p>
+                    <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $stats['total'] }}</p>
                     <p class="text-sm text-gray-500 dark:text-gray-400">Total Shipments</p>
                 </div>
                 <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
@@ -35,7 +35,7 @@
                 </span>
             </div>
         </div>
-
+        
         <!-- Card 2 -->
         <div
             class="bg-[#E4EBE7] dark:bg-[#272d3e] rounded-lg shadow-sm border border-gray-200 dark:border-gray-800 p-6 transition-colors duration-200">
