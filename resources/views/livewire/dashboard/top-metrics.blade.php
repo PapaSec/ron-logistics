@@ -28,7 +28,7 @@
         <div class="flex items-center justify-between mb-4">
             <div>
                 <p class="text-2xl font-bold text-gray-900 dark:text-white">
-                    ${{ number_format($stats['monthly_revenue'], 2) }}</p>
+                    R{{ number_format($stats['monthly_revenue'], 2) }}</p>
                 <p class="text-sm text-gray-500 dark:text-gray-400">Monthly Revenue</p>
             </div>
             <div class="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
