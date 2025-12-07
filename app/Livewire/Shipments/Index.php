@@ -22,7 +22,7 @@ class Index extends Component
     #[Url(as: 'priority')]
     public $priorityFilter = 'all';
 
-    public $perPage = 5;
+    public $perPage = 10;
 
     // For delete confirmation
     public $deleteId = null;
