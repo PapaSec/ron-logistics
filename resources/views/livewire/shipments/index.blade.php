@@ -2,56 +2,23 @@
     <!-- Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <!-- Total Items -->
-        <div class="bg-[#E4EBE7] dark:bg-[#1f2431] text-black/50 dark:text-white p-6">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-2xl font-bold">{{ $stats['total'] }}</p>
-                    <p class="text-sm text-gray-400">Total Items</p>
-                </div>
-                <div class="w-12 h-12 bg-blue-100 dark:bg-blue-950/50 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-box text-blue-600 dark:text-blue-400 text-xl"></i>
-                </div>
-            </div>
-        </div>
+        <x-stats-card title="Total Items" :value="$stats['total']" icon="fas fa-box" color="blue"
+            iconBg="bg-blue-400 dark:bg-blue-950/50" iconColor="text-white" showTrend="true" trendText="Last 30 days" />
 
         <!-- Pending -->
-        <div class="bg-[#E4EBE7] dark:bg-[#1f2431] text-black/50 dark:text-white p-6">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-2xl font-bold">{{ $stats['pending'] }}</p>
-                    <p class="text-sm text-gray-400">Pending</p>
-                </div>
-                <div class="w-12 h-12 bg-green-100 dark:bg-green-950/50 rounded-lg flex items-center justify-center">
-                    <i class="fa-solid fa-p text-green-600 dark:text-green-400 text-xl"></i>
-                </div>
-            </div>
-        </div>
+        <x-stats-card title="Pending Shipments" :value="$stats['pending']" icon="fas fa-hourglass-half" color="green"
+            iconBg="bg-green-400 dark:bg-green-950/50" iconColor="text-white" showTrend="true"
+            trendText="Last 30 days" />
 
         <!-- In Transit -->
-        <div class="bg-[#E4EBE7] dark:bg-[#1f2431] text-black/50 dark:text-white p-6">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-2xl font-bold">{{ $stats['in_transit'] }}</p>
-                    <p class="text-sm text-gray-400">In Transit</p>
-                </div>
-                <div class="w-12 h-12 bg-purple-100 dark:bg-purple-950/50 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-shipping-fast  text-purple-600 dark:text-purple-400 text-xl"></i>
-                </div>
-            </div>
-        </div>
+        <x-stats-card title="In Transit" :value="$stats['in_transit']" icon="fas fa-shipping-fast" color="purple"
+            iconBg="bg-purple-400 dark:bg-purple-950/50" iconColor="text-white" showTrend="true"
+            trendText="Last 30 days" />
 
-        <!-- Delivered -->
-        <div class="bg-[#E4EBE7] dark:bg-[#1f2431] text-black/50 dark:text-white p-6">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-2xl font-bold">{{ $stats['delivered'] }}</p>
-                    <p class="text-sm text-gray-400">Delivered</p>
-                </div>
-                <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-950/50 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-truck text-yellow-600 dark:text-yellow-400 text-xl"></i>
-                </div>
-            </div>
-        </div>
+        <x-stats-card title="Delivered" :value="$stats['delivered']" icon="fas fa-truck" color="yellow"
+            iconBg="bg-yellow-400 dark:bg-yellow-950/50" iconColor="text-white" showTrend="true"
+            trendText="Last 30 days" />
+
     </div>
 
     <!-- Header Section -->
@@ -240,10 +207,10 @@
                                 <!-- Priority -->
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <span class="px-3 py-1 text-xs font-medium rounded-full
-                                                                                {{ $shipment->priority === 'express' ? 'bg-purple-100 dark:bg-purple-950/50 text-purple-800 dark:text-purple-300' : '' }}
-                                                                                {{ $shipment->priority === 'standard' ? 'bg-blue-100 dark:bg-blue-950/50 text-blue-800 dark:text-blue-300' : '' }}
-                                                                                {{ $shipment->priority === 'economy' ? 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300' : '' }}
-                                                                            ">
+                                                                                    {{ $shipment->priority === 'express' ? 'bg-purple-100 dark:bg-purple-950/50 text-purple-800 dark:text-purple-300' : '' }}
+                                                                                    {{ $shipment->priority === 'standard' ? 'bg-blue-100 dark:bg-blue-950/50 text-blue-800 dark:text-blue-300' : '' }}
+                                                                                    {{ $shipment->priority === 'economy' ? 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300' : '' }}
+                                                                                ">
                                         {{ ucfirst($shipment->priority) }}
                                     </span>
                                 </td>

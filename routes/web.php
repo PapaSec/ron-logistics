@@ -47,6 +47,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/{shipment}/edit', \App\Livewire\Shipments\Edit::class)->name('edit');
     });
 
+    // Vehicles Management
+    Route::middleware('auth')->prefix('vehicles')->name('vehicles.')->group(function () {
+        Route::get('/', \App\Livewire\Vehicles\Index::class)->name('index');
+        Route::get('/create', \App\Livewire\Vehicles\Create::class)->name('create');
+        Route::get('/{vehicle}', \App\Livewire\Vehicles\Show::class)->name('show');
+        Route::get('/{vehicle}/edit', \App\Livewire\Vehicles\Edit::class)->name('edit');
+    }); 
+
     // Logout
     Route::post('/logout', function () {
         Auth::logout();

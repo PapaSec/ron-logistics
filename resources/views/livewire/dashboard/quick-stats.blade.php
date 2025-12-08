@@ -14,7 +14,7 @@
         </div>
         <div>
             <p class="text-sm text-gray-500 dark:text-gray-400">Revenue Today</p>
-            <p class="text-xl font-bold text-gray-900 dark:text-white">$1,845</p>
+            <p class="text-xl font-bold text-gray-900 dark:text-white">R3,845</p>
         </div>
         <div>
             <p class="text-sm text-gray-500 dark:text-gray-400">Pending Pickups</p>

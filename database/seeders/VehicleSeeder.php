@@ -62,7 +62,7 @@ class VehicleSeeder extends Seeder
         $models = ['Hilux', 'F-150', 'Sprinter', 'Giga', 'FH16', 'R450'];
         $statuses = ['available', 'in_use', 'maintenance', 'out_of_service'];
 
-        for ($i = 4; $i <= 20; $i++) {
+        for ($i = 4; $i <= 30; $i++) {
             Vehicle::create([
                 'vehicle_number' => 'VEH-' . str_pad($i, 4, '0', STR_PAD_LEFT),
                 'type' => $types[array_rand($types)],
