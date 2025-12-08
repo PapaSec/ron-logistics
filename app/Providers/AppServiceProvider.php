@@ -22,5 +22,6 @@ class AppServiceProvider extends ServiceProvider
     {
         // Prevent N+1 query issues during development
         Model::preventLazyLoading(!app()->isProduction());
+        
     }
 }
