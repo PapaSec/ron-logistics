@@ -207,10 +207,10 @@
                                 <!-- Priority -->
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <span class="px-3 py-1 text-xs font-medium rounded-full
-                                                                                    {{ $shipment->priority === 'express' ? 'bg-purple-100 dark:bg-purple-950/50 text-purple-800 dark:text-purple-300' : '' }}
-                                                                                    {{ $shipment->priority === 'standard' ? 'bg-blue-100 dark:bg-blue-950/50 text-blue-800 dark:text-blue-300' : '' }}
-                                                                                    {{ $shipment->priority === 'economy' ? 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300' : '' }}
-                                                                                ">
+                                                                                        {{ $shipment->priority === 'express' ? 'bg-purple-100 dark:bg-purple-950/50 text-purple-800 dark:text-purple-300' : '' }}
+                                                                                        {{ $shipment->priority === 'standard' ? 'bg-blue-100 dark:bg-blue-950/50 text-blue-800 dark:text-blue-300' : '' }}
+                                                                                        {{ $shipment->priority === 'economy' ? 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300' : '' }}
+                                                                                    ">
                                         {{ ucfirst($shipment->priority) }}
                                     </span>
                                 </td>
