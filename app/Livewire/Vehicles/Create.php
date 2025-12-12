@@ -43,23 +43,7 @@ class Create extends Component
         'next_maintenance.after' => 'Next maintenance date must be after last maintenance date',
     ];
 
-    // RESET FORM METHOD
-    public function resetForm()
-    {
-        $this->reset([
-            'vehicle_number',
-            'type',
-            'make',
-            'model',
-            'year',
-            'license_plate',
-            'capacity',
-            'status',
-            'last_maintenance',
-            'next_maintenance',
-            'notes',
-        ]);
-    }
+    
 
     public function render()
     {
