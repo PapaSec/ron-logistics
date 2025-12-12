@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 #[Title('Create Shipment - Ron Logistics')]
 class Create extends Component
 {
-    // FORM PROPERTIES (all your form fields)
+    // FORM PROPERTIES
     public $tracking_number;
     public $sender_name = '';
     public $sender_phone = '';
