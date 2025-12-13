@@ -40,8 +40,8 @@ class Edit extends Component
     // Mount -  load vehicle data 
     public function mount(Vehicle $vehicle)
     {
-         $this->vehicle = $vehicle;
-        
+        $this->vehicle = $vehicle;
+
         // Populate form fields
         $this->vehicle_number = $vehicle->vehicle_number;
         $this->type = $vehicle->type;
@@ -56,8 +56,51 @@ class Edit extends Component
         $this->next_maintenance = $vehicle->next_maintenance?->format('Y-m-d');
     }
 
+    // Validation rules
+    protected function rules()
+    {
+        return [
+            'vehicle_number' => 'required|string|max:255|unique:vehicles,vehicle_number,' . $this->vehicle->id,
+            'type' => 'required|string|max:255',
+            'make' => 'nullable|string|max:255',
+            'model' => 'nullable|string|max:255',
+            'year' => 'nullable|integer|min:1900|max:2100',
+            'license_plate' => 'required|string|max:255|unique:vehicles,license_plate,' . $this->vehicle->id,
+            'capacity' => 'nullable|numeric|min:0',
+            'status' => 'required|in:available,in_use,maintenance,out_of_service',
+            'notes' => 'nullable|string',
+            'last_maintenance' => 'nullable|date',
+            'next_maintenance' => 'nullable|date|after_or_equal:last_maintenance',
+        ];
+    }
+
+    // Update vehicle
+    public function update()
+    {
+        $validated = $this->validate();
+
+        try {
+            // Update vehicle
+            $this->vehicle->update($validated);
+
+            session()->flash('success', "Vehicle {$this->vehicle->vehicle_number} updated successfully!");
+
+            return $this->redirect(route('vehicles.index'), navigate: true);
+        } catch (\Exception $e) {
+            session()->flash('error', 'Failed to update vehicle. Please try again.');
+        }
+    }
+
+    // Cancel and go back
+    public function cancel()
+    {
+        return $this->redirect(route('vehicles.index'), navigate: true);
+    }
+
     public function render()
     {
-        return view('livewire.vehicles.edit');
+        return view('livewire.vehicles.edit', [
+            'vehicleTypes' => $this->vehicleTypes,
+        ]);
     }
 }
