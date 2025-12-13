@@ -4,7 +4,10 @@ namespace App\Livewire\Vehicles;
 
 use App\Models\Vehicle;
 use Livewire\Component;
+use Livewire\Attributes\{Layout, Title};
 
+#[Layout('layouts.app')]
+#[Title('Edit Vehicle - Ron Logistics')]
 class Edit extends Component
 {
     public Vehicle $vehicle;
@@ -37,11 +40,11 @@ class Edit extends Component
         ];
     }
 
-    // Mount -  load vehicle data 
+    // Mount - Load vehicle data
     public function mount(Vehicle $vehicle)
     {
         $this->vehicle = $vehicle;
-
+        
         // Populate form fields
         $this->vehicle_number = $vehicle->vehicle_number;
         $this->type = $vehicle->type;
