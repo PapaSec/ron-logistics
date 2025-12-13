@@ -144,7 +144,13 @@
                 <i class="fas fa-shipping-fast text-purple-500 text-2xl mb-3"></i>
                 <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Active Shipments</p>
                 <p class="text-lg font-semibold text-gray-900 dark:text-white mt-1">
-                    {{ $vehicle->shipments()->whereIn('status', ['pending', 'in_transit'])->count() }}
+                    @php
+                        try {
+                            echo $vehicle->shipments()->whereIn('status', ['pending', 'in_transit'])->count();
+                        } catch (\Exception $e) {
+                            echo 0;
+                        }
+                    @endphp
                 </p>
             </div>
             
@@ -152,7 +158,13 @@
                 <i class="fas fa-box text-orange-500 text-2xl mb-3"></i>
                 <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Shipments</p>
                 <p class="text-lg font-semibold text-gray-900 dark:text-white mt-1">
-                    {{ $vehicle->shipments()->count() }}
+                    @php
+                        try {
+                            echo $vehicle->shipments()->count();
+                        } catch (\Exception $e) {
+                            echo 0;
+                        }
+                    @endphp
                 </p>
             </div>
         </div>

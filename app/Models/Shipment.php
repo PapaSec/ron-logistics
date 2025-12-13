@@ -28,6 +28,7 @@ class Shipment extends Model
         'status',
         'priority',
         'pickup_date',
+        'vehicle_id',
         'estimated_delivery_date',
     ];
 
