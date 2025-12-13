@@ -48,6 +48,12 @@ class Vehicle extends Model
         return $this->status === 'available';
     }
 
+    // Relationship to Driver
+    public function driver()
+    {
+        return $this->belongsTo(Driver::class);
+    }
+
     // Days until next maintenance
     public function getDaysUntilMaintenanceAttribute(): ?int
     {

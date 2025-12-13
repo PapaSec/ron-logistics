@@ -40,8 +40,14 @@ class Shipment extends Model
      */
     protected $casts = [
         'pickup_date' => 'date',
-        'estimated_delivery_date' => 'date', 
+        'estimated_delivery_date' => 'date',
     ];
+
+    // Relationships Vehicles
+    public function vehicle()
+    {
+        return $this->belongsTo(Vehicle::class);
+    }
 
     /**
      * Get the user that owns the shipment.
