@@ -84,9 +84,61 @@ class Edit extends Component
         $this->next_medical_checkup = $driver->next_medical_checkup?->format('Y-m-d');
     }
 
+    // Validation Rules
+    protected function rules()
+    {
+        return [
+            'driver_number' => 'required|string|max:255|unique:drivers,driver_number',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'nullable|email|unique:drivers,email',
+            'phone' => 'required|string|max:255',
+            'phone_alt' => 'nullable|string|max:255',
+            'license_number' => 'required|string|max:255|unique:drivers,license_number',
+            'license_type' => 'required|in:Class A,Class B,Class C,Commercial',
+            'license_expiry' => 'required|date|after:today',
+            'hire_date' => 'nullable|date',
+            'employment_type' => 'required|in:full_time,part_time,contract',
+            'status' => 'required|in:active,inactive,on_leave,suspended',
+            'address' => 'nullable|string',
+            'city' => 'nullable|string|max:255',
+            'state' => 'nullable|string|max:255',
+            'postal_code' => 'nullable|string|max:255',
+            'emergency_contact_name' => 'nullable|string|max:255',
+            'emergency_contact_phone' => 'nullable|string|max:255',
+            'emergency_contact_relationship' => 'nullable|string|max:255',
+            'notes' => 'nullable|string',
+            'last_medical_checkup' => 'nullable|date',
+            'next_medical_checkup' => 'nullable|date|after_or_equal:last_medical_checkup',
+        ];
+    }
+
+    // Update Driver
+    public function update()
+    {
+        $validated = $this->validates();
+
+        try {
+            $this->driver->update($validated);
+
+            session()->flash('success', "Driver {$this->driver->full_name} updated successfully");
+
+            return $this->redirect(route('driver.index'), true);
+        } catch (\Exception $e) {
+            session()->flash('error', 'Failed to update driver. Please try again.');
+        }
+    }
+
+    // Cancel
+    public function cancel()
+    {
+        return $this->redirect(route('drivers.index'), true);
+    }
 
     public function render()
     {
-        return view('livewire.drivers.edit');
+        return view('livewire.drivers.edit', [
+            'licenseTypes' => $this->licenseTypes,
+        ]);
     }
 }
