@@ -8,7 +8,6 @@ use Livewire\Attributes\{Layout, Title};
 
 #[Layout('layouts.app')]
 #[Title('Add New Driver - Ron Logistics')]
-
 class Create extends Component
 {
     // Basic Information
@@ -18,52 +17,52 @@ class Create extends Component
     public $email = '';
     public $phone = '';
     public $phone_alt = '';
-
-    // License Details
+    
+    // License Information
     public $license_number = '';
     public $license_type = 'Code 10';
     public $license_expiry = '';
-
+    
     // Employment Details
     public $hire_date = '';
     public $employment_type = 'full_time';
     public $status = 'active';
-
-    // Address Information
+    
+    // Address
     public $address = '';
     public $city = '';
     public $state = '';
     public $postal_code = '';
-
+    
     // Emergency Contact
     public $emergency_contact_name = '';
     public $emergency_contact_phone = '';
     public $emergency_contact_relationship = '';
-
-    // Additional Notes
+    
+    // Additional
     public $notes = '';
     public $last_medical_checkup = '';
     public $next_medical_checkup = '';
 
-    // License Types
+    // License types
     public function getLicenseTypesProperty()
     {
         return [
-            'Code 08' =>  'Code 08',
-            'Code 10' =>  'Code 10',
-            'Code 14' =>  'Code 14',
-            'Forklift'=>  'Forklift',
+            'Code 08' => 'Code 08',
+            'Code 10' => 'Code 10',
+            'Code 14' => 'Code 14',
+            'Forklift' => 'Forklift',
         ];
     }
 
-    // Generate next Driver Number
+    // Generate next driver number
     public function generateDriverNumber()
     {
         $lastDriver = Driver::latest('id')->first();
-
+        
         if (!$lastDriver) {
             $this->driver_number = 'DRV-001';
-        }else {
+        } else {
             preg_match('/(\d+)$/', $lastDriver->driver_number, $matches);
             $lastNumber = isset($matches[1]) ? intval($matches[1]) : 0;
             $newNumber = $lastNumber + 1;
@@ -77,7 +76,7 @@ class Create extends Component
         $this->generateDriverNumber();
     }
 
-    // Validation Rules
+    // Validation rules
     protected function rules()
     {
         return [
@@ -88,7 +87,7 @@ class Create extends Component
             'phone' => 'required|string|max:255',
             'phone_alt' => 'nullable|string|max:255',
             'license_number' => 'required|string|max:255|unique:drivers,license_number',
-            'license_type' => 'required|in:Class A,Class B,Class C,Commercial',
+            'license_type' => 'required|in:Code 08,Code 10,Code 14,Forklift',
             'license_expiry' => 'required|date|after:today',
             'hire_date' => 'nullable|date',
             'employment_type' => 'required|in:full_time,part_time,contract',
@@ -106,7 +105,7 @@ class Create extends Component
         ];
     }
 
-    // Save Driver
+    // Save driver
     public function save()
     {
         $validated = $this->validate();
@@ -116,16 +115,16 @@ class Create extends Component
 
             session()->flash('success', "Driver {$driver->full_name} created successfully!");
 
-            return $this->redirect(route('drivers.show', $driver->id), true);
+            return $this->redirect(route('drivers.show', $driver->id), navigate: true);
         } catch (\Exception $e) {
             session()->flash('error', 'Failed to create driver. Please try again.');
         }
     }
 
-    // Cancel and go back
+    // Cancel
     public function cancel()
     {
-        return $this->redirect(route('drivers.index'), true);
+        return $this->redirect(route('drivers.index'), navigate: true);
     }
 
     public function render()

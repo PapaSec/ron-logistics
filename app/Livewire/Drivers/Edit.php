@@ -50,10 +50,10 @@ class Edit extends Component
     public function getLicenseTypesProperty()
     {
         return [
-            'Class A' => 'Class A',
-            'Class B' => 'Class B',
-            'Class C' => 'Class C',
-            'Commercial' => 'Commercial',
+            'Code 08' => 'Code 08',
+            'Code 10' => 'Code 10',
+            'Code 14' => 'Code 14',
+            'Forklift' => 'Forklift',
         ];
     }
 
@@ -98,7 +98,7 @@ class Edit extends Component
             'phone' => 'required|string|max:255',
             'phone_alt' => 'nullable|string|max:255',
             'license_number' => 'required|string|max:255|unique:drivers,license_number,' . $this->driver->id,
-            'license_type' => 'required|in:Class A,Class B,Class C,Commercial',
+            'license_type' => 'required|in:Code 08,Code 10,Code 14,Forklift',
             'license_expiry' => 'required|date',
             'hire_date' => 'nullable|date',
             'employment_type' => 'required|in:full_time,part_time,contract',
