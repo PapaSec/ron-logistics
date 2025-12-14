@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\{Auth, Route};
 use App\Livewire\Auth\{Login, Register};
 use App\Livewire\Dashboard\Index as DashboardIndex;
 use App\Livewire\Shipments\{Create as ShipmentsCreate, Edit as ShipmentsEdit, Index as ShipmentsIndex, Show as ShipmentsShow};
+use App\Livewire\Drivers\{Create as DriversCreate, Edit as DriversEdit, Index as DriversIndex, Show as DriversShow};
 use App\Livewire\Vehicles\{Create as VehiclesCreate, Edit as VehiclesEdit, Index as VehiclesIndex, Show as VehiclesShow};
 
 /*
@@ -44,6 +45,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/{shipment}/edit', ShipmentsEdit::class)->name('edit');
     });
 
+    // Drivers Management
+    Route::prefix('drivers')->name('drivers.')->group(function () {
+        Route::get('/', DriversIndex::class)->name('index');
+        Route::get('/create', DriversCreate::class)->name('create');
+        Route::get('/{driver}', DriversShow::class)->name('show');
+        Route::get('/{driver}/edit', DriversEdit::class)->name('edit');
+    });
     // Vehicles Management
     Route::prefix('vehicles')->name('vehicles.')->group(function () {
         Route::get('/', VehiclesIndex::class)->name('index');
