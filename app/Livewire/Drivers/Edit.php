@@ -7,10 +7,11 @@ use Livewire\Component;
 use Livewire\Attributes\{Layout, Title};
 
 #[Layout('layouts.app')]
-#[Title('Add New Driver - Ron Logistics')]
-
+#[Title('Edit Driver - Ron Logistics')]
 class Edit extends Component
 {
+    public Driver $driver;
+
     // Basic Information
     public $driver_number = '';
     public $first_name = '';
@@ -18,47 +19,49 @@ class Edit extends Component
     public $email = '';
     public $phone = '';
     public $phone_alt = '';
-
-    // License Details
+    
+    // License Information
     public $license_number = '';
-    public $license_type = 'Code 10';
+    public $license_type = '';
     public $license_expiry = '';
-
+    
     // Employment Details
     public $hire_date = '';
-    public $employment_type = 'full_time';
-    public $status = 'active';
-
-    // Address Information
+    public $employment_type = '';
+    public $status = '';
+    
+    // Address
     public $address = '';
     public $city = '';
     public $state = '';
     public $postal_code = '';
-
+    
     // Emergency Contact
     public $emergency_contact_name = '';
     public $emergency_contact_phone = '';
     public $emergency_contact_relationship = '';
-
-    // Additional Notes
+    
+    // Additional
     public $notes = '';
     public $last_medical_checkup = '';
     public $next_medical_checkup = '';
 
-    // License Types
+    // License types
     public function getLicenseTypesProperty()
     {
         return [
-            'Code 08' =>  'Code 08',
-            'Code 10' =>  'Code 10',
-            'Code 14' =>  'Code 14',
-            'Forklift' =>  'Forklift',
+            'Class A' => 'Class A',
+            'Class B' => 'Class B',
+            'Class C' => 'Class C',
+            'Commercial' => 'Commercial',
         ];
     }
 
     // Mount - Load driver data
     public function mount(Driver $driver)
     {
+        $this->driver = $driver;
+        
         // Populate form fields
         $this->driver_number = $driver->driver_number;
         $this->first_name = $driver->first_name;
@@ -84,19 +87,19 @@ class Edit extends Component
         $this->next_medical_checkup = $driver->next_medical_checkup?->format('Y-m-d');
     }
 
-    // Validation Rules
+    // Validation rules
     protected function rules()
     {
         return [
-            'driver_number' => 'required|string|max:255|unique:drivers,driver_number',
+            'driver_number' => 'required|string|max:255|unique:drivers,driver_number,' . $this->driver->id,
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'nullable|email|unique:drivers,email',
+            'email' => 'nullable|email|unique:drivers,email,' . $this->driver->id,
             'phone' => 'required|string|max:255',
             'phone_alt' => 'nullable|string|max:255',
-            'license_number' => 'required|string|max:255|unique:drivers,license_number',
+            'license_number' => 'required|string|max:255|unique:drivers,license_number,' . $this->driver->id,
             'license_type' => 'required|in:Class A,Class B,Class C,Commercial',
-            'license_expiry' => 'required|date|after:today',
+            'license_expiry' => 'required|date',
             'hire_date' => 'nullable|date',
             'employment_type' => 'required|in:full_time,part_time,contract',
             'status' => 'required|in:active,inactive,on_leave,suspended',
@@ -113,17 +116,17 @@ class Edit extends Component
         ];
     }
 
-    // Update Driver
+    // Update driver
     public function update()
     {
-        $validated = $this->validates();
+        $validated = $this->validate();
 
         try {
             $this->driver->update($validated);
 
-            session()->flash('success', "Driver {$this->driver->full_name} updated successfully");
+            session()->flash('success', "Driver {$this->driver->full_name} updated successfully!");
 
-            return $this->redirect(route('driver.index'), true);
+            return $this->redirect(route('drivers.index'), navigate: true);
         } catch (\Exception $e) {
             session()->flash('error', 'Failed to update driver. Please try again.');
         }
@@ -132,7 +135,7 @@ class Edit extends Component
     // Cancel
     public function cancel()
     {
-        return $this->redirect(route('drivers.index'), true);
+        return $this->redirect(route('drivers.index'), navigate: true);
     }
 
     public function render()
