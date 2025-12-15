@@ -15,7 +15,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $this->call([
+           // UsersSeeder::class,        // First create users (for created_by)
+            DriverSeeder::class,       // Then drivers
+            VehicleSeeder::class,      // Then vehicles (needs drivers)
+            FuelMaintenanceSeeder::class, // Then fuel & maintenance (needs vehicles & drivers)
+            // ... other seeders
+        ]);
 
         User::factory()->create([
             'name' => 'Test User',

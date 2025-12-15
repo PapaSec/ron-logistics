@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\{Auth, Route};
+use App\Livewire\FuelMaintenance\{Index as FuelMaintenanceIndex, ShowFuel, ShowMaintenance};
 use App\Livewire\Auth\{Login, Register};
 use App\Livewire\Dashboard\Index as DashboardIndex;
 use App\Livewire\DriverAssignments\Index as DriverAssignmentsIndex;
@@ -64,6 +65,13 @@ Route::middleware('auth')->group(function () {
 
     // Driver Assignment
     Route::get('/driver-assignments', DriverAssignmentsIndex::class)->name('driver-assignments.index');
+
+    // Fuel & Maintenance Management
+    Route::prefix('fuel-maintenance')->name('fuel-maintenance.')->group(function () {
+    Route::get('/', FuelMaintenanceIndex::class)->name('index');
+    Route::get('/fuel/{fuelRecord}', ShowFuel::class)->name('show-fuel');
+    Route::get('/maintenance/{maintenanceRecord}', ShowMaintenance::class)->name('show-maintenance');
+});
 
     // Logout
     Route::post('/logout', function () {

@@ -38,7 +38,8 @@ class Vehicle extends Model
     // Helper methods 
     public function needsMaintenance(): bool
     {
-        if (!$this->next_maintenance) return false;
+        if (!$this->next_maintenance)
+            return false;
         return $this->next_maintenance <= now();
     }
 
@@ -54,10 +55,51 @@ class Vehicle extends Model
         return $this->belongsTo(Driver::class);
     }
 
+    // Relationship to FuelRecords
+    public function fuelRecords()
+    {
+        return $this->hasMany(FuelRecord::class);
+    }
+
+    // Relationship to MaintenanceRecords
+    public function maintenananceRecords()
+    {
+        return $this->hasMany(MaintenanceRecord::class);
+    }
+
+    // Helper methods
+    public function getTotalFuelCostAttribute(): float
+    {
+        return $this->fuelRecords()->sum('total_cost');
+    }
+
+    public function getTotalMaintenanceCostAttribute(): float
+    {
+        return $this->maintenanceRecords()->sum('total_cost');
+    }
+
+    public function getAverageFuelEfficiencyAttribute(): ?float
+    {
+        $records = $this->fuelRecords()
+            ->whereNotNull('distance_traveled')
+            ->where('quantity', '>', 0)
+            ->get();
+
+        if ($records->isEmpty())
+            return null;
+
+        $totalDistance = $records->sum('distance_traveled');
+        $totalFuel = $records->sum('quantity');
+
+        return $totalFuel > 0 ? round($totalDistance / $totalFuel, 2) : null;
+    }
+
+
     // Days until next maintenance
     public function getDaysUntilMaintenanceAttribute(): ?int
     {
-        if (!$this->next_maintenance) return null;
+        if (!$this->next_maintenance)
+            return null;
         return now()->diffInDays($this->next_maintenance, false);
     }
 }
