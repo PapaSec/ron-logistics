@@ -55,10 +55,10 @@
             <p class="text-gray-600 dark:text-gray-400">Track fuel consumption and maintenance records for your fleet</p>
         </div>
         <div class="flex gap-3">
-            <x-button href="#" icon="fas fa-plus-circle">
+            <x-button href="{{ route('fuel-maintenance.create-fuel') }}" icon="fas fa-plus-circle">
                 Add Fuel Record
             </x-button>
-            <x-button href="#" icon="fas fa-plus-circle">
+            <x-button href="{{ route('fuel-maintenance.create-maintenance') }}" icon="fas fa-plus-circle">
                 Add Maintenance
             </x-button>
         </div>
@@ -253,7 +253,7 @@
                                            title="View">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <a href="#" 
+                                        <a href="{{ route('fuel-maintenance.edit-fuel', $record->id) }}" 
                                            class="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300"
                                            title="Edit">
                                             <i class="fas fa-edit"></i>
@@ -394,7 +394,7 @@
                                            title="View">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <a href="#" 
+                                        <a href="{{ route('fuel-maintenance.edit-maintenance', $record->id) }}" 
                                            class="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300"
                                            title="Edit">
                                             <i class="fas fa-edit"></i>
@@ -422,5 +422,14 @@
             @endif
         </div>
     </div>
+    
+    <!-- Scrollbar Styles -->
+    <style>
+        .table-scrollbar::-webkit-scrollbar { height: 6px; }
+        .table-scrollbar::-webkit-scrollbar-track { background: transparent; border-radius: 10px; margin: 0 10px; }
+        .table-scrollbar::-webkit-scrollbar-thumb { background: #023543; border-radius: 10px; }
+        .table-scrollbar::-webkit-scrollbar-thumb:hover { background: #138898; }
+        .dark .table-scrollbar::-webkit-scrollbar-thumb { background: #138898; }
+        .table-scrollbar { scrollbar-width: thin; scrollbar-color: #138898 transparent; }
+    </style>
 </div>
-

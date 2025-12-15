@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\{Auth, Route};
-use App\Livewire\FuelMaintenance\{Index as FuelMaintenanceIndex, ShowFuel, ShowMaintenance};
+use App\Livewire\FuelMaintenance\{CreateFuel, CreateMaintenance, EditFuel, EditMaintenance, Index as FuelMaintenanceIndex, ShowFuel, ShowMaintenance};
 use App\Livewire\Auth\{Login, Register};
 use App\Livewire\Dashboard\Index as DashboardIndex;
 use App\Livewire\DriverAssignments\Index as DriverAssignmentsIndex;
@@ -68,10 +68,18 @@ Route::middleware('auth')->group(function () {
 
     // Fuel & Maintenance Management
     Route::prefix('fuel-maintenance')->name('fuel-maintenance.')->group(function () {
-    Route::get('/', FuelMaintenanceIndex::class)->name('index');
-    Route::get('/fuel/{fuelRecord}', ShowFuel::class)->name('show-fuel');
-    Route::get('/maintenance/{maintenanceRecord}', ShowMaintenance::class)->name('show-maintenance');
-});
+        Route::get('/', FuelMaintenanceIndex::class)->name('index');
+
+        // Fuel routes
+        Route::get('/fuel/create', CreateFuel::class)->name('create-fuel');
+        Route::get('/fuel/{fuelRecord}', ShowFuel::class)->name('show-fuel');
+        Route::get('/fuel/{fuelRecord}/edit', EditFuel::class)->name('edit-fuel');
+
+        // Maintenance routes
+        Route::get('/maintenance/create', CreateMaintenance::class)->name('create-maintenance');
+        Route::get('/maintenance/{maintenanceRecord}', ShowMaintenance::class)->name('show-maintenance');
+        Route::get('/maintenance/{maintenanceRecord}/edit', EditMaintenance::class)->name('edit-maintenance');
+    });
 
     // Logout
     Route::post('/logout', function () {
