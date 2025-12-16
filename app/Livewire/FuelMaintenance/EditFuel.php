@@ -3,6 +3,7 @@
 namespace App\Livewire\FuelMaintenance;
 
 use App\Models\{Driver, FuelRecord, Vehicle};
+use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\Attributes\{Layout, Title};
 
@@ -69,7 +70,7 @@ class EditFuel extends Component
         // Populate form
         $this->vehicle_id = $fuelRecord->vehicle_id;
         $this->driver_id = $fuelRecord->driver_id;
-        $this->date = $fuelRecord->date->format('Y-m-d');
+        $this->date = Carbon::parse($fuelRecord->date)->format('Y-m-d');
         $this->quantity = $fuelRecord->quantity;
         $this->price_per_liter = $fuelRecord->price_per_liter;
         $this->total_cost = $fuelRecord->total_cost;

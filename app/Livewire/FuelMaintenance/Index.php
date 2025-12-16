@@ -14,7 +14,7 @@ class Index extends Component
     use WithPagination;
 
     // Active Tab
-    public $activeTab = ''; // Fuel or Maintenance
+    public $activeTab = 'fuel'; // Fuel or Maintenance
 
     // Filters
     #[Url(as: 's')]

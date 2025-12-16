@@ -2,7 +2,11 @@
 
 namespace App\Livewire\FuelMaintenance;
 
+use App\Models\{MaintenanceRecord, Vehicle};
+use Carbon\Carbon;
 use Livewire\Component;
+use Livewire\Attributes\{Layout, Title};
+
 #[Layout('layouts.app')]
 #[Title('Edit Maintenance Record - Ron Logistics')]
 class EditMaintenance extends Component
@@ -14,14 +18,12 @@ class EditMaintenance extends Component
     public $description, $odometer_reading, $parts_cost, $labor_cost, $total_cost;
     public $status, $next_service_date, $next_service_odometer, $invoice_number, $notes;
 
-    // Same getters as CreateMaintenance...
-    
     public function mount(MaintenanceRecord $maintenanceRecord)
     {
         $this->maintenanceRecord = $maintenanceRecord;
         $this->vehicle_id = $maintenanceRecord->vehicle_id;
         $this->maintenance_number = $maintenanceRecord->maintenance_number;
-        $this->date = $maintenanceRecord->date->format('Y-m-d');
+        $this->date = Carbon::parse($maintenanceRecord->date)->format('Y-m-d');
         $this->type = $maintenanceRecord->type;
         $this->service_provider = $maintenanceRecord->service_provider;
         $this->description = $maintenanceRecord->description;
@@ -30,10 +32,34 @@ class EditMaintenance extends Component
         $this->labor_cost = $maintenanceRecord->labor_cost;
         $this->total_cost = $maintenanceRecord->total_cost;
         $this->status = $maintenanceRecord->status;
-        $this->next_service_date = $maintenanceRecord->next_service_date?->format('Y-m-d');
+        $this->next_service_date = $maintenanceRecord->next_service_date instanceof Carbon ? $maintenanceRecord->next_service_date->format('Y-m-d') : null;
         $this->next_service_odometer = $maintenanceRecord->next_service_odometer;
         $this->invoice_number = $maintenanceRecord->invoice_number;
         $this->notes = $maintenanceRecord->notes;
+    }
+
+    // Copy same getters from CreateMaintenance...
+    public function getMaintenanceTypesProperty()
+    {
+        return [
+            'routine' => 'Routine',
+            'repair' => 'Repair',
+            'inspection' => 'Inspection',
+            'tire_change' => 'Tire Change',
+            'oil_change' => 'Oil Change',
+            'brake_service' => 'Brake Service',
+            'other' => 'Other',
+        ];
+    }
+
+    public function getStatusOptionsProperty()
+    {
+        return [
+            'scheduled' => 'Scheduled',
+            'in_progress' => 'In Progress',
+            'completed' => 'Completed',
+            'cancelled' => 'Cancelled',
+        ];
     }
 
     public function updated($propertyName)
@@ -92,6 +118,4 @@ class EditMaintenance extends Component
             'statusOptions' => $this->getStatusOptionsProperty(),
         ]);
     }
-    
-    // Copy same getters from CreateMaintenance...
 }
