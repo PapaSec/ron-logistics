@@ -43,9 +43,8 @@
                 <i class="fas fa-list-ul w-5"></i> <span class="font-medium">All Shipments</span>
             </a>
 
-            <a href="{{ route('shipments.tracking') }}"
-                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all
-                    {{ request()->routeIs('shipments.tracking') ? 'bg-[#138898] dark:bg-[#138898] text-white dark:text-white' : '' }}">
+            <a href="#"
+                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
                 <i class="fas fa-route w-5"></i> <span class="font-medium">Track Shipment</span>
             </a>
 
