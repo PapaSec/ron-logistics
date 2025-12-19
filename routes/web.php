@@ -1,11 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\{Auth, Route};
+use App\Livewire\Shipments\{Create as ShipmentsCreate, Edit as ShipmentsEdit, Index as ShipmentsIndex, Show as ShipmentsShow, TrackShipment, TrackingShipment};
 use App\Livewire\FuelMaintenance\{CreateFuel, CreateMaintenance, EditFuel, EditMaintenance, Index as FuelMaintenanceIndex, ShowFuel, ShowMaintenance};
 use App\Livewire\Auth\{Login, Register};
 use App\Livewire\Dashboard\Index as DashboardIndex;
 use App\Livewire\DriverAssignments\Index as DriverAssignmentsIndex;
-use App\Livewire\Shipments\{Create as ShipmentsCreate, Edit as ShipmentsEdit, Index as ShipmentsIndex, Show as ShipmentsShow};
 use App\Livewire\Drivers\{Create as DriversCreate, Edit as DriversEdit, Index as DriversIndex, Show as DriversShow};
 use App\Livewire\Vehicles\{Create as VehiclesCreate, Edit as VehiclesEdit, Index as VehiclesIndex, Show as VehiclesShow};
 
@@ -18,6 +18,8 @@ use App\Livewire\Vehicles\{Create as VehiclesCreate, Edit as VehiclesEdit, Index
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
+
+Route::get('/track/{tracking?}', TrackShipment::class)->name('track.shipment');
 
 /*
 |--------------------------------------------------------------------------
