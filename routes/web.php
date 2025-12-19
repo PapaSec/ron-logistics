@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\{Auth, Route};
-use App\Livewire\Shipments\{Create as ShipmentsCreate, Edit as ShipmentsEdit, Index as ShipmentsIndex, Show as ShipmentsShow, TrackShipment, TrackingShipment};
+use App\Livewire\Shipments\{Create as ShipmentsCreate, Edit as ShipmentsEdit, Index as ShipmentsIndex, Show as ShipmentsShow, TrackShipment};
 use App\Livewire\FuelMaintenance\{CreateFuel, CreateMaintenance, EditFuel, EditMaintenance, Index as FuelMaintenanceIndex, ShowFuel, ShowMaintenance};
 use App\Livewire\Auth\{Login, Register};
 use App\Livewire\Dashboard\Index as DashboardIndex;
@@ -18,8 +18,6 @@ use App\Livewire\Vehicles\{Create as VehiclesCreate, Edit as VehiclesEdit, Index
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
-
-Route::get('/track/{tracking?}', TrackShipment::class)->name('track.shipment');
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +45,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/create', ShipmentsCreate::class)->name('create');
         Route::get('/{shipment}', ShipmentsShow::class)->name('show');
         Route::get('/{shipment}/edit', ShipmentsEdit::class)->name('edit');
+        Route::get('/track/{tracking?}', TrackShipment::class)->name('track');
+
     });
 
     // Drivers Management

@@ -6,7 +6,7 @@ use App\Models\Shipment;
 use Livewire\Component;
 use Livewire\Attributes\{Layout, Title};
 
-#[Layout('layouts.guest')]
+#[Layout('layouts.app')]
 #[Title('Track Shipment - Ron Logistics')]
 class TrackShipment extends Component
 {
