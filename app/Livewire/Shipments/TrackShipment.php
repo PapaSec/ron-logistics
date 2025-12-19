@@ -10,12 +10,10 @@ use Livewire\Attributes\{Layout, Title};
 #[Title('Track Shipment - Ron Logistics')]
 class TrackShipment extends Component
 {
-    // Public Properties
     public $trackingNumber = '';
     public $shipment = null;
     public $notFound = false;
 
-    // Mount
     public function mount($tracking = null)
     {
         if ($tracking) {
@@ -24,22 +22,22 @@ class TrackShipment extends Component
         }
     }
 
-    public function track() 
+    public function track()
     {
         $this->notFound = false;
         $this->shipment = null;
 
         $this->validate([
-            'tracking_number', $this->trackingNumber,
+            'trackingNumber' => 'required|string',
         ]);
 
         $shipment = Shipment::with(['vehicle', 'user'])
-        ->where('tracking_number', $this->trackingNumber)
-        ->first();
+            ->where('tracking_number', $this->trackingNumber)
+            ->first();
 
         if ($shipment) {
             $this->shipment = $shipment;
-
+            
             // Update URL without page reload
             $this->dispatch('track-found', tracking: $this->trackingNumber);
         } else {
@@ -47,7 +45,6 @@ class TrackShipment extends Component
         }
     }
 
-    // Reset Search 
     public function resetSearch()
     {
         $this->reset(['trackingNumber', 'shipment', 'notFound']);
@@ -62,6 +59,20 @@ class TrackShipment extends Component
     }
 
     // Get progress percentage based on status
+    public function getProgressPercentage()
+    {
+        if (!$this->shipment) return 0;
+
+        return match($this->shipment->status) {
+            'pending' => 25,
+            'in_transit' => 65,
+            'delivered' => 100,
+            'cancelled' => 0,
+            default => 0
+        };
+    }
+
+    // Get status color
     public function getStatusColor()
     {
         if (!$this->shipment) return 'gray';
@@ -69,10 +80,17 @@ class TrackShipment extends Component
         return match($this->shipment->status) {
             'pending' => 'blue',
             'in_transit' => 'yellow',
+            'delivered' => 'green',
+            'cancelled' => 'red',
+            default => 'gray'
         };
     }
+
     public function render()
     {
-        return view('livewire.shipments.track-shipment');
+        return view('livewire.shipments.track-shipment', [
+            'progress' => $this->getProgressPercentage(),
+            'statusColor' => $this->getStatusColor(),
+        ]);
     }
 }
