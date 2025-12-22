@@ -67,6 +67,12 @@ class Vehicle extends Model
         return $this->hasMany(MaintenanceRecord::class);
     }
 
+    // Relationship to VehicleLocations
+    public function locations()
+{
+    return $this->hasMany(VehicleLocation::class);
+}
+
     // Helper methods
     public function getTotalFuelCostAttribute(): float
     {

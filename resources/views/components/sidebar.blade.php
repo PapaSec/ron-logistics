@@ -28,8 +28,9 @@
                 <span class="font-medium">Fleet Status</span>
             </a>
 
-            <a href="#"
-                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all">
+            <a href="{{ route('live-map') }}"
+                class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all
+                    {{ request()->routeIs('live-map') ? 'bg-[#138898] dark:bg-[#138898] text-white dark:text-white' : '' }}">
                 <i class="fas fa-map-marker-alt w-5"></i> <span class="font-medium">Live Map</span>
             </a>
 

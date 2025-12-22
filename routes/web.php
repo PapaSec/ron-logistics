@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\{Auth, Route};
+use App\Livewire\Dashboard\{Index as DashboardIndex, LiveMap};
 use App\Livewire\Shipments\{Create as ShipmentsCreate, Edit as ShipmentsEdit, Index as ShipmentsIndex, Show as ShipmentsShow, TrackShipment as TrackShipment};
 use App\Livewire\FuelMaintenance\{CreateFuel, CreateMaintenance, EditFuel, EditMaintenance, Index as FuelMaintenanceIndex, ShowFuel, ShowMaintenance};
 use App\Livewire\Auth\{Login, Register};
-use App\Livewire\Dashboard\Index as DashboardIndex;
 use App\Livewire\DriverAssignments\Index as DriverAssignmentsIndex;
 use App\Livewire\Drivers\{Create as DriversCreate, Edit as DriversEdit, Index as DriversIndex, Show as DriversShow};
 use App\Livewire\Vehicles\{Create as VehiclesCreate, Edit as VehiclesEdit, Index as VehiclesIndex, Show as VehiclesShow};
@@ -38,17 +38,19 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     // Dashboard
     Route::get('/dashboard', DashboardIndex::class)->name('dashboard');
+    
+    // Live Map
+    Route::get('/live-map', LiveMap::class)->name('live-map');
 
     // Shipments Management
     Route::prefix('shipments')->name('shipments.')->group(function () {
         Route::get('/', ShipmentsIndex::class)->name('index');
         Route::get('/create', ShipmentsCreate::class)->name('create');
         Route::get('/track/{tracking?}', TrackShipment::class)->name('track');
-        
+
         Route::get('/{shipment}', ShipmentsShow::class)->name('show');
         Route::get('/{shipment}/edit', ShipmentsEdit::class)->name('edit');
         
-
     });
 
     // Drivers Management

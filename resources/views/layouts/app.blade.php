@@ -11,6 +11,11 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="unpkg.com"
+     integrity="sha256-p4NxAoDlTnyA38b/0K4V4z3d2+U3w+QJj8Wd3f3f3f3fA="
+     crossorigin=""/>
+
     <script>
         try {
             const darkMode = localStorage.getItem('darkMode');
