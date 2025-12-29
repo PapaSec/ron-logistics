@@ -351,6 +351,32 @@
 @push('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
+        /* CRITICAL FIX: Force map container to have explicit dimensions */
+        #map {
+            width: 100% !important;
+            height: 100% !important;
+            z-index: 1;
+        }
+        
+        /* FIX: Ensure map tiles load completely */
+        .leaflet-container {
+            width: 100% !important;
+            height: 100% !important;
+            background: #f5f5f5;
+        }
+        
+        /* FIX: Remove any max-width constraints on map images */
+        .leaflet-container img {
+            max-width: none !important;
+            max-height: none !important;
+        }
+        
+        /* FIX: Ensure tiles don't have weird dimensions */
+        .leaflet-tile-container img {
+            width: 256px !important;
+            height: 256px !important;
+        }
+        
         /* Custom scrollbar styles */
         .sidebar-scrollbar::-webkit-scrollbar {
             width: 4px;
@@ -371,13 +397,6 @@
         .dark .sidebar-scrollbar::-webkit-scrollbar-thumb:hover {
             background: #6b7280;
         }
-        .sidebar-scrollbar {
-            scrollbar-width: thin;
-            scrollbar-color: #138898 transparent;
-        }
-        .dark .sidebar-scrollbar {
-            scrollbar-color: #138898 transparent;
-        }
         
         /* Map markers */
         .leaflet-div-icon {
@@ -390,15 +409,6 @@
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.8; transform: scale(1.05); }
         }
-        
-        /* Chipster-like card shadows */
-        .shadow-card {
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.12);
-        }
-        
-        .dark .shadow-card {
-            box-shadow: 0 1px 3px rgba(0,0,0,0.20), 0 1px 2px rgba(0,0,0,0.24);
-        }
     </style>
 @endpush
 
@@ -408,213 +418,160 @@
     document.addEventListener('DOMContentLoaded', function() {
         const mapData = @json($this->mapData);
         
-        // Initialize map
-        const map = L.map('map').setView([-28.4793, 24.6727], 6);
-        
-        // Add clean tile layer
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-            attribution: '© OpenStreetMap, © CartoDB',
-            subdomains: 'abcd',
-            maxZoom: 19
-        }).addTo(map);
-        
-        let markers = [];
-        let routes = [];
-        
-        // Plot shipments on map
-        function plotShipments() {
-            // Clear existing
-            markers.forEach(marker => marker.remove());
-            routes.forEach(route => route.remove());
-            markers = [];
-            routes = [];
+        // CRITICAL FIX: Wait for DOM to be fully ready and add timeout
+        setTimeout(() => {
+            // Initialize map with proper options
+            const map = L.map('map', {
+                preferCanvas: true, // Better performance
+                zoomControl: true,
+                attributionControl: true
+            }).setView([-28.4793, 24.6727], 6);
             
-            if (mapData.length === 0) {
-                // Show message if no shipments
-                L.marker([-28.4793, 24.6727]).addTo(map)
-                    .bindPopup('No active shipments to display')
-                    .openPopup();
-                return;
-            }
+            // CRITICAL FIX: Force map to recalculate size after initialization
+            setTimeout(() => {
+                map.invalidateSize();
+            }, 100);
             
-            mapData.forEach(shipment => {
-                // Origin marker (blue)
-                const originMarker = L.circleMarker([shipment.origin.lat, shipment.origin.lng], {
-                    radius: 7,
-                    fillColor: '#3b82f6',
-                    color: '#ffffff',
-                    weight: 2,
-                    opacity: 0.9,
-                    fillOpacity: 0.9
-                }).addTo(map);
+            // Add tile layer with proper error handling
+            const tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+                maxZoom: 19,
+                minZoom: 5,
+                // CRITICAL: Add these options to prevent tile loading issues
+                detectRetina: false,
+                updateWhenIdle: false,
+                updateWhenZooming: false,
+                keepBuffer: 2
+            }).addTo(map);
+            
+            // Handle tile loading errors
+            tileLayer.on('tileerror', function(error) {
+                console.log('Tile loading error:', error);
+            });
+            
+            let markers = [];
+            let routes = [];
+            
+            // Plot shipments on map
+            function plotShipments() {
+                markers.forEach(marker => marker.remove());
+                routes.forEach(route => route.remove());
+                markers = [];
+                routes = [];
                 
-                originMarker.bindPopup(`
-                    <div class="text-xs p-1">
-                        <strong class="text-blue-600">📍 ${shipment.origin.city}</strong><br>
-                        <span class="text-gray-600">Origin point</span>
-                    </div>
-                `);
-                markers.push(originMarker);
+                if (mapData.length === 0) return;
                 
-                // Destination marker (green)
-                const destMarker = L.circleMarker([shipment.destination.lat, shipment.destination.lng], {
-                    radius: 7,
-                    fillColor: '#10b981',
-                    color: '#ffffff',
-                    weight: 2,
-                    opacity: 0.9,
-                    fillOpacity: 0.9
-                }).addTo(map);
-                
-                destMarker.bindPopup(`
-                    <div class="text-xs p-1">
-                        <strong class="text-green-600">🎯 ${shipment.destination.city}</strong><br>
-                        <span class="text-gray-600">Destination point</span>
-                    </div>
-                `);
-                markers.push(destMarker);
-                
-                // Vehicle marker with professional design
-                const vehicleIcon = L.divIcon({
-                    className: 'vehicle-marker',
-                    html: `
-                        <div style="
-                            width: 32px; 
-                            height: 32px; 
-                            background: #138898;
-                            border-radius: 50%; 
-                            border: 3px solid white;
-                            box-shadow: 0 3px 6px rgba(0,0,0,0.3);
-                            display: flex; 
-                            align-items: center; 
-                            justify-content: center;
-                            position: relative;
-                        ">
-                            <i class="fas fa-truck" style="color: white; font-size: 12px;"></i>
+                mapData.forEach(shipment => {
+                    // Origin marker
+                    const originMarker = L.circleMarker([shipment.origin.lat, shipment.origin.lng], {
+                        radius: 7,
+                        fillColor: '#3b82f6',
+                        color: '#ffffff',
+                        weight: 2,
+                        opacity: 0.9,
+                        fillOpacity: 0.9
+                    }).addTo(map);
+                    
+                    originMarker.bindPopup(`<strong>Origin:</strong> ${shipment.origin.city}`);
+                    markers.push(originMarker);
+                    
+                    // Destination marker
+                    const destMarker = L.circleMarker([shipment.destination.lat, shipment.destination.lng], {
+                        radius: 7,
+                        fillColor: '#10b981',
+                        color: '#ffffff',
+                        weight: 2,
+                        opacity: 0.9,
+                        fillOpacity: 0.9
+                    }).addTo(map);
+                    
+                    destMarker.bindPopup(`<strong>Destination:</strong> ${shipment.destination.city}`);
+                    markers.push(destMarker);
+                    
+                    // Vehicle marker
+                    const vehicleIcon = L.divIcon({
+                        className: 'vehicle-marker',
+                        html: `
                             <div style="
-                                position: absolute;
-                                top: -4px;
-                                right: -4px;
-                                width: 12px;
-                                height: 12px;
-                                background: #10b981;
-                                border-radius: 50%;
-                                border: 2px solid white;
-                                animation: pulse 2s infinite;
-                            "></div>
-                        </div>`,
-                    iconSize: [32, 32],
-                    iconAnchor: [16, 16]
+                                width: 32px; 
+                                height: 32px; 
+                                background: #138898;
+                                border-radius: 50%; 
+                                border: 3px solid white;
+                                box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+                                display: flex; 
+                                align-items: center; 
+                                justify-content: center;
+                            ">
+                                <i class="fas fa-truck" style="color: white; font-size: 12px;"></i>
+                            </div>`,
+                        iconSize: [32, 32],
+                        iconAnchor: [16, 16]
+                    });
+                    
+                    const vehicleMarker = L.marker([shipment.current_location.lat, shipment.current_location.lng], {
+                        icon: vehicleIcon
+                    }).addTo(map);
+                    
+                    let popupContent = `
+                        <div style="min-width: 200px; padding: 8px;">
+                            <strong>${shipment.tracking_number}</strong><br>
+                            <strong>Receiver:</strong> ${shipment.receiver_name}<br>
+                    `;
+                    
+                    if (shipment.vehicle) {
+                        popupContent += `<strong>Driver:</strong> ${shipment.vehicle.driver}<br>`;
+                    }
+                    
+                    if (shipment.current_location.speed) {
+                        popupContent += `<strong>Speed:</strong> ${shipment.current_location.speed} km/h<br>`;
+                    }
+                    
+                    popupContent += `<strong>ETA:</strong> ${shipment.estimated_delivery}</div>`;
+                    
+                    vehicleMarker.bindPopup(popupContent);
+                    markers.push(vehicleMarker);
+                    
+                    // Route line
+                    const routeLine = L.polyline([
+                        [shipment.origin.lat, shipment.origin.lng],
+                        [shipment.current_location.lat, shipment.current_location.lng],
+                        [shipment.destination.lat, shipment.destination.lng]
+                    ], {
+                        color: '#138898',
+                        weight: 2,
+                        opacity: 0.5,
+                        dashArray: '6, 4'
+                    }).addTo(map);
+                    routes.push(routeLine);
                 });
                 
-                const vehicleMarker = L.marker([shipment.current_location.lat, shipment.current_location.lng], {
-                    icon: vehicleIcon
-                }).addTo(map);
-                
-                // Professional popup
-                let popupContent = `
-                    <div style="min-width: 200px; font-family: 'Inter', system-ui, sans-serif; padding: 8px;">
-                        <div class="flex items-center gap-2 mb-2">
-                            <div style="width: 8px; height: 8px; background: #138898; border-radius: 50%;"></div>
-                            <strong style="color: #1f2937; font-size: 13px;">${shipment.tracking_number}</strong>
-                        </div>
-                        
-                        <div style="margin-bottom: 6px;">
-                            <div style="font-size: 11px; color: #6b7280; margin-bottom: 2px;">Receiver</div>
-                            <div style="font-size: 12px; color: #1f2937; font-weight: 500;">${shipment.receiver_name}</div>
-                        </div>
-                        
-                        <div style="margin-bottom: 6px;">
-                            <div style="font-size: 11px; color: #6b7280; margin-bottom: 2px;">Route</div>
-                            <div style="font-size: 12px; color: #1f2937; font-weight: 500;">
-                                ${shipment.origin.city} → ${shipment.destination.city}
-                            </div>
-                        </div>
-                `;
-                
-                if (shipment.vehicle) {
-                    popupContent += `
-                        <div style="margin-bottom: 6px;">
-                            <div style="font-size: 11px; color: #6b7280; margin-bottom: 2px;">Driver</div>
-                            <div style="font-size: 12px; color: #1f2937; font-weight: 500;">
-                                <i class="fas fa-user" style="margin-right: 4px; color: #6b7280;"></i>${shipment.vehicle.driver}
-                            </div>
-                        </div>
-                    `;
-                }
-                
-                if (shipment.current_location.speed) {
-                    popupContent += `
-                        <div style="margin-bottom: 6px;">
-                            <div style="font-size: 11px; color: #6b7280; margin-bottom: 2px;">Speed</div>
-                            <div style="font-size: 12px; color: #1f2937; font-weight: 500;">
-                                <i class="fas fa-tachometer-alt" style="margin-right: 4px; color: #6b7280;"></i>${shipment.current_location.speed} km/h
-                            </div>
-                        </div>
-                    `;
-                }
-                
-                popupContent += `
-                        <div style="padding-top: 8px; border-top: 1px solid #e5e7eb; margin-top: 8px;">
-                            <div style="font-size: 11px; color: #6b7280; margin-bottom: 2px;">ETA</div>
-                            <div style="font-size: 12px; color: #1f2937; font-weight: 500;">
-                                <i class="fas fa-clock" style="margin-right: 4px; color: #6b7280;"></i>${shipment.estimated_delivery}
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                vehicleMarker.bindPopup(popupContent);
-                markers.push(vehicleMarker);
-                
-                // Route line with gradient
-                const routeLine = L.polyline([
-                    [shipment.origin.lat, shipment.origin.lng],
-                    [shipment.current_location.lat, shipment.current_location.lng],
-                    [shipment.destination.lat, shipment.destination.lng]
-                ], {
-                    color: '#138898',
-                    weight: 2,
-                    opacity: 0.5,
-                    dashArray: '6, 4',
-                    lineCap: 'round'
-                }).addTo(map);
-                routes.push(routeLine);
+                // CRITICAL FIX: Force map refresh after plotting
+                setTimeout(() => {
+                    map.invalidateSize();
+                }, 200);
+            }
+            
+            plotShipments();
+            
+            // Zoom functions
+            window.zoomIn = function() {
+                map.zoomIn();
+            };
+            
+            window.zoomOut = function() {
+                map.zoomOut();
+            };
+            
+            // CRITICAL FIX: Invalidate map size on window resize
+            window.addEventListener('resize', function() {
+                map.invalidateSize();
             });
-        }
-        
-        // Initial plot
-        plotShipments();
-        
-        // Zoom functions
-        window.zoomIn = function() {
-            map.zoomIn();
-        };
-        
-        window.zoomOut = function() {
-            map.zoomOut();
-        };
-        
-        // Auto-refresh every 30 seconds
-        setInterval(() => {
-            Livewire.dispatch('refreshMap');
-        }, 30000);
-        
-        // Listen for map refresh events
-        Livewire.on('map-refreshed', () => {
-            // Slightly move vehicle markers to simulate movement
-            markers.forEach((marker, index) => {
-                if (marker.setLatLng && index % 3 === 0) {
-                    const currentLatLng = marker.getLatLng();
-                    const randomLat = (Math.random() - 0.5) * 0.01;
-                    const randomLng = (Math.random() - 0.5) * 0.01;
-                    marker.setLatLng([
-                        currentLatLng.lat + randomLat,
-                        currentLatLng.lng + randomLng
-                    ]);
-                }
-            });
-        });
+            
+            // Make map available globally for debugging
+            window.mapInstance = map;
+            
+        }, 250); // Give DOM time to render
     });
     </script>
 @endpush
