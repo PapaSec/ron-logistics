@@ -1,5 +1,14 @@
 @import 'tailwindcss';
 
+/* Fix Leaflet map tiles */
+img {
+    max-width: none !important;
+}
+
+.leaflet-container img {
+    max-width: none !important;
+}
+
 /* Add this to your resources/css/app.css file - BEFORE @tailwind directives */
 
 /* CRITICAL FIX: Override Tailwind's image reset for Leaflet */
