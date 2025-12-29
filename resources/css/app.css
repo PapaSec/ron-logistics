@@ -1,5 +1,82 @@
 @import 'tailwindcss';
 
+/* Add this to your resources/css/app.css file - BEFORE @tailwind directives */
+
+/* CRITICAL FIX: Override Tailwind's image reset for Leaflet */
+.leaflet-container img,
+.leaflet-tile-pane img,
+.leaflet-tile {
+    max-width: none !important;
+    max-height: none !important;
+    width: auto !important;
+    height: auto !important;
+}
+
+/* Force proper tile rendering */
+.leaflet-tile-container {
+    pointer-events: auto;
+}
+
+.leaflet-tile {
+    filter: inherit;
+    visibility: inherit;
+    border: none !important;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+/* Map container must have explicit dimensions */
+#map {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.leaflet-container {
+    width: 100% !important;
+    height: 100% !important;
+    background: #e5e7eb;
+}
+
+/* Remove any potential Tailwind conflicts */
+.leaflet-container * {
+    max-width: none !important;
+}
+
+/* Ensure smooth rendering */
+.leaflet-fade-anim .leaflet-tile {
+    will-change: opacity;
+    transition: opacity 0.2s;
+}
+
+/* Fix z-index issues */
+.leaflet-pane {
+    z-index: auto;
+}
+
+.leaflet-tile-pane {
+    z-index: 200;
+}
+
+.leaflet-overlay-pane {
+    z-index: 400;
+}
+
+.leaflet-shadow-pane {
+    z-index: 500;
+}
+
+.leaflet-marker-pane {
+    z-index: 600;
+}
+
+.leaflet-tooltip-pane {
+    z-index: 650;
+}
+
+.leaflet-popup-pane {
+    z-index: 700;
+}
+
 /* DARK MODE */
 @custom-variant dark (&:where(.dark, .dark *));
 
