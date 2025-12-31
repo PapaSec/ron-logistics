@@ -536,5 +536,5 @@ document.addEventListener('livewire:init', () => {
 </script>
 
 <!-- Google Maps API - Replace YOUR_API_KEY with your actual API key -->
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+<script src="AIzaSyC-N2sVqqJGc1mDD5osHbGYFtmK5Z5a6Ac" async defer></script>
 @endpush
