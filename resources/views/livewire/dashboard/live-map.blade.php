@@ -30,7 +30,7 @@
     </div>
 
     <div class="flex-1 flex overflow-hidden">
-        <!-- Left Panel - Shipments List (Clean Design) -->
+        <!-- Left Panel - Shipments List -->
         <div class="w-80 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col">
             <!-- Shipments Header -->
             <div class="p-4 border-b border-gray-200 dark:border-gray-700">
@@ -41,18 +41,19 @@
                 <p class="text-xs text-gray-500 dark:text-gray-400">Click to track on map</p>
             </div>
 
-            <!-- Shipment Items - Clean Design -->
+            <!-- Shipment Items -->
             <div class="flex-1 overflow-y-auto sidebar-scrollbar">
                 <div class="p-3 space-y-2">
                     @forelse ($this->activeShipments as $shipment)
                         <div 
                             wire:click="selectShipment({{ $shipment->id }})"
+                            onclick="focusShipment({{ $shipment->id }})"
                             class="group p-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-[#138898] cursor-pointer transition-all duration-200 {{ $selectedShipment && $selectedShipment->id == $shipment->id ? 'border-[#138898] bg-[#138898]/5' : '' }}"
                         >
                             <!-- Tracking Number & Status -->
                             <div class="flex items-center justify-between mb-2">
                                 <div class="flex items-center gap-2">
-                                    <div class="w-2 h-2 rounded-full {{ $shipment->status == 'in_transit' ? 'bg-green-500 animate-pulse' : 'bg-blue-500' }}"></div>
+                                    <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
                                     <span class="font-mono text-sm font-semibold text-gray-900 dark:text-white">
                                         {{ $shipment->tracking_number }}
                                     </span>
@@ -120,23 +121,23 @@
 
         <!-- Middle Panel - Map -->
         <div class="flex-1 relative bg-gray-100 dark:bg-gray-900">
-            <div id="map" class="w-full h-full"></div>
+            <div id="map" style="width: 100%; height: 100%;"></div>
             
             <!-- Map Controls -->
-            <div class="absolute top-4 right-4 flex flex-col gap-2">
-                <button onclick="zoomIn()" class="w-8 h-8 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition flex items-center justify-center">
-                    <i class="fas fa-plus text-gray-700 dark:text-gray-300 text-sm"></i>
+            <div class="absolute top-4 right-4 flex flex-col gap-2 z-10">
+                <button onclick="zoomIn()" class="w-10 h-10 bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:shadow-xl transition flex items-center justify-center">
+                    <i class="fas fa-plus text-gray-700 dark:text-gray-300"></i>
                 </button>
-                <button onclick="zoomOut()" class="w-8 h-8 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition flex items-center justify-center">
-                    <i class="fas fa-minus text-gray-700 dark:text-gray-300 text-sm"></i>
+                <button onclick="zoomOut()" class="w-10 h-10 bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:shadow-xl transition flex items-center justify-center">
+                    <i class="fas fa-minus text-gray-700 dark:text-gray-300"></i>
                 </button>
-                <button wire:click="refreshMap" class="w-8 h-8 bg-[#138898] rounded-lg shadow-md hover:bg-[#0f6b78] transition flex items-center justify-center">
-                    <i class="fas fa-sync-alt text-white text-sm"></i>
+                <button wire:click="refreshMap" class="w-10 h-10 bg-[#138898] rounded-lg shadow-lg hover:bg-[#0f6b78] transition flex items-center justify-center">
+                    <i class="fas fa-sync-alt text-white"></i>
                 </button>
             </div>
 
             <!-- Map Legend -->
-            <div class="absolute bottom-4 left-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-3 border border-gray-200 dark:border-gray-700">
+            <div class="absolute bottom-4 left-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-3 border border-gray-200 dark:border-gray-700 z-10">
                 <div class="flex items-center gap-2 mb-2">
                     <i class="fas fa-legend text-[#138898] text-sm"></i>
                     <span class="text-xs font-semibold text-gray-900 dark:text-white">Legend</span>
@@ -151,16 +152,14 @@
                         <span class="text-xs text-gray-700 dark:text-gray-300">Destination</span>
                     </div>
                     <div class="flex items-center gap-2">
-                        <div class="w-3 h-3 rounded-full bg-[#138898] border border-white flex items-center justify-center">
-                            <i class="fas fa-truck text-white text-[8px]"></i>
-                        </div>
+                        <div class="w-3 h-3 rounded-full bg-[#138898] border border-white"></div>
                         <span class="text-xs text-gray-700 dark:text-gray-300">Vehicle</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Right Panel - Shipment Details (Like Chipster) -->
+        <!-- Right Panel - Shipment Details -->
         @if($selectedShipment)
             <div class="w-96 bg-white dark:bg-gray-800 border-l border-gray-200 dark:border-gray-700 overflow-y-auto sidebar-scrollbar">
                 <!-- Header -->
@@ -203,7 +202,7 @@
                     </div>
                 </div>
 
-                <!-- Tracker Timeline (Like Chipster) -->
+                <!-- Tracker Timeline -->
                 <div class="p-4 border-b border-gray-200 dark:border-gray-700">
                     <h4 class="text-xs font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
                         <i class="fas fa-history text-[#138898]"></i>
@@ -222,55 +221,52 @@
                             <div class="flex-1">
                                 <div class="flex justify-between items-start">
                                     <div>
-                                        <p class="text-sm font-medium text-gray-900 dark:text-white">Package heading Airport</p>
-                                        <p class="text-xs text-gray-500 dark:text-gray-400">Shipment departed from warehouse</p>
+                                        <p class="text-sm font-medium text-gray-900 dark:text-white">Package picked up</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400">Departed from {{ $selectedShipment->origin_city }}</p>
                                     </div>
                                     <div class="text-right">
-                                        <p class="text-xs font-medium text-gray-900 dark:text-white">09:00 PM</p>
-                                        <p class="text-xs text-gray-500 dark:text-gray-400">Today</p>
+                                        <p class="text-xs font-medium text-gray-900 dark:text-white">Completed</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         
-                        <!-- Timeline Item 2 -->
-                        <div class="flex items-start gap-3">
-                            <div class="relative">
-                                <div class="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
-                                    <i class="fas fa-check text-white text-xs"></i>
-                                </div>
-                                <div class="absolute left-1/2 transform -translate-x-1/2 top-6 w-0.5 h-4 bg-green-200 dark:bg-green-800/30"></div>
-                            </div>
-                            <div class="flex-1">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <p class="text-sm font-medium text-gray-900 dark:text-white">Checking warehouse</p>
-                                        <p class="text-xs text-gray-500 dark:text-gray-400">Package sorted and ready for dispatch</p>
-                                    </div>
-                                    <div class="text-right">
-                                        <p class="text-xs font-medium text-gray-900 dark:text-white">09:00 AM</p>
-                                        <p class="text-xs text-gray-500 dark:text-gray-400">Today</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Timeline Item 3 (Current) -->
+                        <!-- Timeline Item 2 (Current) -->
                         <div class="flex items-start gap-3">
                             <div class="relative">
                                 <div class="w-6 h-6 rounded-full bg-[#138898] flex items-center justify-center animate-pulse">
                                     <i class="fas fa-truck text-white text-xs"></i>
                                 </div>
+                                <div class="absolute left-1/2 transform -translate-x-1/2 top-6 w-0.5 h-4 bg-gray-200 dark:bg-gray-700"></div>
                             </div>
                             <div class="flex-1">
                                 <div class="flex justify-between items-start">
                                     <div>
                                         <p class="text-sm font-medium text-gray-900 dark:text-white">In transit</p>
-                                        <p class="text-xs text-gray-500 dark:text-gray-400">On the way to destination</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400">On the way to {{ $selectedShipment->destination_city }}</p>
                                     </div>
                                     <div class="text-right">
-                                        <p class="text-xs font-medium text-gray-900 dark:text-white">Now</p>
-                                        <p class="text-xs text-gray-500 dark:text-gray-400">Live</p>
+                                        <p class="text-xs font-medium text-[#138898]">Live</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Timeline Item 3 (Pending) -->
+                        <div class="flex items-start gap-3">
+                            <div class="relative">
+                                <div class="w-6 h-6 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                                    <i class="fas fa-flag-checkered text-gray-400 text-xs"></i>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Delivery</p>
+                                        <p class="text-xs text-gray-400 dark:text-gray-500">ETA: {{ $selectedShipment->estimated_delivery_date->format('M d, Y') }}</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-xs text-gray-400">Pending</p>
                                     </div>
                                 </div>
                             </div>
@@ -349,229 +345,196 @@
 </div>
 
 @push('styles')
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <style>
-        /* CRITICAL FIX: Force map container to have explicit dimensions */
-        #map {
-            width: 100% !important;
-            height: 100% !important;
-            z-index: 1;
-        }
-        
-        /* FIX: Ensure map tiles load completely */
-        .leaflet-container {
-            width: 100% !important;
-            height: 100% !important;
-            background: #f5f5f5;
-        }
-        
-        /* FIX: Remove any max-width constraints on map images */
-        .leaflet-container img {
-            max-width: none !important;
-            max-height: none !important;
-        }
-        
-        /* FIX: Ensure tiles don't have weird dimensions */
-        .leaflet-tile-container img {
-            width: 256px !important;
-            height: 256px !important;
-        }
-        
-        /* Custom scrollbar styles */
-        .sidebar-scrollbar::-webkit-scrollbar {
-            width: 4px;
-        }
-        .sidebar-scrollbar::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .sidebar-scrollbar::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 2px;
-        }
-        .sidebar-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-        .dark .sidebar-scrollbar::-webkit-scrollbar-thumb {
-            background: #4b5563;
-        }
-        .dark .sidebar-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #6b7280;
-        }
-        
-        /* Map markers */
-        .leaflet-div-icon {
-            background: transparent !important;
-            border: none !important;
-        }
-        
-        /* Animation for active shipment */
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.05); }
-        }
-    </style>
+<style>
+.sidebar-scrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+.sidebar-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+.sidebar-scrollbar::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 2px;
+}
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.05); }
+}
+</style>
 @endpush
 
 @push('scripts')
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const mapData = @json($this->mapData);
-        
-        // CRITICAL FIX: Wait for DOM to be fully ready and add timeout
-        setTimeout(() => {
-            // Initialize map with proper options
-            const map = L.map('map', {
-                preferCanvas: true, // Better performance
-                zoomControl: true,
-                attributionControl: true
-            }).setView([-28.4793, 24.6727], 6);
-            
-            // CRITICAL FIX: Force map to recalculate size after initialization
-            setTimeout(() => {
-                map.invalidateSize();
-            }, 100);
-            
-            // Add tile layer with proper error handling
-            const tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors',
-                maxZoom: 19,
-                minZoom: 5,
-                // CRITICAL: Add these options to prevent tile loading issues
-                detectRetina: false,
-                updateWhenIdle: false,
-                updateWhenZooming: false,
-                keepBuffer: 2
-            }).addTo(map);
-            
-            // Handle tile loading errors
-            tileLayer.on('tileerror', function(error) {
-                console.log('Tile loading error:', error);
-            });
-            
-            let markers = [];
-            let routes = [];
-            
-            // Plot shipments on map
-            function plotShipments() {
-                markers.forEach(marker => marker.remove());
-                routes.forEach(route => route.remove());
-                markers = [];
-                routes = [];
-                
-                if (mapData.length === 0) return;
-                
-                mapData.forEach(shipment => {
-                    // Origin marker
-                    const originMarker = L.circleMarker([shipment.origin.lat, shipment.origin.lng], {
-                        radius: 7,
-                        fillColor: '#3b82f6',
-                        color: '#ffffff',
-                        weight: 2,
-                        opacity: 0.9,
-                        fillOpacity: 0.9
-                    }).addTo(map);
-                    
-                    originMarker.bindPopup(`<strong>Origin:</strong> ${shipment.origin.city}`);
-                    markers.push(originMarker);
-                    
-                    // Destination marker
-                    const destMarker = L.circleMarker([shipment.destination.lat, shipment.destination.lng], {
-                        radius: 7,
-                        fillColor: '#10b981',
-                        color: '#ffffff',
-                        weight: 2,
-                        opacity: 0.9,
-                        fillOpacity: 0.9
-                    }).addTo(map);
-                    
-                    destMarker.bindPopup(`<strong>Destination:</strong> ${shipment.destination.city}`);
-                    markers.push(destMarker);
-                    
-                    // Vehicle marker
-                    const vehicleIcon = L.divIcon({
-                        className: 'vehicle-marker',
-                        html: `
-                            <div style="
-                                width: 32px; 
-                                height: 32px; 
-                                background: #138898;
-                                border-radius: 50%; 
-                                border: 3px solid white;
-                                box-shadow: 0 3px 6px rgba(0,0,0,0.3);
-                                display: flex; 
-                                align-items: center; 
-                                justify-content: center;
-                            ">
-                                <i class="fas fa-truck" style="color: white; font-size: 12px;"></i>
-                            </div>`,
-                        iconSize: [32, 32],
-                        iconAnchor: [16, 16]
-                    });
-                    
-                    const vehicleMarker = L.marker([shipment.current_location.lat, shipment.current_location.lng], {
-                        icon: vehicleIcon
-                    }).addTo(map);
-                    
-                    let popupContent = `
-                        <div style="min-width: 200px; padding: 8px;">
-                            <strong>${shipment.tracking_number}</strong><br>
-                            <strong>Receiver:</strong> ${shipment.receiver_name}<br>
-                    `;
-                    
-                    if (shipment.vehicle) {
-                        popupContent += `<strong>Driver:</strong> ${shipment.vehicle.driver}<br>`;
-                    }
-                    
-                    if (shipment.current_location.speed) {
-                        popupContent += `<strong>Speed:</strong> ${shipment.current_location.speed} km/h<br>`;
-                    }
-                    
-                    popupContent += `<strong>ETA:</strong> ${shipment.estimated_delivery}</div>`;
-                    
-                    vehicleMarker.bindPopup(popupContent);
-                    markers.push(vehicleMarker);
-                    
-                    // Route line
-                    const routeLine = L.polyline([
-                        [shipment.origin.lat, shipment.origin.lng],
-                        [shipment.current_location.lat, shipment.current_location.lng],
-                        [shipment.destination.lat, shipment.destination.lng]
-                    ], {
-                        color: '#138898',
-                        weight: 2,
-                        opacity: 0.5,
-                        dashArray: '6, 4'
-                    }).addTo(map);
-                    routes.push(routeLine);
-                });
-                
-                // CRITICAL FIX: Force map refresh after plotting
-                setTimeout(() => {
-                    map.invalidateSize();
-                }, 200);
-            }
-            
-            plotShipments();
-            
-            // Zoom functions
-            window.zoomIn = function() {
-                map.zoomIn();
-            };
-            
-            window.zoomOut = function() {
-                map.zoomOut();
-            };
-            
-            // CRITICAL FIX: Invalidate map size on window resize
-            window.addEventListener('resize', function() {
-                map.invalidateSize();
-            });
-            
-            // Make map available globally for debugging
-            window.mapInstance = map;
-            
-        }, 250); // Give DOM time to render
+<script>
+let map;
+let markers = [];
+let infoWindows = [];
+let polylines = [];
+const mapData = @json($this->mapData);
+
+function initMap() {
+    // Initialize Google Map
+    map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 6,
+        center: { lat: -28.4793, lng: 24.6727 },
+        mapTypeControl: true,
+        streetViewControl: false,
+        fullscreenControl: true,
+        zoomControl: false,
     });
-    </script>
+
+    plotShipments();
+}
+
+function plotShipments() {
+    // Clear existing markers
+    markers.forEach(marker => marker.setMap(null));
+    infoWindows.forEach(iw => iw.close());
+    polylines.forEach(line => line.setMap(null));
+    markers = [];
+    infoWindows = [];
+    polylines = [];
+
+    if (!mapData || mapData.length === 0) return;
+
+    mapData.forEach(shipment => {
+        // Origin marker (blue)
+        const originMarker = new google.maps.Marker({
+            position: { lat: shipment.origin.lat, lng: shipment.origin.lng },
+            map: map,
+            icon: {
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: 8,
+                fillColor: "#3b82f6",
+                fillOpacity: 1,
+                strokeColor: "#ffffff",
+                strokeWeight: 2,
+            },
+            title: shipment.origin.city
+        });
+        markers.push(originMarker);
+
+        // Destination marker (green)
+        const destMarker = new google.maps.Marker({
+            position: { lat: shipment.destination.lat, lng: shipment.destination.lng },
+            map: map,
+            icon: {
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: 8,
+                fillColor: "#10b981",
+                fillOpacity: 1,
+                strokeColor: "#ffffff",
+                strokeWeight: 2,
+            },
+            title: shipment.destination.city
+        });
+        markers.push(destMarker);
+
+        // Vehicle marker (custom with truck icon effect)
+        const vehicleMarker = new google.maps.Marker({
+            position: { lat: shipment.current_location.lat, lng: shipment.current_location.lng },
+            map: map,
+            icon: {
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: 14,
+                fillColor: "#138898",
+                fillOpacity: 1,
+                strokeColor: "#ffffff",
+                strokeWeight: 3,
+            },
+            title: shipment.tracking_number,
+            zIndex: 999
+        });
+
+        // Info window for vehicle
+        let infoContent = `
+            <div style="padding: 12px; min-width: 220px; font-family: system-ui;">
+                <div style="font-weight: 600; font-size: 14px; margin-bottom: 8px; color: #138898;">${shipment.tracking_number}</div>
+                <div style="font-size: 13px; color: #374151; margin-bottom: 6px;">
+                    <strong>Receiver:</strong> ${shipment.receiver_name}
+                </div>
+        `;
+        
+        if (shipment.vehicle) {
+            infoContent += `
+                <div style="font-size: 13px; color: #374151; margin-bottom: 6px;">
+                    <strong>Driver:</strong> ${shipment.vehicle.driver}
+                </div>
+                <div style="font-size: 13px; color: #374151; margin-bottom: 6px;">
+                    <strong>Vehicle:</strong> ${shipment.vehicle.number}
+                </div>
+            `;
+        }
+        
+        if (shipment.current_location.speed) {
+            infoContent += `
+                <div style="font-size: 13px; color: #374151; margin-bottom: 6px;">
+                    <strong>Speed:</strong> ${shipment.current_location.speed} km/h
+                </div>
+            `;
+        }
+        
+        infoContent += `
+                <div style="font-size: 13px; color: #374151; padding-top: 6px; border-top: 1px solid #e5e7eb;">
+                    <strong>ETA:</strong> ${shipment.estimated_delivery}
+                </div>
+            </div>
+        `;
+
+        const infoWindow = new google.maps.InfoWindow({
+            content: infoContent
+        });
+
+        vehicleMarker.addListener("click", () => {
+            infoWindows.forEach(iw => iw.close());
+            infoWindow.open(map, vehicleMarker);
+        });
+
+        markers.push(vehicleMarker);
+        infoWindows.push(infoWindow);
+
+        // Draw route polyline
+        const routePath = new google.maps.Polyline({
+            path: [
+                { lat: shipment.origin.lat, lng: shipment.origin.lng },
+                { lat: shipment.current_location.lat, lng: shipment.current_location.lng },
+                { lat: shipment.destination.lat, lng: shipment.destination.lng }
+            ],
+            geodesic: true,
+            strokeColor: "#8b5cf6",
+            strokeOpacity: 0.6,
+            strokeWeight: 3,
+            map: map
+        });
+        polylines.push(routePath);
+    });
+}
+
+function focusShipment(shipmentId) {
+    const shipment = mapData.find(s => s.id === shipmentId);
+    if (shipment && map) {
+        map.setCenter({ lat: shipment.current_location.lat, lng: shipment.current_location.lng });
+        map.setZoom(9);
+    }
+}
+
+function zoomIn() {
+    if (map) map.setZoom(map.getZoom() + 1);
+}
+
+function zoomOut() {
+    if (map) map.setZoom(map.getZoom() - 1);
+}
+
+// Listen for Livewire events
+document.addEventListener('livewire:init', () => {
+    Livewire.on('refresh-map', () => {
+        setTimeout(() => {
+            window.location.reload();
+        }, 500);
+    });
+});
+</script>
+
+<!-- Google Maps API - Replace YOUR_API_KEY with your actual API key -->
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
 @endpush
