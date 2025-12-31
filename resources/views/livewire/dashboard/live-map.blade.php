@@ -349,94 +349,229 @@
 </div>
 
 @push('styles')
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<style>
-/* Inline critical fixes */
-.leaflet-container img {
-    max-width: none !important;
-}
-.leaflet-tile {
-    max-width: none !important;
-    max-height: none !important;
-}
-#map {
-    width: 100%;
-    height: 100%;
-}
-</style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        /* CRITICAL FIX: Force map container to have explicit dimensions */
+        #map {
+            width: 100% !important;
+            height: 100% !important;
+            z-index: 1;
+        }
+        
+        /* FIX: Ensure map tiles load completely */
+        .leaflet-container {
+            width: 100% !important;
+            height: 100% !important;
+            background: #f5f5f5;
+        }
+        
+        /* FIX: Remove any max-width constraints on map images */
+        .leaflet-container img {
+            max-width: none !important;
+            max-height: none !important;
+        }
+        
+        /* FIX: Ensure tiles don't have weird dimensions */
+        .leaflet-tile-container img {
+            width: 256px !important;
+            height: 256px !important;
+        }
+        
+        /* Custom scrollbar styles */
+        .sidebar-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .sidebar-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .sidebar-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 2px;
+        }
+        .sidebar-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .dark .sidebar-scrollbar::-webkit-scrollbar-thumb {
+            background: #4b5563;
+        }
+        .dark .sidebar-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #6b7280;
+        }
+        
+        /* Map markers */
+        .leaflet-div-icon {
+            background: transparent !important;
+            border: none !important;
+        }
+        
+        /* Animation for active shipment */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+    </style>
 @endpush
 
 @push('scripts')
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const mapData = @json($this->mapData);
-    
-    // Wait for container to be ready
-    setTimeout(function() {
-        // Initialize map
-        const map = L.map('map').setView([-28.4793, 24.6727], 6);
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const mapData = @json($this->mapData);
         
-        // Add OpenStreetMap tiles
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '© OpenStreetMap'
-        }).addTo(map);
-        
-        // Force resize after tiles load
-        setTimeout(() => map.invalidateSize(), 500);
-        
-        // Plot shipments
-        if (mapData && mapData.length > 0) {
-            mapData.forEach(shipment => {
-                // Origin
-                L.circleMarker([shipment.origin.lat, shipment.origin.lng], {
-                    radius: 7,
-                    fillColor: '#3b82f6',
-                    color: '#fff',
-                    weight: 2,
-                    fillOpacity: 0.9
-                }).addTo(map).bindPopup(`Origin: ${shipment.origin.city}`);
+        // CRITICAL FIX: Wait for DOM to be fully ready and add timeout
+        setTimeout(() => {
+            // Initialize map with proper options
+            const map = L.map('map', {
+                preferCanvas: true, // Better performance
+                zoomControl: true,
+                attributionControl: true
+            }).setView([-28.4793, 24.6727], 6);
+            
+            // CRITICAL FIX: Force map to recalculate size after initialization
+            setTimeout(() => {
+                map.invalidateSize();
+            }, 100);
+            
+            // Add tile layer with proper error handling
+            const tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+                maxZoom: 19,
+                minZoom: 5,
+                // CRITICAL: Add these options to prevent tile loading issues
+                detectRetina: false,
+                updateWhenIdle: false,
+                updateWhenZooming: false,
+                keepBuffer: 2
+            }).addTo(map);
+            
+            // Handle tile loading errors
+            tileLayer.on('tileerror', function(error) {
+                console.log('Tile loading error:', error);
+            });
+            
+            let markers = [];
+            let routes = [];
+            
+            // Plot shipments on map
+            function plotShipments() {
+                markers.forEach(marker => marker.remove());
+                routes.forEach(route => route.remove());
+                markers = [];
+                routes = [];
                 
-                // Destination
-                L.circleMarker([shipment.destination.lat, shipment.destination.lng], {
-                    radius: 7,
-                    fillColor: '#10b981',
-                    color: '#fff',
-                    weight: 2,
-                    fillOpacity: 0.9
-                }).addTo(map).bindPopup(`Destination: ${shipment.destination.city}`);
+                if (mapData.length === 0) return;
                 
-                // Vehicle
-                const icon = L.divIcon({
-                    html: '<div style="width:32px;height:32px;background:#138898;border-radius:50%;border:3px solid white;box-shadow:0 2px 4px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;"><i class="fas fa-truck" style="color:white;font-size:12px;"></i></div>',
-                    iconSize: [32, 32],
-                    iconAnchor: [16, 16],
-                    className: ''
+                mapData.forEach(shipment => {
+                    // Origin marker
+                    const originMarker = L.circleMarker([shipment.origin.lat, shipment.origin.lng], {
+                        radius: 7,
+                        fillColor: '#3b82f6',
+                        color: '#ffffff',
+                        weight: 2,
+                        opacity: 0.9,
+                        fillOpacity: 0.9
+                    }).addTo(map);
+                    
+                    originMarker.bindPopup(`<strong>Origin:</strong> ${shipment.origin.city}`);
+                    markers.push(originMarker);
+                    
+                    // Destination marker
+                    const destMarker = L.circleMarker([shipment.destination.lat, shipment.destination.lng], {
+                        radius: 7,
+                        fillColor: '#10b981',
+                        color: '#ffffff',
+                        weight: 2,
+                        opacity: 0.9,
+                        fillOpacity: 0.9
+                    }).addTo(map);
+                    
+                    destMarker.bindPopup(`<strong>Destination:</strong> ${shipment.destination.city}`);
+                    markers.push(destMarker);
+                    
+                    // Vehicle marker
+                    const vehicleIcon = L.divIcon({
+                        className: 'vehicle-marker',
+                        html: `
+                            <div style="
+                                width: 32px; 
+                                height: 32px; 
+                                background: #138898;
+                                border-radius: 50%; 
+                                border: 3px solid white;
+                                box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+                                display: flex; 
+                                align-items: center; 
+                                justify-content: center;
+                            ">
+                                <i class="fas fa-truck" style="color: white; font-size: 12px;"></i>
+                            </div>`,
+                        iconSize: [32, 32],
+                        iconAnchor: [16, 16]
+                    });
+                    
+                    const vehicleMarker = L.marker([shipment.current_location.lat, shipment.current_location.lng], {
+                        icon: vehicleIcon
+                    }).addTo(map);
+                    
+                    let popupContent = `
+                        <div style="min-width: 200px; padding: 8px;">
+                            <strong>${shipment.tracking_number}</strong><br>
+                            <strong>Receiver:</strong> ${shipment.receiver_name}<br>
+                    `;
+                    
+                    if (shipment.vehicle) {
+                        popupContent += `<strong>Driver:</strong> ${shipment.vehicle.driver}<br>`;
+                    }
+                    
+                    if (shipment.current_location.speed) {
+                        popupContent += `<strong>Speed:</strong> ${shipment.current_location.speed} km/h<br>`;
+                    }
+                    
+                    popupContent += `<strong>ETA:</strong> ${shipment.estimated_delivery}</div>`;
+                    
+                    vehicleMarker.bindPopup(popupContent);
+                    markers.push(vehicleMarker);
+                    
+                    // Route line
+                    const routeLine = L.polyline([
+                        [shipment.origin.lat, shipment.origin.lng],
+                        [shipment.current_location.lat, shipment.current_location.lng],
+                        [shipment.destination.lat, shipment.destination.lng]
+                    ], {
+                        color: '#138898',
+                        weight: 2,
+                        opacity: 0.5,
+                        dashArray: '6, 4'
+                    }).addTo(map);
+                    routes.push(routeLine);
                 });
                 
-                L.marker([shipment.current_location.lat, shipment.current_location.lng], {icon})
-                    .addTo(map)
-                    .bindPopup(`${shipment.tracking_number}<br>${shipment.receiver_name}`);
-                
-                // Route
-                L.polyline([
-                    [shipment.origin.lat, shipment.origin.lng],
-                    [shipment.current_location.lat, shipment.current_location.lng],
-                    [shipment.destination.lat, shipment.destination.lng]
-                ], {
-                    color: '#8b5cf6',
-                    weight: 2,
-                    opacity: 0.6
-                }).addTo(map);
+                // CRITICAL FIX: Force map refresh after plotting
+                setTimeout(() => {
+                    map.invalidateSize();
+                }, 200);
+            }
+            
+            plotShipments();
+            
+            // Zoom functions
+            window.zoomIn = function() {
+                map.zoomIn();
+            };
+            
+            window.zoomOut = function() {
+                map.zoomOut();
+            };
+            
+            // CRITICAL FIX: Invalidate map size on window resize
+            window.addEventListener('resize', function() {
+                map.invalidateSize();
             });
-        }
-        
-        // Zoom controls
-        window.zoomIn = () => map.zoomIn();
-        window.zoomOut = () => map.zoomOut();
-        
-    }, 200);
-});
-</script>
+            
+            // Make map available globally for debugging
+            window.mapInstance = map;
+            
+        }, 250); // Give DOM time to render
+    });
+    </script>
 @endpush

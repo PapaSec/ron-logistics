@@ -64,10 +64,10 @@ class LiveMap extends Component
                         ->where('shipment_id', $shipment->id)
                         ->latest('recorded_at')
                         ->first();
-                    
+
                     $shipment->current_location = $location;
                 }
-                
+
                 return $shipment;
             });
     }
@@ -77,11 +77,11 @@ class LiveMap extends Component
     public function mapData()
     {
         $shipments = $this->activeShipments;
-        
+
         return $shipments->map(function ($shipment) {
             $origin = $this->getCoordinatesForCity($shipment->origin_city);
             $destination = $this->getCoordinatesForCity($shipment->destination_city);
-            
+
             return [
                 'id' => $shipment->id,
                 'tracking_number' => $shipment->tracking_number,
@@ -123,7 +123,8 @@ class LiveMap extends Component
             ->get();
 
         foreach ($activeShipments as $shipment) {
-            if (!$shipment->vehicle) continue;
+            if (!$shipment->vehicle)
+                continue;
 
             // Check if we already have recent location data (within last 5 minutes)
             $recentLocation = VehicleLocation::where('vehicle_id', $shipment->vehicle_id)
@@ -131,7 +132,8 @@ class LiveMap extends Component
                 ->where('recorded_at', '>', now()->subMinutes(5))
                 ->exists();
 
-            if ($recentLocation) continue;
+            if ($recentLocation)
+                continue;
 
             // Get origin and destination coordinates
             $origin = $this->getCoordinatesForCity($shipment->origin_city);
@@ -188,12 +190,21 @@ class LiveMap extends Component
         }
     }
 
+    public function updated($property)
+    {
+        // If any property that affects map data is updated, refresh the map
+        if (in_array($property, ['searchTerm', 'statusFilter', 'selectedShipment'])) {
+            $this->dispatch('shipments-updated');
+        }
+    }
+
     // Refresh map data (called via polling)
     public function refreshMap()
     {
         // In production, this would update vehicle locations from GPS devices
         // For demo, we slightly update positions
         $this->simulateMovement();
+        $this->dispatch('refresh-map');
     }
 
     // Simulate vehicle movement
@@ -204,7 +215,8 @@ class LiveMap extends Component
             ->get();
 
         foreach ($recentLocations as $location) {
-            if (!$location->shipment) continue;
+            if (!$location->shipment)
+                continue;
 
             $origin = $this->getCoordinatesForCity($location->shipment->origin_city);
             $destination = $this->getCoordinatesForCity($location->shipment->destination_city);
