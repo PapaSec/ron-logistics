@@ -443,6 +443,7 @@ function plotShipments() {
             },
             title: shipment.tracking_number,
             zIndex: 999
+            
         });
 
         // Info window for vehicle
