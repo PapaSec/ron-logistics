@@ -1,50 +1,175 @@
 @import 'tailwindcss';
 
+/* =============== CRITICAL LEAFLET FIXES =============== */
+/* These MUST come before any other styles */
+
+/* Prevent Tailwind from breaking Leaflet images */
+.leaflet-container img {
+    max-width: none !important;
+    max-height: none !important;
+}
+
+.leaflet-tile {
+    max-width: none !important;
+    max-height: none !important;
+    image-rendering: crisp-edges !important;
+    image-rendering: -webkit-optimize-contrast !important;
+}
+
+/* Fix for partially loaded tiles */
+.leaflet-tile-loaded {
+    opacity: 1 !important;
+    visibility: visible !important;
+    border: none !important;
+}
+
+/* Ensure map container has dimensions */
+#map {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 500px;
+    z-index: 1;
+}
+
+.leaflet-container {
+    width: 100% !important;
+    height: 100% !important;
+    background: #e5e7eb !important;
+    font-family: inherit !important;
+    line-height: 1.5 !important;
+}
+
+/* Dark mode support */
+.dark .leaflet-container {
+    background: #1f2937 !important;
+}
+
+.dark .leaflet-tile {
+    filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7);
+}
+
+/* Fix for map layers */
+.leaflet-pane {
+    z-index: 1;
+}
+
+.leaflet-tile-pane {
+    z-index: 2 !important;
+}
+
+.leaflet-overlay-pane {
+    z-index: 4 !important;
+}
+
+.leaflet-shadow-pane {
+    z-index: 5 !important;
+}
+
+.leaflet-marker-pane {
+    z-index: 6 !important;
+}
+
+.leaflet-tooltip-pane {
+    z-index: 6 !important;
+}
+
+.leaflet-popup-pane {
+    z-index: 7 !important;
+}
+
+/* Prevent any Tailwind interference */
+.leaflet-container * {
+    box-sizing: content-box !important;
+    max-width: none !important;
+}
+
+/* Fix for tile container */
+.leaflet-tile-container {
+    opacity: 1 !important;
+    will-change: opacity;
+    transition: opacity 0.3s ease;
+}
+
+/* Force hardware acceleration for smooth rendering */
+.leaflet-fade-anim .leaflet-tile,
+.leaflet-zoom-anim .leaflet-zoom-animated {
+    will-change: transform, opacity !important;
+}
+
+/* =============== END LEAFLET FIXES =============== */
+
 /* DARK MODE */
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* FONTAWESOME ICONS */
 @import '@fortawesome/fontawesome-free/css/all.css';
 
-/* Add this to your existing app.css */
-
-/* Force Leaflet tiles to load properly */
-.leaflet-tile-pane {
-    z-index: 200 !important;
+/* Custom scrollbar */
+.sidebar-scrollbar::-webkit-scrollbar {
+    width: 6px;
 }
 
-.leaflet-overlay-pane {
-    z-index: 400 !important;
+.sidebar-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
 }
 
-.leaflet-marker-pane {
-    z-index: 600 !important;
+.sidebar-scrollbar::-webkit-scrollbar-thumb {
+    background: #138898;
+    border-radius: 3px;
 }
 
-.leaflet-popup-pane {
-    z-index: 700 !important;
+.sidebar-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #0f6b78;
 }
 
-/* Prevent Tailwind from interfering with Leaflet */
-.leaflet-container * {
-    box-sizing: initial !important;
+.dark .sidebar-scrollbar::-webkit-scrollbar-track {
+    background: #374151;
 }
 
-/* Ensure map loads completely */
-.leaflet-fade-anim .leaflet-tile, 
-.leaflet-zoom-anim .leaflet-zoom-animated {
-    will-change: auto !important;
+.dark .sidebar-scrollbar::-webkit-scrollbar-thumb {
+    background: #138898;
 }
 
-/* Fix for map loading in parts */
-.leaflet-tile-loaded {
-    opacity: 1 !important;
-    transition: opacity 0.2s linear;
+/* Status badge animations */
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
 }
 
-/* Ensure map container is properly sized */
-#map.leaflet-container {
-    line-height: 1.5 !important;
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Ensure flex containers work properly */
+.flex-1 {
+    min-height: 0;
+}
+
+/* Fix for Livewire loading states */
+[wire\:loading] {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+[wire\:offline] {
+    opacity: 0.5;
+}
+
+/* Map controls styling */
+.map-controls button {
+    transition: all 0.2s ease;
+}
+
+.map-controls button:hover {
+    transform: scale(1.05);
+}
+
+/* Smooth transitions */
+.transition-all {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
 }
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
