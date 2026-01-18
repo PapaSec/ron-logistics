@@ -13,6 +13,7 @@ class LiveMap extends Component
     public $selectedShipment = null;
     public $statusFilter = 'all';
     public $searchTerm = '';
+    public $mapDataArray = []; // Added to store map data
 
     // Cities with coordinates (South African cities)
     protected $cityCoordinates = [
@@ -40,6 +41,7 @@ class LiveMap extends Component
     {
         // Simulate GPS data for active shipments on first load
         $this->simulateGPSData();
+        $this->updateMapData();
     }
 
     // Get active shipments with their vehicles and latest locations
@@ -72,13 +74,13 @@ class LiveMap extends Component
             });
     }
 
-    // Get map data for JavaScript
+    // Get map data for JavaScript - UPDATED
     #[\Livewire\Attributes\Computed]
     public function mapData()
     {
         $shipments = $this->activeShipments;
 
-        return $shipments->map(function ($shipment) {
+        $data = $shipments->map(function ($shipment) {
             $origin = $this->getCoordinatesForCity($shipment->origin_city);
             $destination = $this->getCoordinatesForCity($shipment->destination_city);
 
@@ -103,7 +105,7 @@ class LiveMap extends Component
                     'speed' => $shipment->current_location->speed,
                     'heading' => $shipment->current_location->heading,
                     'location_name' => $shipment->current_location->location_name,
-                ] : $origin, // Default to origin if no location yet
+                ] : $origin,
                 'vehicle' => $shipment->vehicle ? [
                     'number' => $shipment->vehicle->vehicle_number,
                     'type' => $shipment->vehicle->type,
@@ -113,6 +115,19 @@ class LiveMap extends Component
                 'estimated_delivery' => $shipment->estimated_delivery_date->format('M d, Y'),
             ];
         })->toArray();
+        
+        // Update the array property
+        $this->mapDataArray = $data;
+        
+        return $data;
+    }
+
+    // Update map data and dispatch event
+    public function updateMapData()
+    {
+        // Force recomputation of map data
+        $this->mapData;
+        $this->dispatch('map-data-updated', mapData: $this->mapDataArray);
     }
 
     // Simulate GPS data for demo purposes
@@ -156,6 +171,8 @@ class LiveMap extends Component
                 'recorded_at' => now(),
             ]);
         }
+        
+        $this->updateMapData();
     }
 
     // Get coordinates for a city
@@ -192,9 +209,9 @@ class LiveMap extends Component
 
     public function updated($property)
     {
-        // If any property that affects map data is updated, refresh the map
-        if (in_array($property, ['searchTerm', 'statusFilter', 'selectedShipment'])) {
-            $this->dispatch('shipments-updated');
+        // Update map when search term changes
+        if ($property === 'searchTerm') {
+            $this->updateMapData();
         }
     }
 
@@ -204,7 +221,7 @@ class LiveMap extends Component
         // In production, this would update vehicle locations from GPS devices
         // For demo, we slightly update positions
         $this->simulateMovement();
-        $this->dispatch('refresh-map');
+        $this->dispatch('map-refreshed');
     }
 
     // Simulate vehicle movement
@@ -236,12 +253,15 @@ class LiveMap extends Component
                 'recorded_at' => now(),
             ]);
         }
+        
+        $this->updateMapData();
     }
 
     // Select shipment
     public function selectShipment($shipmentId)
     {
         $this->selectedShipment = Shipment::with(['vehicle.driver'])->find($shipmentId);
+        $this->dispatch('focus-on-shipment', shipmentId: $shipmentId);
     }
 
     public function render()

@@ -1,4 +1,4 @@
-<div class="h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
+<div class="h-screen flex flex-col bg-gray-50 dark:bg-gray-900" wire:poll.30s="refreshMap">
     <!-- Modern Header -->
     <div class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-3">
         <div class="flex items-center justify-between">
@@ -30,21 +30,21 @@
     </div>
 
     <div class="flex-1 flex overflow-hidden">
-        <!-- Left Panel - Shipments List (Clean Design) -->
+        <!-- Left Panel - Shipments List -->
         <div class="w-80 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col">
             <!-- Shipments Header -->
             <div class="p-4 border-b border-gray-200 dark:border-gray-700">
                 <div class="flex items-center justify-between mb-2">
                     <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Active Shipments</h3>
-                    <span class="text-xs text-gray-500 dark:text-gray-400">{{ count($this->activeShipments) }} total</span>
+                    <span class="text-xs text-gray-500 dark:text-gray-400">{{ count($activeShipments) }} total</span>
                 </div>
                 <p class="text-xs text-gray-500 dark:text-gray-400">Click to track on map</p>
             </div>
 
-            <!-- Shipment Items - Clean Design -->
+            <!-- Shipment Items -->
             <div class="flex-1 overflow-y-auto sidebar-scrollbar">
                 <div class="p-3 space-y-2">
-                    @forelse ($this->activeShipments as $shipment)
+                    @forelse ($activeShipments as $shipment)
                         <div 
                             wire:click="selectShipment({{ $shipment->id }})"
                             class="group p-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-[#138898] cursor-pointer transition-all duration-200 {{ $selectedShipment && $selectedShipment->id == $shipment->id ? 'border-[#138898] bg-[#138898]/5' : '' }}"
@@ -119,48 +119,48 @@
         </div>
 
         <!-- Middle Panel - Map -->
-        <div class="flex-1 relative bg-gray-100 dark:bg-gray-900">
+        <div class="flex-1 relative bg-gray-100 dark:bg-gray-900" wire:ignore>
             <div id="map" class="w-full h-full"></div>
             
             <!-- Map Controls -->
-            <div class="absolute top-4 right-4 flex flex-col gap-2">
-                <button onclick="zoomIn()" class="w-8 h-8 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition flex items-center justify-center">
-                    <i class="fas fa-plus text-gray-700 dark:text-gray-300 text-sm"></i>
+            <div class="absolute top-4 right-4 z-[1000] flex flex-col gap-2">
+                <button onclick="window.zoomIn()" class="w-10 h-10 bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:shadow-xl transition flex items-center justify-center">
+                    <i class="fas fa-plus text-gray-700 dark:text-gray-300"></i>
                 </button>
-                <button onclick="zoomOut()" class="w-8 h-8 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition flex items-center justify-center">
-                    <i class="fas fa-minus text-gray-700 dark:text-gray-300 text-sm"></i>
+                <button onclick="window.zoomOut()" class="w-10 h-10 bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:shadow-xl transition flex items-center justify-center">
+                    <i class="fas fa-minus text-gray-700 dark:text-gray-300"></i>
                 </button>
-                <button wire:click="refreshMap" class="w-8 h-8 bg-[#138898] rounded-lg shadow-md hover:bg-[#0f6b78] transition flex items-center justify-center">
-                    <i class="fas fa-sync-alt text-white text-sm"></i>
+                <button wire:click="refreshMap" class="w-10 h-10 bg-[#138898] rounded-lg shadow-lg hover:bg-[#0f6b78] transition flex items-center justify-center">
+                    <i class="fas fa-sync-alt text-white"></i>
                 </button>
             </div>
 
             <!-- Map Legend -->
-            <div class="absolute bottom-4 left-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-3 border border-gray-200 dark:border-gray-700">
-                <div class="flex items-center gap-2 mb-2">
-                    <i class="fas fa-legend text-[#138898] text-sm"></i>
-                    <span class="text-xs font-semibold text-gray-900 dark:text-white">Legend</span>
+            <div class="absolute bottom-4 left-4 z-[1000] bg-white dark:bg-gray-800 rounded-lg shadow-xl p-4 border border-gray-200 dark:border-gray-700">
+                <div class="flex items-center gap-2 mb-3">
+                    <i class="fas fa-legend text-[#138898]"></i>
+                    <span class="text-sm font-semibold text-gray-900 dark:text-white">Legend</span>
                 </div>
-                <div class="space-y-1.5">
+                <div class="space-y-2">
                     <div class="flex items-center gap-2">
                         <div class="w-3 h-3 rounded-full bg-blue-500 border border-white"></div>
-                        <span class="text-xs text-gray-700 dark:text-gray-300">Origin</span>
+                        <span class="text-xs text-gray-700 dark:text-gray-300">Origin Point</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <div class="w-3 h-3 rounded-full bg-green-500 border border-white"></div>
                         <span class="text-xs text-gray-700 dark:text-gray-300">Destination</span>
                     </div>
                     <div class="flex items-center gap-2">
-                        <div class="w-3 h-3 rounded-full bg-[#138898] border border-white flex items-center justify-center">
+                        <div class="w-4 h-4 rounded-full bg-[#138898] border-2 border-white flex items-center justify-center">
                             <i class="fas fa-truck text-white text-[8px]"></i>
                         </div>
-                        <span class="text-xs text-gray-700 dark:text-gray-300">Vehicle</span>
+                        <span class="text-xs text-gray-700 dark:text-gray-300">Active Vehicle</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Right Panel - Shipment Details (Like Chipster) -->
+        <!-- Right Panel - Shipment Details -->
         @if($selectedShipment)
             <div class="w-96 bg-white dark:bg-gray-800 border-l border-gray-200 dark:border-gray-700 overflow-y-auto sidebar-scrollbar">
                 <!-- Header -->
@@ -203,7 +203,7 @@
                     </div>
                 </div>
 
-                <!-- Tracker Timeline (Like Chipster) -->
+                <!-- Tracker Timeline -->
                 <div class="p-4 border-b border-gray-200 dark:border-gray-700">
                     <h4 class="text-xs font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
                         <i class="fas fa-history text-[#138898]"></i>
@@ -349,272 +349,362 @@
 </div>
 
 @push('styles')
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <style>
-        /* Custom scrollbar styles */
-        .sidebar-scrollbar::-webkit-scrollbar {
-            width: 4px;
-        }
-        .sidebar-scrollbar::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .sidebar-scrollbar::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 2px;
-        }
-        .sidebar-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-        .dark .sidebar-scrollbar::-webkit-scrollbar-thumb {
-            background: #4b5563;
-        }
-        .dark .sidebar-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #6b7280;
-        }
-        .sidebar-scrollbar {
-            scrollbar-width: thin;
-            scrollbar-color: #138898 transparent;
-        }
-        .dark .sidebar-scrollbar {
-            scrollbar-color: #138898 transparent;
-        }
-        
-        /* Map markers */
-        .leaflet-div-icon {
-            background: transparent !important;
-            border: none !important;
-        }
-        
-        /* Animation for active shipment */
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.05); }
-        }
-        
-        /* Chipster-like card shadows */
-        .shadow-card {
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.12);
-        }
-        
-        .dark .shadow-card {
-            box-shadow: 0 1px 3px rgba(0,0,0,0.20), 0 1px 2px rgba(0,0,0,0.24);
-        }
-    </style>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+/* Map container fixes */
+#map {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 500px;
+    z-index: 1;
+}
+
+/* Fix Leaflet container */
+.leaflet-container {
+    font-family: inherit !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: #e5e7eb !important;
+    z-index: 1 !important;
+}
+
+.dark .leaflet-container {
+    background: #1f2937 !important;
+}
+
+/* Fix tile rendering - CRITICAL FIX */
+.leaflet-tile {
+    max-width: none !important;
+    max-height: none !important;
+    image-rendering: crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+}
+
+.leaflet-container img {
+    max-width: none !important;
+}
+
+/* Custom scrollbar */
+.sidebar-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.sidebar-scrollbar::-webkit-scrollbar-thumb {
+    background: #138898;
+    border-radius: 3px;
+}
+
+.sidebar-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #0f6b78;
+}
+
+.dark .sidebar-scrollbar::-webkit-scrollbar-track {
+    background: #374151;
+}
+
+.dark .sidebar-scrollbar::-webkit-scrollbar-thumb {
+    background: #138898;
+}
+
+/* Ensure proper z-index for map elements */
+.leaflet-marker-pane {
+    z-index: 650 !important;
+}
+
+.leaflet-shadow-pane {
+    z-index: 600 !important;
+}
+
+.leaflet-overlay-pane {
+    z-index: 500 !important;
+}
+
+/* Map controls */
+.leaflet-control-zoom {
+    border: none !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.leaflet-control-zoom a {
+    background: white;
+    border: 1px solid #e5e7eb;
+    color: #4b5563;
+}
+
+.dark .leaflet-control-zoom a {
+    background: #374151;
+    border-color: #4b5563;
+    color: #d1d5db;
+}
+
+.leaflet-control-zoom a:hover {
+    background: #f9fafb;
+}
+
+.dark .leaflet-control-zoom a:hover {
+    background: #4b5563;
+}
+</style>
 @endpush
 
 @push('scripts')
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const mapData = @json($this->mapData);
-        
-        // Initialize map
-        const map = L.map('map').setView([-28.4793, 24.6727], 6);
-        
-        // Add clean tile layer
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-            attribution: '© OpenStreetMap, © CartoDB',
-            subdomains: 'abcd',
-            maxZoom: 19
-        }).addTo(map);
-        
-        let markers = [];
-        let routes = [];
-        
-        // Plot shipments on map
-        function plotShipments() {
-            // Clear existing
-            markers.forEach(marker => marker.remove());
-            routes.forEach(route => route.remove());
-            markers = [];
-            routes = [];
-            
-            if (mapData.length === 0) {
-                // Show message if no shipments
-                L.marker([-28.4793, 24.6727]).addTo(map)
-                    .bindPopup('No active shipments to display')
-                    .openPopup();
-                return;
-            }
-            
-            mapData.forEach(shipment => {
-                // Origin marker (blue)
-                const originMarker = L.circleMarker([shipment.origin.lat, shipment.origin.lng], {
-                    radius: 7,
-                    fillColor: '#3b82f6',
-                    color: '#ffffff',
-                    weight: 2,
-                    opacity: 0.9,
-                    fillOpacity: 0.9
-                }).addTo(map);
-                
-                originMarker.bindPopup(`
-                    <div class="text-xs p-1">
-                        <strong class="text-blue-600">📍 ${shipment.origin.city}</strong><br>
-                        <span class="text-gray-600">Origin point</span>
-                    </div>
-                `);
-                markers.push(originMarker);
-                
-                // Destination marker (green)
-                const destMarker = L.circleMarker([shipment.destination.lat, shipment.destination.lng], {
-                    radius: 7,
-                    fillColor: '#10b981',
-                    color: '#ffffff',
-                    weight: 2,
-                    opacity: 0.9,
-                    fillOpacity: 0.9
-                }).addTo(map);
-                
-                destMarker.bindPopup(`
-                    <div class="text-xs p-1">
-                        <strong class="text-green-600">🎯 ${shipment.destination.city}</strong><br>
-                        <span class="text-gray-600">Destination point</span>
-                    </div>
-                `);
-                markers.push(destMarker);
-                
-                // Vehicle marker with professional design
-                const vehicleIcon = L.divIcon({
-                    className: 'vehicle-marker',
-                    html: `
-                        <div style="
-                            width: 32px; 
-                            height: 32px; 
-                            background: #138898;
-                            border-radius: 50%; 
-                            border: 3px solid white;
-                            box-shadow: 0 3px 6px rgba(0,0,0,0.3);
-                            display: flex; 
-                            align-items: center; 
-                            justify-content: center;
-                            position: relative;
-                        ">
-                            <i class="fas fa-truck" style="color: white; font-size: 12px;"></i>
-                            <div style="
-                                position: absolute;
-                                top: -4px;
-                                right: -4px;
-                                width: 12px;
-                                height: 12px;
-                                background: #10b981;
-                                border-radius: 50%;
-                                border: 2px solid white;
-                                animation: pulse 2s infinite;
-                            "></div>
-                        </div>`,
-                    iconSize: [32, 32],
-                    iconAnchor: [16, 16]
-                });
-                
-                const vehicleMarker = L.marker([shipment.current_location.lat, shipment.current_location.lng], {
-                    icon: vehicleIcon
-                }).addTo(map);
-                
-                // Professional popup
-                let popupContent = `
-                    <div style="min-width: 200px; font-family: 'Inter', system-ui, sans-serif; padding: 8px;">
-                        <div class="flex items-center gap-2 mb-2">
-                            <div style="width: 8px; height: 8px; background: #138898; border-radius: 50%;"></div>
-                            <strong style="color: #1f2937; font-size: 13px;">${shipment.tracking_number}</strong>
-                        </div>
-                        
-                        <div style="margin-bottom: 6px;">
-                            <div style="font-size: 11px; color: #6b7280; margin-bottom: 2px;">Receiver</div>
-                            <div style="font-size: 12px; color: #1f2937; font-weight: 500;">${shipment.receiver_name}</div>
-                        </div>
-                        
-                        <div style="margin-bottom: 6px;">
-                            <div style="font-size: 11px; color: #6b7280; margin-bottom: 2px;">Route</div>
-                            <div style="font-size: 12px; color: #1f2937; font-weight: 500;">
-                                ${shipment.origin.city} → ${shipment.destination.city}
-                            </div>
-                        </div>
-                `;
-                
-                if (shipment.vehicle) {
-                    popupContent += `
-                        <div style="margin-bottom: 6px;">
-                            <div style="font-size: 11px; color: #6b7280; margin-bottom: 2px;">Driver</div>
-                            <div style="font-size: 12px; color: #1f2937; font-weight: 500;">
-                                <i class="fas fa-user" style="margin-right: 4px; color: #6b7280;"></i>${shipment.vehicle.driver}
-                            </div>
-                        </div>
-                    `;
-                }
-                
-                if (shipment.current_location.speed) {
-                    popupContent += `
-                        <div style="margin-bottom: 6px;">
-                            <div style="font-size: 11px; color: #6b7280; margin-bottom: 2px;">Speed</div>
-                            <div style="font-size: 12px; color: #1f2937; font-weight: 500;">
-                                <i class="fas fa-tachometer-alt" style="margin-right: 4px; color: #6b7280;"></i>${shipment.current_location.speed} km/h
-                            </div>
-                        </div>
-                    `;
-                }
-                
-                popupContent += `
-                        <div style="padding-top: 8px; border-top: 1px solid #e5e7eb; margin-top: 8px;">
-                            <div style="font-size: 11px; color: #6b7280; margin-bottom: 2px;">ETA</div>
-                            <div style="font-size: 12px; color: #1f2937; font-weight: 500;">
-                                <i class="fas fa-clock" style="margin-right: 4px; color: #6b7280;"></i>${shipment.estimated_delivery}
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                vehicleMarker.bindPopup(popupContent);
-                markers.push(vehicleMarker);
-                
-                // Route line with gradient
-                const routeLine = L.polyline([
-                    [shipment.origin.lat, shipment.origin.lng],
-                    [shipment.current_location.lat, shipment.current_location.lng],
-                    [shipment.destination.lat, shipment.destination.lng]
-                ], {
-                    color: '#138898',
-                    weight: 2,
-                    opacity: 0.5,
-                    dashArray: '6, 4',
-                    lineCap: 'round'
-                }).addTo(map);
-                routes.push(routeLine);
-            });
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// Global map variables
+let map = null;
+let markersLayer = null;
+
+// Initialize map
+function initializeMap() {
+    // Get the map container
+    const mapContainer = document.getElementById('map');
+    if (!mapContainer) {
+        console.error('Map container not found');
+        return;
+    }
+    
+    // Check if container has dimensions
+    if (mapContainer.offsetWidth === 0 || mapContainer.offsetHeight === 0) {
+        console.warn('Map container has no dimensions, delaying initialization');
+        setTimeout(initializeMap, 100);
+        return;
+    }
+    
+    // Remove existing map if it exists
+    if (map) {
+        map.remove();
+        map = null;
+    }
+    
+    // Clear the map container
+    mapContainer.innerHTML = '';
+    
+    // Initialize map with South Africa coordinates
+    map = L.map('map', {
+        preferCanvas: true, // Better performance for many markers
+        zoomControl: false, // We'll add custom controls
+        attributionControl: false,
+        fadeAnimation: true,
+        markerZoomAnimation: true,
+        inertia: true,
+        inertiaDeceleration: 3000,
+        inertiaMaxSpeed: 1500
+    }).setView([-28.4793, 24.6727], 5);
+    
+    // Add OpenStreetMap tiles - more reliable
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap contributors',
+        noWrap: true,
+        updateWhenIdle: true,
+        updateWhenZooming: false
+    }).addTo(map);
+    
+    // Add custom zoom control
+    L.control.zoom({
+        position: 'topright'
+    }).addTo(map);
+    
+    // Create markers layer
+    markersLayer = L.layerGroup().addTo(map);
+    
+    // Force map resize
+    setTimeout(() => {
+        if (map) {
+            map.invalidateSize(true);
+            map.setView([-28.4793, 24.6727], 5);
         }
+    }, 50);
+    
+    // Plot initial shipments
+    plotShipments(@json($this->mapDataArray));
+}
+
+// Plot shipments on the map
+function plotShipments(mapData) {
+    if (!map || !markersLayer) {
+        console.error('Map or markers layer not initialized');
+        return;
+    }
+    
+    // Clear existing markers
+    markersLayer.clearLayers();
+    
+    if (!mapData || mapData.length === 0) {
+        // Show a message when no shipments
+        L.marker([-28.4793, 24.6727]).addTo(map)
+            .bindPopup('<div class="p-2 text-sm">No active shipments to display</div>')
+            .openPopup();
+        return;
+    }
+    
+    const bounds = L.latLngBounds();
+    
+    mapData.forEach(shipment => {
+        // Add origin marker
+        const originMarker = L.circleMarker(
+            [shipment.origin.lat, shipment.origin.lng],
+            {
+                radius: 8,
+                fillColor: '#3b82f6',
+                color: '#ffffff',
+                weight: 2,
+                opacity: 1,
+                fillOpacity: 0.9
+            }
+        ).addTo(markersLayer);
         
-        // Initial plot
-        plotShipments();
+        originMarker.bindPopup(`
+            <div class="p-2">
+                <div class="font-semibold text-blue-600">📍 Origin</div>
+                <div class="text-sm">${shipment.origin.city}</div>
+                <div class="text-xs text-gray-500">Tracking: ${shipment.tracking_number}</div>
+            </div>
+        `);
+        bounds.extend([shipment.origin.lat, shipment.origin.lng]);
         
-        // Zoom functions
-        window.zoomIn = function() {
-            map.zoomIn();
-        };
+        // Add destination marker
+        const destMarker = L.circleMarker(
+            [shipment.destination.lat, shipment.destination.lng],
+            {
+                radius: 8,
+                fillColor: '#10b981',
+                color: '#ffffff',
+                weight: 2,
+                opacity: 1,
+                fillOpacity: 0.9
+            }
+        ).addTo(markersLayer);
         
-        window.zoomOut = function() {
-            map.zoomOut();
-        };
+        destMarker.bindPopup(`
+            <div class="p-2">
+                <div class="font-semibold text-green-600">🎯 Destination</div>
+                <div class="text-sm">${shipment.destination.city}</div>
+                <div class="text-xs text-gray-500">Receiver: ${shipment.receiver_name}</div>
+            </div>
+        `);
+        bounds.extend([shipment.destination.lat, shipment.destination.lng]);
         
-        // Auto-refresh every 30 seconds
-        setInterval(() => {
-            Livewire.dispatch('refreshMap');
-        }, 30000);
-        
-        // Listen for map refresh events
-        Livewire.on('map-refreshed', () => {
-            // Slightly move vehicle markers to simulate movement
-            markers.forEach((marker, index) => {
-                if (marker.setLatLng && index % 3 === 0) {
-                    const currentLatLng = marker.getLatLng();
-                    const randomLat = (Math.random() - 0.5) * 0.01;
-                    const randomLng = (Math.random() - 0.5) * 0.01;
-                    marker.setLatLng([
-                        currentLatLng.lat + randomLat,
-                        currentLatLng.lng + randomLng
-                    ]);
-                }
-            });
+        // Add vehicle marker with custom icon
+        const vehicleIcon = L.divIcon({
+            html: `
+                <div style="
+                    width: 32px; 
+                    height: 32px; 
+                    background: #138898;
+                    border-radius: 50%; 
+                    border: 3px solid white;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+                    display: flex; 
+                    align-items: center; 
+                    justify-content: center;
+                ">
+                    <i class="fas fa-truck" style="color: white; font-size: 12px;"></i>
+                </div>
+            `,
+            iconSize: [32, 32],
+            iconAnchor: [16, 16],
+            className: 'vehicle-marker'
         });
+        
+        const vehicleMarker = L.marker(
+            [shipment.current_location.lat, shipment.current_location.lng],
+            { 
+                icon: vehicleIcon,
+                zIndexOffset: 1000 // Ensure vehicle markers are on top
+            }
+        ).addTo(markersLayer);
+        
+        vehicleMarker.bindPopup(`
+            <div class="p-2">
+                <div class="font-semibold text-[#138898]">🚚 Vehicle ${shipment.vehicle?.number || 'N/A'}</div>
+                <div class="text-sm">${shipment.tracking_number}</div>
+                <div class="text-xs text-gray-500">Driver: ${shipment.vehicle?.driver || 'N/A'}</div>
+                <div class="text-xs text-gray-500">Speed: ${shipment.current_location.speed || 0} km/h</div>
+                <div class="text-xs text-gray-500">Status: ${shipment.status}</div>
+            </div>
+        `);
+        bounds.extend([shipment.current_location.lat, shipment.current_location.lng]);
+        
+        // Add route line
+        const routeLine = L.polyline([
+            [shipment.origin.lat, shipment.origin.lng],
+            [shipment.current_location.lat, shipment.current_location.lng],
+            [shipment.destination.lat, shipment.destination.lng]
+        ], {
+            color: '#8b5cf6',
+            weight: 2,
+            opacity: 0.7,
+            dashArray: '5, 5'
+        }).addTo(markersLayer);
     });
-    </script>
+    
+    // Fit map to bounds with padding
+    if (bounds.isValid()) {
+        map.fitBounds(bounds, { 
+            padding: [50, 50],
+            maxZoom: 12
+        });
+    }
+}
+
+// Zoom functions
+window.zoomIn = () => {
+    if (map) map.zoomIn();
+};
+
+window.zoomOut = () => {
+    if (map) map.zoomOut();
+};
+
+// Initialize when Livewire is ready
+document.addEventListener('livewire:init', () => {
+    // Delay initialization to ensure DOM is ready
+    setTimeout(() => {
+        initializeMap();
+        
+        // Add resize listener
+        window.addEventListener('resize', () => {
+            if (map) {
+                setTimeout(() => map.invalidateSize(true), 100);
+            }
+        });
+    }, 300);
+});
+
+// Listen for Livewire events
+Livewire.on('map-data-updated', (event) => {
+    if (map && markersLayer) {
+        plotShipments(event.mapData);
+    }
+});
+
+Livewire.on('map-refreshed', () => {
+    if (map) {
+        // Re-center map
+        map.invalidateSize(true);
+    }
+});
+
+Livewire.on('focus-on-shipment', (event) => {
+    if (map && event.shipmentId) {
+        // Get map data from PHP
+        const mapData = @json($this->mapDataArray);
+        const shipment = mapData.find(s => s.id === event.shipmentId);
+        if (shipment) {
+            map.setView([shipment.current_location.lat, shipment.current_location.lng], 10);
+        }
+    }
+});
+
+// Reinitialize map on Alpine.js init (for Turbolinks/SPA)
+document.addEventListener('alpine:init', () => {
+    setTimeout(initializeMap, 500);
+});
+</script>
 @endpush

@@ -6,7 +6,46 @@
 /* FONTAWESOME ICONS */
 @import '@fortawesome/fontawesome-free/css/all.css';
 
+/* Add this to your existing app.css */
 
+/* Force Leaflet tiles to load properly */
+.leaflet-tile-pane {
+    z-index: 200 !important;
+}
+
+.leaflet-overlay-pane {
+    z-index: 400 !important;
+}
+
+.leaflet-marker-pane {
+    z-index: 600 !important;
+}
+
+.leaflet-popup-pane {
+    z-index: 700 !important;
+}
+
+/* Prevent Tailwind from interfering with Leaflet */
+.leaflet-container * {
+    box-sizing: initial !important;
+}
+
+/* Ensure map loads completely */
+.leaflet-fade-anim .leaflet-tile, 
+.leaflet-zoom-anim .leaflet-zoom-animated {
+    will-change: auto !important;
+}
+
+/* Fix for map loading in parts */
+.leaflet-tile-loaded {
+    opacity: 1 !important;
+    transition: opacity 0.2s linear;
+}
+
+/* Ensure map container is properly sized */
+#map.leaflet-container {
+    line-height: 1.5 !important;
+}
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
