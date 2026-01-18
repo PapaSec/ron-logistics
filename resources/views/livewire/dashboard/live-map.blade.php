@@ -349,42 +349,38 @@
 </div>
 
 @push('styles')
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet" />
 <style>
-/* Map container fixes */
 #map {
     width: 100% !important;
     height: 100% !important;
     min-height: 500px;
-    z-index: 1;
 }
 
-/* Fix Leaflet container */
-.leaflet-container {
+.maplibregl-map {
     font-family: inherit !important;
-    width: 100% !important;
-    height: 100% !important;
-    background: #e5e7eb !important;
-    z-index: 1 !important;
 }
 
-.dark .leaflet-container {
-    background: #1f2937 !important;
+.maplibregl-popup-content {
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-/* Fix tile rendering - CRITICAL FIX */
-.leaflet-tile {
-    max-width: none !important;
-    max-height: none !important;
-    image-rendering: crisp-edges;
-    image-rendering: -webkit-optimize-contrast;
+.maplibregl-popup-close-button {
+    font-size: 20px;
+    padding: 4px 8px;
 }
 
-.leaflet-container img {
-    max-width: none !important;
+@keyframes pulse-marker {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.8; }
 }
 
-/* Custom scrollbar */
+.vehicle-marker {
+    animation: pulse-marker 2s infinite;
+}
+
 .sidebar-scrollbar::-webkit-scrollbar {
     width: 6px;
 }
@@ -410,457 +406,108 @@
 .dark .sidebar-scrollbar::-webkit-scrollbar-thumb {
     background: #138898;
 }
-
-/* Ensure proper z-index for map elements */
-.leaflet-marker-pane {
-    z-index: 650 !important;
-}
-
-.leaflet-shadow-pane {
-    z-index: 600 !important;
-}
-
-.leaflet-overlay-pane {
-    z-index: 500 !important;
-}
-
-/* Map controls */
-.leaflet-control-zoom {
-    border: none !important;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.leaflet-control-zoom a {
-    background: white;
-    border: 1px solid #e5e7eb;
-    color: #4b5563;
-}
-
-.dark .leaflet-control-zoom a {
-    background: #374151;
-    border-color: #4b5563;
-    color: #d1d5db;
-}
-
-.leaflet-control-zoom a:hover {
-    background: #f9fafb;
-}
-
-.dark .leaflet-control-zoom a:hover {
-    background: #4b5563;
-}
 </style>
 @endpush
 
 @push('scripts')
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
 <script>
-// Global variables
 let map = null;
-let markersLayer = null;
+let markers = [];
 let isMapInitialized = false;
 
-// Initialize map with proper tile loading
 function initMap() {
-    console.log('Initializing map...');
-    
     const mapContainer = document.getElementById('map');
-    if (!mapContainer) {
-        console.error('Map container not found!');
-        return false;
-    }
+    if (!mapContainer) return false;
     
-    // Clean up existing map
     if (map) {
-        map.off();
         map.remove();
         map = null;
-        markersLayer = null;
-        isMapInitialized = false;
+        markers = [];
     }
     
-    // Clear container completely
-    mapContainer.innerHTML = '';
-    mapContainer.style.height = '100%';
-    
     try {
-        // Create map with proper configuration
-        map = L.map('map', {
-            center: [-28.4793, 24.6727], // Center of South Africa
-            zoom: 6,
-            zoomControl: false,
-            attributionControl: true,
-            preferCanvas: false,
-            fadeAnimation: true,
-            zoomAnimation: true,
-            markerZoomAnimation: true
+        map = new maplibregl.Map({
+            container: 'map',
+            style: {
+                version: 8,
+                sources: {
+                    'osm': {
+                        type: 'raster',
+                        tiles: ['https://a.tile.openstreetmap.org/{z}/{x}/{y}.png'],
+                        tileSize: 256
+                    }
+                },
+                layers: [{id: 'osm', type: 'raster', source: 'osm'}]
+            },
+            center: [24.6727, -28.4793],
+            zoom: 5
         });
         
-        // Add tile layer with proper error handling
-        const tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors',
-            maxZoom: 19,
-            minZoom: 5,
-            tileSize: 256,
-            crossOrigin: true,
-            errorTileUrl: '', // Prevent error tile display
-            updateWhenIdle: false,
-            updateWhenZooming: false,
-            keepBuffer: 2
-        });
+        map.addControl(new maplibregl.NavigationControl(), 'top-right');
         
-        // Listen for tile loading events
-        tileLayer.on('loading', () => {
-            console.log('Tiles loading...');
-        });
-        
-        tileLayer.on('load', () => {
-            console.log('Tiles loaded successfully');
-        });
-        
-        tileLayer.on('tileerror', (error) => {
-            console.warn('Tile loading error:', error);
-        });
-        
-        tileLayer.addTo(map);
-        
-        // Add zoom control in top right
-        L.control.zoom({ 
-            position: 'topright' 
-        }).addTo(map);
-        
-        // Create markers layer group
-        markersLayer = L.layerGroup().addTo(map);
-        
-        // Wait for map to fully render
-        map.whenReady(() => {
-            console.log('Map is ready');
+        map.on('load', () => {
             isMapInitialized = true;
-            
-            // Force invalidate size multiple times
-            setTimeout(() => {
-                if (map) {
-                    map.invalidateSize(true);
-                    console.log('First resize completed');
-                }
-            }, 100);
-            
-            setTimeout(() => {
-                if (map) {
-                    map.invalidateSize(true);
-                    console.log('Second resize completed');
-                }
-            }, 300);
-            
-            setTimeout(() => {
-                if (map) {
-                    map.invalidateSize(true);
-                    console.log('Third resize completed');
-                }
-            }, 500);
+            const data = @json($mapData);
+            if (data) setTimeout(() => plotShipments(data), 300);
         });
         
-        console.log('Map initialized successfully');
         return true;
-        
     } catch (error) {
-        console.error('Failed to initialize map:', error);
-        isMapInitialized = false;
+        console.error('Map error:', error);
         return false;
     }
 }
 
-// Plot shipments on map
 function plotShipments(mapData) {
-    if (!map || !markersLayer || !isMapInitialized) {
-        console.log('Map not ready, will retry...');
+    if (!map || !isMapInitialized) {
         setTimeout(() => plotShipments(mapData), 500);
         return;
     }
     
-    console.log('Plotting shipments:', mapData?.length || 0);
+    markers.forEach(m => m.remove());
+    markers = [];
     
-    // Clear existing markers
-    markersLayer.clearLayers();
+    if (!mapData || mapData.length === 0) return;
     
-    if (!mapData || mapData.length === 0) {
-        console.log('No shipments to plot');
-        return;
-    }
+    const bounds = new maplibregl.LngLatBounds();
     
-    const bounds = L.latLngBounds();
-    
-    mapData.forEach((shipment) => {
-        try {
-            // Validate coordinates
-            if (!shipment.origin?.lat || !shipment.origin?.lng ||
-                !shipment.destination?.lat || !shipment.destination?.lng ||
-                !shipment.current_location?.lat || !shipment.current_location?.lng) {
-                console.warn('Invalid coordinates for shipment:', shipment.tracking_number);
-                return;
-            }
-            
-            // Origin marker (blue circle)
-            const originMarker = L.circleMarker(
-                [shipment.origin.lat, shipment.origin.lng], 
-                {
-                    radius: 8,
-                    fillColor: '#3b82f6',
-                    color: '#ffffff',
-                    weight: 2,
-                    opacity: 1,
-                    fillOpacity: 0.8
-                }
-            ).addTo(markersLayer);
-            
-            originMarker.bindPopup(`
-                <div style="padding: 8px; min-width: 200px;">
-                    <div style="font-weight: 600; color: #3b82f6; margin-bottom: 4px;">
-                        📍 Origin Point
-                    </div>
-                    <div style="font-size: 14px; margin-bottom: 2px;">
-                        <strong>City:</strong> ${shipment.origin.city}
-                    </div>
-                    <div style="font-size: 12px; color: #666;">
-                        <strong>Tracking:</strong> ${shipment.tracking_number}
-                    </div>
-                </div>
-            `);
-            
-            bounds.extend([shipment.origin.lat, shipment.origin.lng]);
-            
-            // Destination marker (green circle)
-            const destMarker = L.circleMarker(
-                [shipment.destination.lat, shipment.destination.lng], 
-                {
-                    radius: 8,
-                    fillColor: '#10b981',
-                    color: '#ffffff',
-                    weight: 2,
-                    opacity: 1,
-                    fillOpacity: 0.8
-                }
-            ).addTo(markersLayer);
-            
-            destMarker.bindPopup(`
-                <div style="padding: 8px; min-width: 200px;">
-                    <div style="font-weight: 600; color: #10b981; margin-bottom: 4px;">
-                        🎯 Destination
-                    </div>
-                    <div style="font-size: 14px; margin-bottom: 2px;">
-                        <strong>City:</strong> ${shipment.destination.city}
-                    </div>
-                    <div style="font-size: 12px; color: #666;">
-                        <strong>Receiver:</strong> ${shipment.receiver_name}
-                    </div>
-                    <div style="font-size: 12px; color: #666;">
-                        <strong>ETA:</strong> ${shipment.estimated_delivery}
-                    </div>
-                </div>
-            `);
-            
-            bounds.extend([shipment.destination.lat, shipment.destination.lng]);
-            
-            // Vehicle marker (custom truck icon)
-            const vehicleIcon = L.divIcon({
-                html: `
-                    <div style="
-                        width: 32px;
-                        height: 32px;
-                        background: #138898;
-                        border-radius: 50%;
-                        border: 3px solid white;
-                        box-shadow: 0 3px 6px rgba(0,0,0,0.3);
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        position: relative;
-                    ">
-                        <i class="fas fa-truck" style="color: white; font-size: 13px;"></i>
-                        ${shipment.current_location.speed ? `
-                            <div style="
-                                position: absolute;
-                                bottom: -18px;
-                                background: rgba(19, 136, 152, 0.9);
-                                color: white;
-                                padding: 2px 6px;
-                                border-radius: 10px;
-                                font-size: 10px;
-                                font-weight: 600;
-                                white-space: nowrap;
-                            ">
-                                ${shipment.current_location.speed} km/h
-                            </div>
-                        ` : ''}
-                    </div>
-                `,
-                iconSize: [32, 32],
-                iconAnchor: [16, 16],
-                popupAnchor: [0, -16],
-                className: 'custom-vehicle-marker'
-            });
-            
-            const vehicleMarker = L.marker(
-                [shipment.current_location.lat, shipment.current_location.lng],
-                { icon: vehicleIcon }
-            ).addTo(markersLayer);
-            
-            vehicleMarker.bindPopup(`
-                <div style="padding: 8px; min-width: 220px;">
-                    <div style="font-weight: 600; color: #138898; margin-bottom: 6px; font-size: 15px;">
-                        🚚 ${shipment.vehicle?.number || 'N/A'}
-                    </div>
-                    <div style="font-size: 13px; margin-bottom: 3px;">
-                        <strong>Driver:</strong> ${shipment.vehicle?.driver || 'N/A'}
-                    </div>
-                    <div style="font-size: 13px; margin-bottom: 3px;">
-                        <strong>Type:</strong> ${shipment.vehicle?.type || 'N/A'}
-                    </div>
-                    <div style="font-size: 13px; margin-bottom: 3px;">
-                        <strong>Speed:</strong> ${shipment.current_location.speed || 0} km/h
-                    </div>
-                    <div style="font-size: 13px; margin-bottom: 3px;">
-                        <strong>Heading:</strong> ${shipment.current_location.heading || 'N/A'}
-                    </div>
-                    <div style="margin-top: 6px; padding-top: 6px; border-top: 1px solid #e5e7eb;">
-                        <div style="font-size: 12px; color: #666;">
-                            Tracking: ${shipment.tracking_number}
-                        </div>
-                    </div>
-                </div>
-            `);
-            
-            bounds.extend([shipment.current_location.lat, shipment.current_location.lng]);
-            
-            // Route polyline (dashed purple line)
-            const routePoints = [
-                [shipment.origin.lat, shipment.origin.lng],
-                [shipment.current_location.lat, shipment.current_location.lng],
-                [shipment.destination.lat, shipment.destination.lng]
-            ];
-            
-            L.polyline(routePoints, {
-                color: '#8b5cf6',
-                weight: 3,
-                opacity: 0.6,
-                dashArray: '10, 10',
-                lineJoin: 'round'
-            }).addTo(markersLayer);
-            
-        } catch (error) {
-            console.error('Error plotting shipment:', shipment.tracking_number, error);
-        }
+    mapData.forEach(s => {
+        if (!s.origin?.lat || !s.destination?.lat || !s.current_location?.lat) return;
+        
+        // Add markers (simplified)
+        const om = new maplibregl.Marker({color: '#3b82f6'})
+            .setLngLat([s.origin.lng, s.origin.lat])
+            .addTo(map);
+        markers.push(om);
+        bounds.extend([s.origin.lng, s.origin.lat]);
+        
+        const dm = new maplibregl.Marker({color: '#10b981'})
+            .setLngLat([s.destination.lng, s.destination.lat])
+            .addTo(map);
+        markers.push(dm);
+        bounds.extend([s.destination.lng, s.destination.lat]);
+        
+        const vm = new maplibregl.Marker({color: '#138898'})
+            .setLngLat([s.current_location.lng, s.current_location.lat])
+            .addTo(map);
+        markers.push(vm);
+        bounds.extend([s.current_location.lng, s.current_location.lat]);
     });
     
-    // Fit bounds to show all markers with padding
-    if (bounds.isValid()) {
-        setTimeout(() => {
-            map.fitBounds(bounds, { 
-                padding: [60, 60],
-                maxZoom: 12,
-                animate: true,
-                duration: 0.5
-            });
-        }, 100);
+    if (!bounds.isEmpty()) {
+        map.fitBounds(bounds, {padding: 80, maxZoom: 12});
     }
 }
 
-// Initialize on DOM ready
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM loaded, preparing map initialization...');
-    
-    // Wait for layout to be ready
-    setTimeout(() => {
-        const initialized = initMap();
-        
-        if (initialized) {
-            // Get initial data from Livewire
-            const initialData = window.livewire?.find('live-map')?.mapDataArray;
-            
-            if (initialData && initialData.length > 0) {
-                console.log('Plotting initial data:', initialData.length);
-                setTimeout(() => plotShipments(initialData), 800);
-            } else {
-                console.log('No initial data available');
-            }
-        }
-    }, 500);
-});
+document.addEventListener('DOMContentLoaded', () => setTimeout(initMap, 500));
 
-// Handle window resize
-let resizeTimer;
-window.addEventListener('resize', function() {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-        if (map && isMapInitialized) {
-            map.invalidateSize(true);
-            console.log('Map resized after window resize');
-        }
-    }, 200);
-});
-
-// Livewire event listeners
 document.addEventListener('livewire:init', () => {
-    console.log('Livewire initialized, setting up listeners...');
-    
-    Livewire.on('map-data-updated', (event) => {
-        console.log('Map data updated event received:', event.mapData?.length || 0);
-        if (event.mapData) {
-            plotShipments(event.mapData);
-        }
-    });
-    
-    Livewire.on('map-refreshed', () => {
-        console.log('Map refresh requested');
-        if (map && isMapInitialized) {
-            map.invalidateSize(true);
-        }
-    });
-    
-    Livewire.on('focus-on-shipment', (event) => {
-        console.log('Focus on shipment:', event.shipmentId);
-        
-        if (!map || !isMapInitialized) return;
-        
-        // Find the shipment in current data
-        const component = window.livewire?.find('live-map');
-        const mapData = component?.mapDataArray;
-        
-        if (mapData) {
-            const shipment = mapData.find(s => s.id === event.shipmentId);
-            if (shipment && shipment.current_location) {
-                map.setView(
-                    [shipment.current_location.lat, shipment.current_location.lng], 
-                    10,
-                    { animate: true, duration: 1 }
-                );
-                
-                // Find and open the vehicle marker popup
-                markersLayer.eachLayer((layer) => {
-                    if (layer instanceof L.Marker) {
-                        const latLng = layer.getLatLng();
-                        if (Math.abs(latLng.lat - shipment.current_location.lat) < 0.001 &&
-                            Math.abs(latLng.lng - shipment.current_location.lng) < 0.001) {
-                            setTimeout(() => layer.openPopup(), 500);
-                        }
-                    }
-                });
-            }
-        }
-    });
+    Livewire.on('map-data-updated', e => plotShipments(e.mapData));
+    Livewire.on('map-refreshed', () => map?.resize());
 });
 
-// Zoom control functions
-window.zoomIn = () => {
-    if (map && isMapInitialized) {
-        map.zoomIn();
-    }
-};
-
-window.zoomOut = () => {
-    if (map && isMapInitialized) {
-        map.zoomOut();
-    }
-};
+window.zoomIn = () => map?.zoomIn();
+window.zoomOut = () => map?.zoomOut();
 </script>
 @endpush
