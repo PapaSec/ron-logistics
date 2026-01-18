@@ -455,205 +455,240 @@
 @push('scripts')
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-// Global map variables
+// Global variables
 let map = null;
 let markersLayer = null;
+let isMapInitialized = false;
 
-// Initialize map
-function initializeMap() {
-    // Get the map container
+// Simple map initialization
+function initMap() {
+    console.log('Initializing map...');
+    
     const mapContainer = document.getElementById('map');
     if (!mapContainer) {
-        console.error('Map container not found');
-        return;
+        console.error('Map container not found!');
+        return false;
     }
     
-    // Check if container has dimensions
-    if (mapContainer.offsetWidth === 0 || mapContainer.offsetHeight === 0) {
-        console.warn('Map container has no dimensions, delaying initialization');
-        setTimeout(initializeMap, 100);
-        return;
-    }
-    
-    // Remove existing map if it exists
+    // Clean up existing map
     if (map) {
         map.remove();
         map = null;
+        markersLayer = null;
     }
     
-    // Clear the map container
+    // Clear container
     mapContainer.innerHTML = '';
     
-    // Initialize map with South Africa coordinates
-    map = L.map('map', {
-        preferCanvas: true, // Better performance for many markers
-        zoomControl: false, // We'll add custom controls
-        attributionControl: false,
-        fadeAnimation: true,
-        markerZoomAnimation: true,
-        inertia: true,
-        inertiaDeceleration: 3000,
-        inertiaMaxSpeed: 1500
-    }).setView([-28.4793, 24.6727], 5);
-    
-    // Add OpenStreetMap tiles - more reliable
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '© OpenStreetMap contributors',
-        noWrap: true,
-        updateWhenIdle: true,
-        updateWhenZooming: false
-    }).addTo(map);
-    
-    // Add custom zoom control
-    L.control.zoom({
-        position: 'topright'
-    }).addTo(map);
-    
-    // Create markers layer
-    markersLayer = L.layerGroup().addTo(map);
-    
-    // Force map resize
-    setTimeout(() => {
-        if (map) {
-            map.invalidateSize(true);
-            map.setView([-28.4793, 24.6727], 5);
-        }
-    }, 50);
-    
-    // Plot initial shipments
-    plotShipments(@json($this->mapDataArray));
+    try {
+        // Create map with minimal options
+        map = L.map('map', {
+            center: [-28.4793, 24.6727],
+            zoom: 5,
+            zoomControl: false,
+            attributionControl: false
+        });
+        
+        // Add tiles - using a different tile provider
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+        
+        // Add zoom control
+        L.control.zoom({ position: 'topright' }).addTo(map);
+        
+        // Create markers layer
+        markersLayer = L.layerGroup().addTo(map);
+        
+        isMapInitialized = true;
+        console.log('Map initialized successfully');
+        
+        // Force resize after a delay
+        setTimeout(() => {
+            if (map) {
+                map.invalidateSize(true);
+                console.log('Map resized');
+            }
+        }, 100);
+        
+        return true;
+    } catch (error) {
+        console.error('Failed to initialize map:', error);
+        return false;
+    }
 }
 
-// Plot shipments on the map
+// Plot shipments on map
 function plotShipments(mapData) {
-    if (!map || !markersLayer) {
-        console.error('Map or markers layer not initialized');
+    if (!map || !markersLayer || !isMapInitialized) {
+        console.log('Map not ready, skipping plot');
         return;
     }
+    
+    console.log('Plotting shipments:', mapData?.length || 0);
     
     // Clear existing markers
     markersLayer.clearLayers();
     
     if (!mapData || mapData.length === 0) {
-        // Show a message when no shipments
-        L.marker([-28.4793, 24.6727]).addTo(map)
-            .bindPopup('<div class="p-2 text-sm">No active shipments to display</div>')
+        // Show message when no shipments
+        L.marker([-28.4793, 24.6727])
+            .addTo(map)
+            .bindPopup('No active shipments')
             .openPopup();
         return;
     }
     
     const bounds = L.latLngBounds();
     
-    mapData.forEach(shipment => {
-        // Add origin marker
-        const originMarker = L.circleMarker(
-            [shipment.origin.lat, shipment.origin.lng],
-            {
-                radius: 8,
-                fillColor: '#3b82f6',
-                color: '#ffffff',
-                weight: 2,
-                opacity: 1,
-                fillOpacity: 0.9
-            }
-        ).addTo(markersLayer);
+    mapData.forEach((shipment, index) => {
+        // Origin marker (blue)
+        const originMarker = L.circleMarker([shipment.origin.lat, shipment.origin.lng], {
+            radius: 6,
+            fillColor: '#3b82f6',
+            color: '#fff',
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.8
+        }).addTo(markersLayer);
         
         originMarker.bindPopup(`
             <div class="p-2">
-                <div class="font-semibold text-blue-600">📍 Origin</div>
-                <div class="text-sm">${shipment.origin.city}</div>
-                <div class="text-xs text-gray-500">Tracking: ${shipment.tracking_number}</div>
+                <strong class="text-blue-600">Origin:</strong> ${shipment.origin.city}<br>
+                <strong>Tracking:</strong> ${shipment.tracking_number}
             </div>
         `);
+        
         bounds.extend([shipment.origin.lat, shipment.origin.lng]);
         
-        // Add destination marker
-        const destMarker = L.circleMarker(
-            [shipment.destination.lat, shipment.destination.lng],
-            {
-                radius: 8,
-                fillColor: '#10b981',
-                color: '#ffffff',
-                weight: 2,
-                opacity: 1,
-                fillOpacity: 0.9
-            }
-        ).addTo(markersLayer);
+        // Destination marker (green)
+        const destMarker = L.circleMarker([shipment.destination.lat, shipment.destination.lng], {
+            radius: 6,
+            fillColor: '#10b981',
+            color: '#fff',
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.8
+        }).addTo(markersLayer);
         
         destMarker.bindPopup(`
             <div class="p-2">
-                <div class="font-semibold text-green-600">🎯 Destination</div>
-                <div class="text-sm">${shipment.destination.city}</div>
-                <div class="text-xs text-gray-500">Receiver: ${shipment.receiver_name}</div>
+                <strong class="text-green-600">Destination:</strong> ${shipment.destination.city}<br>
+                <strong>Receiver:</strong> ${shipment.receiver_name}
             </div>
         `);
+        
         bounds.extend([shipment.destination.lat, shipment.destination.lng]);
         
-        // Add vehicle marker with custom icon
+        // Vehicle marker
         const vehicleIcon = L.divIcon({
             html: `
                 <div style="
-                    width: 32px; 
-                    height: 32px; 
+                    width: 28px;
+                    height: 28px;
                     background: #138898;
-                    border-radius: 50%; 
+                    border-radius: 50%;
                     border: 3px solid white;
                     box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-                    display: flex; 
-                    align-items: center; 
+                    display: flex;
+                    align-items: center;
                     justify-content: center;
                 ">
-                    <i class="fas fa-truck" style="color: white; font-size: 12px;"></i>
+                    <i class="fas fa-truck" style="color: white; font-size: 11px;"></i>
                 </div>
             `,
-            iconSize: [32, 32],
-            iconAnchor: [16, 16],
-            className: 'vehicle-marker'
+            iconSize: [28, 28],
+            iconAnchor: [14, 14]
         });
         
         const vehicleMarker = L.marker(
             [shipment.current_location.lat, shipment.current_location.lng],
-            { 
-                icon: vehicleIcon,
-                zIndexOffset: 1000 // Ensure vehicle markers are on top
-            }
+            { icon: vehicleIcon }
         ).addTo(markersLayer);
         
         vehicleMarker.bindPopup(`
             <div class="p-2">
-                <div class="font-semibold text-[#138898]">🚚 Vehicle ${shipment.vehicle?.number || 'N/A'}</div>
-                <div class="text-sm">${shipment.tracking_number}</div>
-                <div class="text-xs text-gray-500">Driver: ${shipment.vehicle?.driver || 'N/A'}</div>
-                <div class="text-xs text-gray-500">Speed: ${shipment.current_location.speed || 0} km/h</div>
-                <div class="text-xs text-gray-500">Status: ${shipment.status}</div>
+                <strong class="text-[#138898]">Vehicle ${shipment.vehicle?.number || 'N/A'}</strong><br>
+                Driver: ${shipment.vehicle?.driver || 'N/A'}<br>
+                Speed: ${shipment.current_location.speed || 0} km/h
             </div>
         `);
+        
         bounds.extend([shipment.current_location.lat, shipment.current_location.lng]);
         
-        // Add route line
-        const routeLine = L.polyline([
+        // Route line
+        L.polyline([
             [shipment.origin.lat, shipment.origin.lng],
             [shipment.current_location.lat, shipment.current_location.lng],
             [shipment.destination.lat, shipment.destination.lng]
         ], {
             color: '#8b5cf6',
             weight: 2,
-            opacity: 0.7,
+            opacity: 0.6,
             dashArray: '5, 5'
         }).addTo(markersLayer);
     });
     
-    // Fit map to bounds with padding
+    // Fit bounds to show all markers
     if (bounds.isValid()) {
-        map.fitBounds(bounds, { 
-            padding: [50, 50],
-            maxZoom: 12
-        });
+        map.fitBounds(bounds, { padding: [50, 50] });
     }
 }
 
-// Zoom functions
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing map...');
+    
+    // Wait a bit for layout to settle
+    setTimeout(() => {
+        initMap();
+        
+        // Initial plot
+        const initialData = @json($this->mapData);
+        if (initialData && initialData.length > 0) {
+            setTimeout(() => plotShipments(initialData), 200);
+        }
+    }, 300);
+});
+
+// Re-initialize on window resize
+window.addEventListener('resize', function() {
+    if (map) {
+        setTimeout(() => {
+            map.invalidateSize(true);
+        }, 100);
+    }
+});
+
+// Listen for Livewire events
+document.addEventListener('livewire:init', () => {
+    console.log('Livewire initialized');
+    
+    Livewire.on('map-data-updated', (event) => {
+        console.log('Map data updated:', event.mapData?.length || 0);
+        plotShipments(event.mapData);
+    });
+    
+    Livewire.on('map-refreshed', () => {
+        console.log('Map refreshed');
+        if (map) {
+            map.invalidateSize(true);
+        }
+    });
+    
+    Livewire.on('focus-on-shipment', (event) => {
+        if (map && event.shipmentId) {
+            const mapData = @json($this->mapData);
+            const shipment = mapData?.find(s => s.id === event.shipmentId);
+            if (shipment) {
+                map.setView([shipment.current_location.lat, shipment.current_location.lng], 10);
+            }
+        }
+    });
+});
+
+// Simple zoom functions
 window.zoomIn = () => {
     if (map) map.zoomIn();
 };
@@ -661,50 +696,5 @@ window.zoomIn = () => {
 window.zoomOut = () => {
     if (map) map.zoomOut();
 };
-
-// Initialize when Livewire is ready
-document.addEventListener('livewire:init', () => {
-    // Delay initialization to ensure DOM is ready
-    setTimeout(() => {
-        initializeMap();
-        
-        // Add resize listener
-        window.addEventListener('resize', () => {
-            if (map) {
-                setTimeout(() => map.invalidateSize(true), 100);
-            }
-        });
-    }, 300);
-});
-
-// Listen for Livewire events
-Livewire.on('map-data-updated', (event) => {
-    if (map && markersLayer) {
-        plotShipments(event.mapData);
-    }
-});
-
-Livewire.on('map-refreshed', () => {
-    if (map) {
-        // Re-center map
-        map.invalidateSize(true);
-    }
-});
-
-Livewire.on('focus-on-shipment', (event) => {
-    if (map && event.shipmentId) {
-        // Get map data from PHP
-        const mapData = @json($this->mapDataArray);
-        const shipment = mapData.find(s => s.id === event.shipmentId);
-        if (shipment) {
-            map.setView([shipment.current_location.lat, shipment.current_location.lng], 10);
-        }
-    }
-});
-
-// Reinitialize map on Alpine.js init (for Turbolinks/SPA)
-document.addEventListener('alpine:init', () => {
-    setTimeout(initializeMap, 500);
-});
 </script>
 @endpush
