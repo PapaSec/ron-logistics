@@ -208,12 +208,12 @@ class LiveMap extends Component
     }
 
     public function updated($property)
-    {
-        // Update map when search term changes
-        if ($property === 'searchTerm') {
-            $this->updateMapData();
-        }
+{
+    // Update map when search term changes
+    if ($property === 'searchTerm') {
+        $this->dispatch('map-data-updated', mapData: $this->mapData);
     }
+}
 
     // Refresh map data (called via polling)
     public function refreshMap()
