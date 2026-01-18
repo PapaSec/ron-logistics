@@ -219,7 +219,6 @@ class LiveMap extends Component
     public function refreshMap()
     {
         // In production, this would update vehicle locations from GPS devices
-        // For demo, we slightly update positions
         $this->simulateMovement();
         $this->dispatch('map-refreshed');
     }
