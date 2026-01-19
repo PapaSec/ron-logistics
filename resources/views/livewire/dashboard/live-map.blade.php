@@ -417,7 +417,7 @@ function initMap() {
     
     map.on('load', () => {
         map.addSource('routes', { type: 'geojson', data: { type: 'FeatureCollection', features: [] }});
-        map.addLayer({ id: 'routes', type: 'line', source: 'routes', paint: { 'line-color': '#8b5cf6', 'line-width': 3, 'line-dasharray': [2, 2] }});
+        map.addLayer({ id: 'routes', type: 'line', source: 'routes', paint: { 'line-color': '#7c3aed', 'line-width': 4, 'line-opacity': 0.9, 'line-cap': 'round', 'line-join': 'round' }});
         
         const data = @json($mapData);
         if (data?.length) plotShipments(data);
@@ -467,10 +467,13 @@ function plotShipments(data) {
         const truckEl = document.createElement('div');
         truckEl.className = 'truck-pin';
         truckEl.innerHTML = '<i class="fas fa-truck"></i>';
-        const truck = new maplibregl.Marker({ element: truckEl })
+        const truck = new maplibregl.Marker({ 
+            element: truckEl,
+            anchor: 'bottom'
+         })
             .setLngLat([s.current_location.lng, s.current_location.lat])
             .setPopup(new maplibregl.Popup().setHTML(`
-                <b>🚚 ${s.vehicle?.number || 'N/A'}</b><br>
+                <b>${s.vehicle?.number || 'N/A'}</b><br>
                 <small>Driver: ${s.vehicle?.driver || 'N/A'}</small><br>
                 <small>Speed: ${s.current_location.speed || 0} km/h</small><br>
                 <small>${s.tracking_number}</small>
@@ -498,7 +501,17 @@ function plotShipments(data) {
     }
     
     if (!bounds.isEmpty()) {
-        map.fitBounds(bounds, { padding: { top: 80, bottom: 80, left: 400, right: 80 }, maxZoom: 11 });
+        map.fitBounds(bounds, {
+    padding: {
+        top: 100,
+        bottom: 100,
+        left: window.innerWidth > 1200 ? 420 : 80,
+        right: 80
+    },
+    maxZoom: 10,
+    duration: 1200
+});
+
     }
 }
 

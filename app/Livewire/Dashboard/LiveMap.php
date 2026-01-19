@@ -115,10 +115,10 @@ class LiveMap extends Component
                 'estimated_delivery' => $shipment->estimated_delivery_date->format('M d, Y'),
             ];
         })->toArray();
-        
+
         // Update the array property
         $this->mapDataArray = $data;
-        
+
         return $data;
     }
 
@@ -171,7 +171,7 @@ class LiveMap extends Component
                 'recorded_at' => now(),
             ]);
         }
-        
+
         $this->updateMapData();
     }
 
@@ -208,12 +208,12 @@ class LiveMap extends Component
     }
 
     public function updated($property)
-{
-    // Update map when search term changes
-    if ($property === 'searchTerm') {
-        $this->dispatch('map-data-updated', mapData: $this->mapData);
+    {
+        // Update map when search term changes
+        if ($property === 'searchTerm') {
+            $this->dispatch('map-data-updated', mapData: $this->mapData);
+        }
     }
-}
 
     // Refresh map data (called via polling)
     public function refreshMap()
@@ -252,7 +252,7 @@ class LiveMap extends Component
                 'recorded_at' => now(),
             ]);
         }
-        
+
         $this->updateMapData();
     }
 
