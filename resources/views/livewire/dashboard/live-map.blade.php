@@ -447,158 +447,153 @@
 @endpush
 
 @push('scripts')
-<script>
-    let map = null;
-    let markers = [];
+    <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
+    <script>
+        let map, markers = [], routes = [];
 
-    function initMap() {
-        if (map) {
-            map.remove();
-            map = null;
-            markers = [];
+        function initMap() {
+            if (map) {
+    map.remove();
+    map = null;
+    markers = [];
+}
+
+
+            map = new maplibregl.Map({
+                container: 'map',
+                style: {
+                    version: 8,
+                    sources: { osm: { type: 'raster', tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'], tileSize: 256 } },
+                    layers: [{ id: 'osm', type: 'raster', source: 'osm' }]
+                },
+                center: [24.67, -28.48],
+                zoom: 5.5
+            });
+
+            map.addControl(new maplibregl.NavigationControl(), 'top-right');
+
+            map.on('load', () => {
+                map.addSource('routes', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+                map.addLayer({ id: 'routes', type: 'line', source: 'routes', paint: { 'line-color': '#7c3aed', 'line-width': 4, 'line-opacity': 0.9, 'line-cap': 'round', 'line-join': 'round' } });
+
+                const data = @json($mapData);
+                if (data?.length) plotShipments(data);
+            });
         }
 
-        map = new maplibregl.Map({
-            container: 'map',
-            style: 'https://demotiles.maplibre.org/style.json',
-            center: [28.0473, -26.2041], // Johannesburg
-            zoom: 6
-        });
+        function plotShipments(data) {
+            if (!map) return setTimeout(() => plotShipments(data), 500);
 
-        map.addControl(new maplibregl.NavigationControl());
+            markers.forEach(m => m.remove());
+            markers = [];
 
-        map.on('load', () => {
-            map.addSource('routes', {
-                type: 'geojson',
-                data: {
-                    type: 'FeatureCollection',
-                    features: []
+            const bounds = new maplibregl.LngLatBounds();
+            const routeLines = [];
+
+            data.forEach(s => {
+                if (!s.origin?.lat || !s.destination?.lat || !s.current_location?.lat) return;
+
+                // Origin
+                const originEl = document.createElement('div');
+                originEl.className = 'origin-pin';
+                const origin = new maplibregl.Marker({ element: originEl })
+                    .setLngLat([s.origin.lng, s.origin.lat])
+                    .setPopup(new maplibregl.Popup().setHTML(`
+                    <b> ${s.origin.city}</b><br>
+                    <small>${s.tracking_number}</small>
+                `))
+                    .addTo(map);
+                markers.push(origin);
+                bounds.extend([s.origin.lng, s.origin.lat]);
+
+                // Destination
+                const destEl = document.createElement('div');
+                destEl.className = 'dest-pin';
+                const dest = new maplibregl.Marker({ element: destEl })
+                    .setLngLat([s.destination.lng, s.destination.lat])
+                    .setPopup(new maplibregl.Popup().setHTML(`
+                    <b> ${s.destination.city}</b><br>
+                    <small>${s.receiver_name}</small><br>
+                    <small>ETA: ${s.estimated_delivery}</small>
+                `))
+                    .addTo(map);
+                markers.push(dest);
+                bounds.extend([s.destination.lng, s.destination.lat]);
+
+                // Truck
+                const truckEl = document.createElement('div');
+                truckEl.className = 'truck-pin';
+                truckEl.innerHTML = '<i class="fas fa-truck"></i>';
+
+                if (s.current_location.heading) {
+                    const rotationMap = { N: 0, E: 90, S: 180, W: 270 };
+                    truckEl.style.transform = `rotate(${rotationMap[s.current_location.heading] || 0}deg)`;
                 }
+
+                const truck = new maplibregl.Marker({
+                    element: truckEl,
+                    anchor: 'bottom'
+                })
+                    .setLngLat([s.current_location.lng, s.current_location.lat])
+                    .setPopup(new maplibregl.Popup().setHTML(`
+                    <b>${s.vehicle?.number || 'N/A'}</b><br>
+                    <small>Driver: ${s.vehicle?.driver || 'N/A'}</small><br>
+                    <small>Speed: ${s.current_location.speed || 0} km/h</small><br>
+                    <small>${s.tracking_number}</small>
+                `))
+                    .addTo(map);
+                markers.push(truck);
+                bounds.extend([s.current_location.lng, s.current_location.lat]);
+
+                // Route line
+                routeLines.push({
+                    type: 'Feature',
+                    geometry: {
+                        type: 'LineString',
+                        coordinates: [
+                            [s.origin.lng, s.origin.lat],
+                            [s.current_location.lng, s.current_location.lat],
+                            [s.destination.lng, s.destination.lat]
+                        ]
+                    }
+                });
             });
 
-            map.addLayer({
-                id: 'routes-layer',
-                type: 'line',
-                source: 'routes',
-                paint: {
-                    'line-color': '#7c3aed',
-                    'line-width': 4,
-                    'line-opacity': 0.9,
-                    'line-cap': 'round',
-                    'line-join': 'round'
-                }
-            });
-        });
-    }
 
-    function plotShipments(data) {
-        if (!Array.isArray(data) || !data.length || !map) return;
-
-        // Clear old markers
-        markers.forEach(m => m.remove());
-        markers = [];
-
-        const bounds = new maplibregl.LngLatBounds();
-        const routeFeatures = [];
-
-        data.forEach(s => {
-            if (!s.origin || !s.destination || !s.current_location) return;
-
-            /* ================= ORIGIN ================= */
-            const originEl = document.createElement('div');
-            originEl.className = 'origin-pin';
-
-            const originMarker = new maplibregl.Marker({
-                element: originEl,
-                anchor: 'bottom'
-            })
-            .setLngLat([s.origin.lng, s.origin.lat])
-            .addTo(map);
-
-            markers.push(originMarker);
-            bounds.extend([s.origin.lng, s.origin.lat]);
-
-            /* ================= DESTINATION ================= */
-            const destinationEl = document.createElement('div');
-            destinationEl.className = 'destination-pin';
-
-            const destinationMarker = new maplibregl.Marker({
-                element: destinationEl,
-                anchor: 'bottom'
-            })
-            .setLngLat([s.destination.lng, s.destination.lat])
-            .addTo(map);
-
-            markers.push(destinationMarker);
-            bounds.extend([s.destination.lng, s.destination.lat]);
-
-            /* ================= TRUCK ================= */
-            const truckEl = document.createElement('div');
-            truckEl.className = 'truck-pin';
-            truckEl.innerHTML = '<i class="fas fa-truck"></i>';
-
-            if (s.current_location?.heading) {
-                const rotationMap = { N: 0, E: 90, S: 180, W: 270 };
-                truckEl.style.transform =
-                    `rotate(${rotationMap[s.current_location.heading] || 0}deg)`;
+            if (map.getSource('routes')) {
+                map.getSource('routes').setData({ type: 'FeatureCollection', features: routeLines });
             }
 
-            const truckMarker = new maplibregl.Marker({
-                element: truckEl,
-                anchor: 'bottom'
-            })
-            .setLngLat([s.current_location.lng, s.current_location.lat])
-            .addTo(map);
+            if (!bounds.isEmpty()) {
+                map.fitBounds(bounds, {
+                    padding: {
+                        top: 100,
+                        bottom: 100,
+                        left: window.innerWidth > 1200 ? 420 : 80,
+                        right: 80
+                    },
+                    maxZoom: 10,
+                    duration: 1200
+                });
 
-            markers.push(truckMarker);
-            bounds.extend([s.current_location.lng, s.current_location.lat]);
+            }
+        }
 
-            /* ================= ROUTE ================= */
-            routeFeatures.push({
-                type: 'Feature',
-                geometry: {
-                    type: 'LineString',
-                    coordinates: [
-                        [s.origin.lng, s.origin.lat],
-                        [s.current_location.lng, s.current_location.lat],
-                        [s.destination.lng, s.destination.lat]
-                    ]
+        document.addEventListener('DOMContentLoaded', () => setTimeout(initMap, 300));
+
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('map-data-updated', e => plotShipments(e.mapData));
+            Livewire.on('map-refreshed', () => map?.resize());
+            Livewire.on('focus-on-shipment', e => {
+                const data = @json($mapData);
+                const s = data?.find(x => x.id === e.shipmentId);
+                if (s?.current_location) {
+                    map.flyTo({ center: [s.current_location.lng, s.current_location.lat], zoom: 10, duration: 1500 });
                 }
             });
         });
 
-        const source = map.getSource('routes');
-        if (source) {
-            source.setData({
-                type: 'FeatureCollection',
-                features: routeFeatures
-            });
-        }
-
-        if (!bounds.isEmpty()) {
-            map.fitBounds(bounds, {
-                padding: {
-                    top: 100,
-                    bottom: 100,
-                    left: window.innerWidth > 1200 ? 420 : 80,
-                    right: 80
-                },
-                maxZoom: 10,
-                duration: 1200
-            });
-        }
-    }
-
-    document.addEventListener('livewire:init', () => {
-        initMap();
-
-        Livewire.on('map-data-updated', data => {
-            plotShipments(data);
-        });
-
-        Livewire.on('map-refreshed', () => {
-            map?.resize();
-        });
-    });
-</script>
+        window.zoomIn = () => map?.zoomIn();
+        window.zoomOut = () => map?.zoomOut();
+    </script>
 @endpush
