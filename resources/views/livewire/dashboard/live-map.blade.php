@@ -351,60 +351,45 @@
 @push('styles')
 <link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet" />
 <style>
-#map {
-    width: 100% !important;
-    height: 100% !important;
-    min-height: 500px;
-}
+#map { width: 100%; height: 100%; min-height: 500px; }
+.maplibregl-popup-content { padding: 15px; border-radius: 10px; min-width: 250px; }
 
-.maplibregl-map {
-    font-family: inherit !important;
-}
-
-.maplibregl-popup-content {
-    padding: 12px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
-.maplibregl-popup-close-button {
-    font-size: 20px;
-    padding: 4px 8px;
-}
-
-@keyframes pulse-marker {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.1); opacity: 0.8; }
-}
-
-.vehicle-marker {
-    animation: pulse-marker 2s infinite;
-}
-
-.sidebar-scrollbar::-webkit-scrollbar {
-    width: 6px;
-}
-
-.sidebar-scrollbar::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 3px;
-}
-
-.sidebar-scrollbar::-webkit-scrollbar-thumb {
+/* Professional Markers */
+.truck-pin {
+    width: 32px; height: 32px;
     background: #138898;
-    border-radius: 3px;
+    border: 3px solid white;
+    border-radius: 50%;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 }
+.truck-pin i { color: white; font-size: 14px; }
 
-.sidebar-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #0f6b78;
+.origin-pin, .dest-pin {
+    width: 20px; height: 20px;
+    border: 3px solid white;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    cursor: pointer;
 }
+.origin-pin { background: #3b82f6; }
+.dest-pin { background: #10b981; }
 
-.dark .sidebar-scrollbar::-webkit-scrollbar-track {
-    background: #374151;
-}
-
-.dark .sidebar-scrollbar::-webkit-scrollbar-thumb {
-    background: #138898;
+/* Mobile Responsive Sidebar */
+@media (max-width: 1024px) {
+    .shipment-details-panel {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        z-index: 9999 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
 }
 </style>
 @endpush
@@ -412,99 +397,123 @@
 @push('scripts')
 <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
 <script>
-let map = null;
-let markers = [];
-let isMapInitialized = false;
+let map, markers = [], routes = [];
 
 function initMap() {
-    const mapContainer = document.getElementById('map');
-    if (!mapContainer) return false;
+    if (map) { map.remove(); markers = []; }
     
-    if (map) {
-        map.remove();
-        map = null;
-        markers = [];
-    }
+    map = new maplibregl.Map({
+        container: 'map',
+        style: {
+            version: 8,
+            sources: { osm: { type: 'raster', tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'], tileSize: 256 }},
+            layers: [{ id: 'osm', type: 'raster', source: 'osm' }]
+        },
+        center: [24.67, -28.48],
+        zoom: 5.5
+    });
     
-    try {
-        map = new maplibregl.Map({
-            container: 'map',
-            style: {
-                version: 8,
-                sources: {
-                    'osm': {
-                        type: 'raster',
-                        tiles: ['https://a.tile.openstreetmap.org/{z}/{x}/{y}.png'],
-                        tileSize: 256
-                    }
-                },
-                layers: [{id: 'osm', type: 'raster', source: 'osm'}]
-            },
-            center: [24.6727, -28.4793],
-            zoom: 5
-        });
+    map.addControl(new maplibregl.NavigationControl(), 'top-right');
+    
+    map.on('load', () => {
+        map.addSource('routes', { type: 'geojson', data: { type: 'FeatureCollection', features: [] }});
+        map.addLayer({ id: 'routes', type: 'line', source: 'routes', paint: { 'line-color': '#8b5cf6', 'line-width': 3, 'line-dasharray': [2, 2] }});
         
-        map.addControl(new maplibregl.NavigationControl(), 'top-right');
-        
-        map.on('load', () => {
-            isMapInitialized = true;
-            const data = @json($mapData);
-            if (data) setTimeout(() => plotShipments(data), 300);
-        });
-        
-        return true;
-    } catch (error) {
-        console.error('Map error:', error);
-        return false;
-    }
+        const data = @json($mapData);
+        if (data?.length) plotShipments(data);
+    });
 }
 
-function plotShipments(mapData) {
-    if (!map || !isMapInitialized) {
-        setTimeout(() => plotShipments(mapData), 500);
-        return;
-    }
+function plotShipments(data) {
+    if (!map) return setTimeout(() => plotShipments(data), 500);
     
     markers.forEach(m => m.remove());
     markers = [];
     
-    if (!mapData || mapData.length === 0) return;
-    
     const bounds = new maplibregl.LngLatBounds();
+    const routeLines = [];
     
-    mapData.forEach(s => {
+    data.forEach(s => {
         if (!s.origin?.lat || !s.destination?.lat || !s.current_location?.lat) return;
         
-        // Add markers (simplified)
-        const om = new maplibregl.Marker({color: '#3b82f6'})
+        // Origin
+        const originEl = document.createElement('div');
+        originEl.className = 'origin-pin';
+        const origin = new maplibregl.Marker({ element: originEl })
             .setLngLat([s.origin.lng, s.origin.lat])
+            .setPopup(new maplibregl.Popup().setHTML(`
+                <b> ${s.origin.city}</b><br>
+                <small>${s.tracking_number}</small>
+            `))
             .addTo(map);
-        markers.push(om);
+        markers.push(origin);
         bounds.extend([s.origin.lng, s.origin.lat]);
         
-        const dm = new maplibregl.Marker({color: '#10b981'})
+        // Destination
+        const destEl = document.createElement('div');
+        destEl.className = 'dest-pin';
+        const dest = new maplibregl.Marker({ element: destEl })
             .setLngLat([s.destination.lng, s.destination.lat])
+            .setPopup(new maplibregl.Popup().setHTML(`
+                <b> ${s.destination.city}</b><br>
+                <small>${s.receiver_name}</small><br>
+                <small>ETA: ${s.estimated_delivery}</small>
+            `))
             .addTo(map);
-        markers.push(dm);
+        markers.push(dest);
         bounds.extend([s.destination.lng, s.destination.lat]);
         
-        const vm = new maplibregl.Marker({color: '#138898'})
+        // Truck
+        const truckEl = document.createElement('div');
+        truckEl.className = 'truck-pin';
+        truckEl.innerHTML = '<i class="fas fa-truck"></i>';
+        const truck = new maplibregl.Marker({ element: truckEl })
             .setLngLat([s.current_location.lng, s.current_location.lat])
+            .setPopup(new maplibregl.Popup().setHTML(`
+                <b>🚚 ${s.vehicle?.number || 'N/A'}</b><br>
+                <small>Driver: ${s.vehicle?.driver || 'N/A'}</small><br>
+                <small>Speed: ${s.current_location.speed || 0} km/h</small><br>
+                <small>${s.tracking_number}</small>
+            `))
             .addTo(map);
-        markers.push(vm);
+        markers.push(truck);
         bounds.extend([s.current_location.lng, s.current_location.lat]);
+        
+        // Route line
+        routeLines.push({
+            type: 'Feature',
+            geometry: {
+                type: 'LineString',
+                coordinates: [
+                    [s.origin.lng, s.origin.lat],
+                    [s.current_location.lng, s.current_location.lat],
+                    [s.destination.lng, s.destination.lat]
+                ]
+            }
+        });
     });
     
+    if (map.getSource('routes')) {
+        map.getSource('routes').setData({ type: 'FeatureCollection', features: routeLines });
+    }
+    
     if (!bounds.isEmpty()) {
-        map.fitBounds(bounds, {padding: 80, maxZoom: 12});
+        map.fitBounds(bounds, { padding: { top: 80, bottom: 80, left: 400, right: 80 }, maxZoom: 11 });
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => setTimeout(initMap, 500));
+document.addEventListener('DOMContentLoaded', () => setTimeout(initMap, 300));
 
 document.addEventListener('livewire:init', () => {
     Livewire.on('map-data-updated', e => plotShipments(e.mapData));
     Livewire.on('map-refreshed', () => map?.resize());
+    Livewire.on('focus-on-shipment', e => {
+        const data = @json($mapData);
+        const s = data?.find(x => x.id === e.shipmentId);
+        if (s?.current_location) {
+            map.flyTo({ center: [s.current_location.lng, s.current_location.lat], zoom: 10, duration: 1500 });
+        }
+    });
 });
 
 window.zoomIn = () => map?.zoomIn();
