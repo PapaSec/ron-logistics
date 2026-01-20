@@ -33,38 +33,41 @@ class Login extends Component
     ];
 
     /**
+     * Store the previous URL + demo credentials
+     */
+    public function mount()
+    {
+        // Store intended URL
+        if (!str_contains(url()->previous(), 'login')) {
+            Session::put('url.intended', url()->previous());
+        }
+
+        // DEMO ONLY (remove in production)
+        if (app()->environment(['local', 'development'])) {
+            $this->email = 'admin@gmail.com';
+            $this->password = 'section48';
+        }
+    }
+
+    /**
      * Handle login form submission
      */
     public function login()
     {
-        // Validate the form inputs
         $this->validate();
 
-        // Attempt to authenticate the user
-        if (Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
-            // Regenerate session to prevent fixation attacks
+        if (Auth::attempt(
+            ['email' => $this->email, 'password' => $this->password],
+            $this->remember
+        )) {
             request()->session()->regenerate();
 
-            // Flash success message
             session()->flash('success', 'Welcome back!');
 
-            // Redirect to intended URL or dashboard
             return redirect()->intended(route('dashboard'));
         }
 
-        // If authentication fails, add error to email field
         $this->addError('email', 'These credentials do not match our records.');
-    }
-
-    /**
-     * Store the previous URL when component mounts
-     */
-    public function mount()
-    {
-        // Store the previous URL in the session if it's not the login page
-        if (!str_contains(url()->previous(), 'login')) {
-            Session::put('url.intended', url()->previous());
-        }
     }
 
     /**
