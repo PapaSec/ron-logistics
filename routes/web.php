@@ -16,7 +16,7 @@ use App\Livewire\Vehicles\{Create as VehiclesCreate, Edit as VehiclesEdit, Index
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return Auth::check() ? redirect()->route('dashboard') : redirect()->route('login');
 })->name('home');
 
 /*
