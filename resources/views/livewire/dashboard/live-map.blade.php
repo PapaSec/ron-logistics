@@ -1,6 +1,6 @@
 <div class="h-screen flex flex-col bg-[#E4EBE7] dark:bg-[#1f2431]" wire:poll.30s="refreshMap">
     <!-- Modern Header -->
-    <div class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-3">
+    <div class="bg-[#E4EBE7] dark:bg-[#1f2431] border-b border-gray-200 dark:border-gray-700 px-6 py-3">
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="w-8 h-8 bg-[#138898] rounded-lg flex items-center justify-center">
