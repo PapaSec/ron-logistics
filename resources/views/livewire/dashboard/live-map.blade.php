@@ -29,7 +29,7 @@
 
     <div class="flex-1 flex overflow-hidden">
         <!-- Left Panel - Shipments List -->
-        <div class="w-80 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col">
+        <div class="w-80 bg-[#E4EBE7] dark:bg-[#1f2431] border-r border-gray-200 dark:border-gray-700 flex flex-col">
             <!-- Shipments Header -->
             <div class="p-4 border-b border-gray-200 dark:border-gray-700">
                 <div class="flex items-center justify-between mb-2">
