@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Dashboard;
 
-use App\Models\Shipment;
+use App\Models\{FuelRecord, Shipment, Vehicle};
 use Livewire\Component;
 use Livewire\Attributes\{Layout, Title};
 
@@ -23,9 +23,21 @@ class Index extends Component
             'standard' => Shipment::where('priority', 'standard')->count(),
             'economy' => Shipment::where('priority', 'economy')->count(),
             'on_time_rate' => 95.2,
-            'active_vehicles' => 12,
-            'monthly_revenue' => 45280.50,
+            'active_vehicles' => Vehicle::where('status', 'active')->count(),
+            'monthly_revenue' => FuelRecord::sum('total_cost'), // Real fuel cost from database
         ];
+    }
+
+    // Get weekly fuel data for mini chart
+    public function getWeeklyFuelDataProperty()
+    {
+        $data = [];
+        for ($i = 7; $i >= 0; $i--) {
+            $date = now()->subDays($i);
+            $cost = FuelRecord::whereDate('date', $date)->sum('total_cost');
+            $data[] = $cost > 0 ? $cost : 0;
+        }
+        return $data;
     }
 
     // Get weekly data for mini charts
@@ -85,6 +97,7 @@ class Index extends Component
         return view('livewire.dashboard.index', [
             'stats' => $this->stats,
             'weeklyData' => $this->weeklyData,
+            'weeklyFuelData' => $this->weeklyFuelData,
             'chartDataMonthly' => $this->getChartDataFor('monthly'),
             'chartDataYearly' => $this->getChartDataFor('yearly'),
         ]);
