@@ -85,8 +85,12 @@
         </div>
         <div class="mt-4 pt-4 border-t border-gray-300 dark:border-gray-700">
             <div class="flex items-center justify-between text-xs">
-                <span class="text-blue-500 font-medium">3 on route</span>
-                <span class="text-gray-500">9 available</span>
+                <span class="text-blue-500 font-medium">
+                    {{ \App\Models\Vehicle::where('status', 'in_use')->count() }} on route
+                </span>
+                <span class="text-gray-500">
+                    {{ \App\Models\Vehicle::where('status', 'available')->count() }} available
+                </span>
             </div>
             <div class="h-16">
                 <canvas id="miniChart4"></canvas>

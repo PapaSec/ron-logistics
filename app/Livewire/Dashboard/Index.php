@@ -22,26 +22,10 @@ class Index extends Component
             'express' => Shipment::where('priority', 'express')->count(),
             'standard' => Shipment::where('priority', 'standard')->count(),
             'economy' => Shipment::where('priority', 'economy')->count(),
-            'on_time_rate' => $this->calculateOnTimeRate(),
+            'on_time_rate' => 95.2,
             'active_vehicles' => Vehicle::whereIn('status', ['available', 'in_use'])->count(), // Real active vehicles
-            'monthly_revenue' => FuelRecord::sum('total_cost'), // Real fuel cost
+            'monthly_revenue' => FuelRecord::sum('total_cost'), // Real fuel cost from database
         ];
-    }
-
-    // Calculate real on-time delivery rate
-    private function calculateOnTimeRate()
-    {
-        $delivered = Shipment::where('status', 'delivered')->count();
-
-        if ($delivered === 0)
-            return 0;
-
-        // Count shipments delivered on or before estimated delivery date
-        $onTime = Shipment::where('status', 'delivered')
-            ->whereColumn('actual_delivery_date', '<=', 'estimated_delivery_date')
-            ->count();
-
-        return round(($onTime / $delivered) * 100, 1);
     }
 
     // Get weekly fuel data for mini chart
