@@ -29,10 +29,10 @@
             <div>
                 <p class="text-2xl font-bold text-gray-900 dark:text-white">
                     R{{ number_format($stats['monthly_revenue'], 2) }}</p>
-                <p class="text-sm text-gray-500 dark:text-gray-400">Monthly Revenue</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Total Fuel Cost</p>
             </div>
             <div class="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
-                <i class="fas fa-dollar-sign text-green-600 dark:text-green-400 text-xl"></i>
+                <i class="fas fa-gas-pump text-green-600 dark:text-green-400 text-xl"></i>
             </div>
         </div>
         <div class="mt-4 pt-4 border-t border-gray-300 dark:border-gray-700">
