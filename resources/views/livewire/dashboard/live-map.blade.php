@@ -1,6 +1,6 @@
 <div class="h-screen flex flex-col bg-[#E4EBE7] dark:bg-[#1f2431]" wire:poll.30s="refreshMap">
     <!-- Modern Header -->
-    <div class="bg-[#E4EBE7] dark:bg-[#1f2431] border-b border-gray-200 dark:border-gray-700 px-6 py-3">
+    <div class="bg-[#E4EBE7] dark:bg-[#1f2431] border-b border-gray-300 dark:border-gray-700 px-6 py-3">
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="w-8 h-8 bg-[#138898] rounded-lg flex items-center justify-center">
@@ -29,9 +29,9 @@
 
     <div class="flex-1 flex overflow-hidden">
         <!-- Left Panel - Shipments List -->
-        <div class="w-80 bg-[#E4EBE7] dark:bg-[#1f2431] border-r border-gray-200 dark:border-gray-700 flex flex-col">
+        <div class="w-80 bg-[#E4EBE7] dark:bg-[#1f2431] border-r border-gray-400 dark:border-gray-700 flex flex-col">
             <!-- Shipments Header -->
-            <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+            <div class="p-4 border-b border-gray-300 dark:border-gray-700">
                 <div class="flex items-center justify-between mb-2">
                     <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Active Shipments</h3>
                     <span class="text-xs text-gray-500 dark:text-gray-400">{{ count($activeShipments) }} total</span>
@@ -44,7 +44,7 @@
                 <div class="p-3 space-y-2">
                     @forelse ($activeShipments as $shipment)
                         <div wire:click="selectShipment({{ $shipment->id }})"
-                            class="group p-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-[#138898] cursor-pointer transition-all duration-200 {{ $selectedShipment && $selectedShipment->id == $shipment->id ? 'border-[#138898] bg-[#138898]/5' : '' }}">
+                            class="group p-3 rounded-lg border border-gray-300 dark:border-gray-700 hover:border-[#138898] cursor-pointer transition-all duration-200 {{ $selectedShipment && $selectedShipment->id == $shipment->id ? 'border-[#138898] bg-[#138898]/5' : '' }}">
                             <!-- Tracking Number & Status -->
                             <div class="flex items-center justify-between mb-2">
                                 <div class="flex items-center gap-2">
@@ -147,7 +147,7 @@
 
             <!-- Map Legend -->
             <div
-                class="absolute bottom-4 left-4 z-[1000] bg-white dark:bg-gray-800 rounded-lg shadow-xl p-4 border border-gray-200 dark:border-gray-700">
+                class="absolute bottom-4 left-4 z-[1000] bg-white dark:bg-gray-800 rounded-lg shadow-xl p-4 border border-gray-300 dark:border-gray-700">
                 <div class="flex items-center gap-2 mb-3">
                     <i class="fas fa-legend text-[#138898]"></i>
                     <span class="text-sm font-semibold text-gray-900 dark:text-white">Legend</span>
@@ -175,9 +175,9 @@
         <!-- Right Panel - Shipment Details -->
         @if($selectedShipment)
             <div
-                class="w-96 bg-white dark:bg-gray-800 border-l border-gray-200 dark:border-gray-700 overflow-y-auto sidebar-scrollbar">
+                class="w-96 bg-white dark:bg-gray-800 border-l border-gray-300 dark:border-gray-700 overflow-y-auto sidebar-scrollbar">
                 <!-- Header -->
-                <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+                <div class="p-4 border-b border-gray-300 dark:border-gray-700">
                     <div class="flex items-center justify-between mb-3">
                         <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Shipment Details</h3>
                         <button wire:click="$set('selectedShipment', null)"
@@ -221,7 +221,7 @@
                 </div>
 
                 <!-- Tracker Timeline -->
-                <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+                <div class="p-4 border-b border-gray-300 dark:border-gray-700">
                     <h4 class="text-xs font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
                         <i class="fas fa-history text-[#138898]"></i>
                         Tracker
