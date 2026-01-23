@@ -134,147 +134,149 @@
         </div>
 
         <!-- Drivers Table -->
-        <x-table.wrapper>
-            <x-table.header>
-                <x-table.th>Driver #</x-table.th>
-                <x-table.th>Name</x-table.th>
-                <x-table.th>Contact</x-table.th>
-                <x-table.th>License</x-table.th>
-                <x-table.th>Employment</x-table.th>
-                <x-table.th>Status</x-table.th>
-                <x-table.th>Assigned Vehicle</x-table.th>
-                <x-table.th align="right">Actions</x-table.th>
-            </x-table.header>
+        <div class="table-scrollbar overflow-x-auto">
+            <x-table.wrapper>
+                <x-table.header>
+                    <x-table.th>Driver #</x-table.th>
+                    <x-table.th>Name</x-table.th>
+                    <x-table.th>Contact</x-table.th>
+                    <x-table.th>License</x-table.th>
+                    <x-table.th>Employment</x-table.th>
+                    <x-table.th>Status</x-table.th>
+                    <x-table.th>Assigned Vehicle</x-table.th>
+                    <x-table.th align="right">Actions</x-table.th>
+                </x-table.header>
 
-            <x-table.body>
-                @forelse ($drivers as $driver)
-                    <x-table.row>
-                        <!-- Driver Number -->
-                        <x-table.cell>
-                            <div class="font-medium text-gray-900 dark:text-white">
-                                {{ $driver->driver_number }}
-                            </div>
-                        </x-table.cell>
-
-                        <!-- Name -->
-                        <x-table.cell>
-                            <div class="flex items-center">
-                                <div class="h-10 w-10 flex-shrink-0">
-                                    <div class="h-10 w-10 rounded-full bg-[#138898] flex items-center justify-center text-white font-semibold">
-                                        {{ substr($driver->first_name, 0, 1) }}{{ substr($driver->last_name, 0, 1) }}
-                                    </div>
+                <x-table.body>
+                    @forelse ($drivers as $driver)
+                        <x-table.row>
+                            <!-- Driver Number -->
+                            <x-table.cell>
+                                <div class="font-medium text-gray-900 dark:text-white">
+                                    {{ $driver->driver_number }}
                                 </div>
-                                <div class="ml-3">
-                                    <div class="text-gray-900 dark:text-white font-medium">
-                                        {{ $driver->full_name }}
-                                    </div>
-                                    @if($driver->email)
-                                        <div class="text-xs text-gray-500 dark:text-gray-400">
-                                            {{ $driver->email }}
+                            </x-table.cell>
+
+                            <!-- Name -->
+                            <x-table.cell>
+                                <div class="flex items-center">
+                                    <div class="h-10 w-10 flex-shrink-0">
+                                        <div class="h-10 w-10 rounded-full bg-[#138898] flex items-center justify-center text-white font-semibold">
+                                            {{ substr($driver->first_name, 0, 1) }}{{ substr($driver->last_name, 0, 1) }}
                                         </div>
-                                    @endif
+                                    </div>
+                                    <div class="ml-3">
+                                        <div class="text-gray-900 dark:text-white font-medium">
+                                            {{ $driver->full_name }}
+                                        </div>
+                                        @if($driver->email)
+                                            <div class="text-xs text-gray-500 dark:text-gray-400">
+                                                {{ $driver->email }}
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
-                            </div>
-                        </x-table.cell>
+                            </x-table.cell>
 
-                        <!-- Contact -->
-                        <x-table.cell>
-                            <div class="text-gray-700 dark:text-gray-300">
-                                <i class="fas fa-phone text-gray-400 mr-1"></i>
-                                {{ $driver->phone }}
-                            </div>
-                        </x-table.cell>
+                            <!-- Contact -->
+                            <x-table.cell>
+                                <div class="text-gray-700 dark:text-gray-300">
+                                    <i class="fas fa-phone text-gray-400 mr-1"></i>
+                                    {{ $driver->phone }}
+                                </div>
+                            </x-table.cell>
 
-                        <!-- License -->
-                        <x-table.cell>
-                            <div class="text-gray-900 dark:text-gray-300">
-                                {{ $driver->license_number }}
-                            </div>
-                            <div class="text-xs text-gray-500">
-                                {{ $driver->license_type }}
-                            </div>
-                            @if($driver->licenseExpiringSoon())
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-orange-100 dark:bg-orange-900/50 text-orange-800 dark:text-orange-300 mt-1">
-                                    <i class="fas fa-exclamation-triangle mr-1"></i>
-                                    Expiring soon
+                            <!-- License -->
+                            <x-table.cell>
+                                <div class="text-gray-900 dark:text-gray-300">
+                                    {{ $driver->license_number }}
+                                </div>
+                                <div class="text-xs text-gray-500">
+                                    {{ $driver->license_type }}
+                                </div>
+                                @if($driver->licenseExpiringSoon())
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-orange-100 dark:bg-orange-900/50 text-orange-800 dark:text-orange-300 mt-1">
+                                        <i class="fas fa-exclamation-triangle mr-1"></i>
+                                        Expiring soon
+                                    </span>
+                                @endif
+                            </x-table.cell>
+
+                            <!-- Employment -->
+                            <x-table.cell>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+                                    {{ $driver->employment_type === 'full_time' ? 'bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300' : '' }}
+                                    {{ $driver->employment_type === 'part_time' ? 'bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-300' : '' }}
+                                    {{ $driver->employment_type === 'contract' ? 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300' : '' }}">
+                                    {{ ucfirst(str_replace('_', ' ', $driver->employment_type)) }}
                                 </span>
-                            @endif
-                        </x-table.cell>
+                            </x-table.cell>
 
-                        <!-- Employment -->
-                        <x-table.cell>
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
-                                {{ $driver->employment_type === 'full_time' ? 'bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300' : '' }}
-                                {{ $driver->employment_type === 'part_time' ? 'bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-300' : '' }}
-                                {{ $driver->employment_type === 'contract' ? 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300' : '' }}">
-                                {{ ucfirst(str_replace('_', ' ', $driver->employment_type)) }}
-                            </span>
-                        </x-table.cell>
-
-                        <!-- Status -->
-                        <x-table.cell>
-                            @php
-                                $statusConfig = [
-                                    'active' => [
-                                        'class' => 'bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300',
-                                        'icon' => 'fa-check-circle'
-                                    ],
-                                    'inactive' => [
-                                        'class' => 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300',
-                                        'icon' => 'fa-times-circle'
-                                    ],
-                                    'on_leave' => [
-                                        'class' => 'bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-300',
-                                        'icon' => 'fa-calendar-times'
-                                    ],
-                                    'suspended' => [
-                                        'class' => 'bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-300',
-                                        'icon' => 'fa-ban'
-                                    ],
-                                ];
-                                $config = $statusConfig[$driver->status] ?? $statusConfig['active'];
-                            @endphp
-                            
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium {{ $config['class'] }}">
-                                <i class="fas {{ $config['icon'] }} mr-1.5"></i>
-                                {{ ucfirst(str_replace('_', ' ', $driver->status)) }}
-                            </span>
-                        </x-table.cell>
-
-                        <!-- Assigned Vehicle -->
-                        <x-table.cell>
-                            @php
-                                $assignedVehicle = $driver->vehicles()->first();
-                            @endphp
-                            @if($assignedVehicle)
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300">
-                                    <i class="fas fa-truck mr-1.5"></i>
-                                    {{ $assignedVehicle->vehicle_number }}
+                            <!-- Status -->
+                            <x-table.cell>
+                                @php
+                                    $statusConfig = [
+                                        'active' => [
+                                            'class' => 'bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300',
+                                            'icon' => 'fa-check-circle'
+                                        ],
+                                        'inactive' => [
+                                            'class' => 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300',
+                                            'icon' => 'fa-times-circle'
+                                        ],
+                                        'on_leave' => [
+                                            'class' => 'bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-300',
+                                            'icon' => 'fa-calendar-times'
+                                        ],
+                                        'suspended' => [
+                                            'class' => 'bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-300',
+                                            'icon' => 'fa-ban'
+                                        ],
+                                    ];
+                                    $config = $statusConfig[$driver->status] ?? $statusConfig['active'];
+                                @endphp
+                                
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium {{ $config['class'] }}">
+                                    <i class="fas {{ $config['icon'] }} mr-1.5"></i>
+                                    {{ ucfirst(str_replace('_', ' ', $driver->status)) }}
                                 </span>
-                            @else
-                                <span class="text-gray-400 text-sm">Unassigned</span>
-                            @endif
-                        </x-table.cell>
+                            </x-table.cell>
 
-                        <!-- Actions -->
-                        <x-table.cell align="right">
-                            <x-table.actions 
-                                :viewRoute="route('drivers.show', $driver->id)" 
-                                :editRoute="route('drivers.edit', $driver->id)" 
-                                :deleteId="$driver->id" 
-                            />
-                        </x-table.cell>
-                    </x-table.row>
-                @empty
-                    <x-table.empty 
-                        colspan="8" 
-                        icon="fa-users" 
-                        title="No drivers found" 
-                        message="Try adjusting your search or filters, or add a new driver" 
-                    />
-                @endforelse
-            </x-table.body>
-        </x-table.wrapper>
+                            <!-- Assigned Vehicle -->
+                            <x-table.cell>
+                                @php
+                                    $assignedVehicle = $driver->vehicles()->first();
+                                @endphp
+                                @if($assignedVehicle)
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300">
+                                        <i class="fas fa-truck mr-1.5"></i>
+                                        {{ $assignedVehicle->vehicle_number }}
+                                    </span>
+                                @else
+                                    <span class="text-gray-400 text-sm">Unassigned</span>
+                                @endif
+                            </x-table.cell>
+
+                            <!-- Actions -->
+                            <x-table.cell align="right">
+                                <x-table.actions 
+                                    :viewRoute="route('drivers.show', $driver->id)" 
+                                    :editRoute="route('drivers.edit', $driver->id)" 
+                                    :deleteId="$driver->id" 
+                                />
+                            </x-table.cell>
+                        </x-table.row>
+                    @empty
+                        <x-table.empty 
+                            colspan="8" 
+                            icon="fa-users" 
+                            title="No drivers found" 
+                            message="Try adjusting your search or filters, or add a new driver" 
+                        />
+                    @endforelse
+                </x-table.body>
+            </x-table.wrapper>
+        </div>
 
         <!-- Pagination -->
         <div class="mt-4">
@@ -320,4 +322,14 @@
             </div>
         </div>
     @endif
+
+    <!-- Scrollbar Styles -->
+    <style>
+        .table-scrollbar::-webkit-scrollbar { height: 6px; }
+        .table-scrollbar::-webkit-scrollbar-track { background: transparent; border-radius: 10px; margin: 0 10px; }
+        .table-scrollbar::-webkit-scrollbar-thumb { background: #023543; border-radius: 10px; }
+        .table-scrollbar::-webkit-scrollbar-thumb:hover { background: #138898; }
+        .dark .table-scrollbar::-webkit-scrollbar-thumb { background: #138898; }
+        .table-scrollbar { scrollbar-width: thin; scrollbar-color: #138898 transparent; }
+    </style>
 </div>
