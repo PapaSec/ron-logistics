@@ -18,7 +18,7 @@
         </div>
     </div>
 
-    <!-- Scrollable navigation area -->
+    <!-- Scrollable navigation area - VERTICAL SCROLL -->
     <nav class="flex-1 overflow-y-auto py-4 sidebar-scrollbar">
         <div class="px-3 space-y-1">
             <!-- Dashboard section -->
@@ -163,7 +163,7 @@
             <!-- Orders section -->
             <span x-show="!collapsed" x-transition
                 class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 block mb-1 mt-4">
-                Orders
+                ORDERS
             </span>
 
             <a href="#"
@@ -314,7 +314,7 @@
     </nav>
 </aside>
 
-<!-- Custom scrollbar styles -->
+<!-- Custom scrollbar styles - VERTICAL SCROLLBAR -->
 <style>
     /* Webkit scrollbar styles */
     .sidebar-scrollbar::-webkit-scrollbar {

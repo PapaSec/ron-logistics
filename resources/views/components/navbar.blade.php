@@ -19,7 +19,7 @@
 
     <div class="h-full flex items-center justify-between px-6 max-w-screen-2xl mx-auto">
 
-        <!-- Left Section: Page Title -->
+        <!-- Left Section: Sidebar Toggle + Page Title -->
         <div class="flex items-center gap-4" x-data="{ 
         // 1. STATE VARIABLES
         isSlow: false,
@@ -41,6 +41,13 @@
         // Automatically re-run the check every 5 seconds (5000ms)
         setInterval(() => checkConnection(), 5000); 
     ">
+
+            <!-- Sidebar Toggle Button -->
+            <button @click="$root.querySelector('aside').dispatchEvent(new CustomEvent('toggle-sidebar'))"
+                class="p-2.5 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200 group"
+                aria-label="Toggle sidebar">
+                <i class="fas fa-bars text-lg"></i>
+            </button>
 
             <div class="flex items-center gap-3">
 
@@ -242,4 +249,4 @@
 
     </div>
 
-</header> 
+</header>
