@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" x-data="{ 
+<html lang="en" x-data="{
     darkMode: localStorage.getItem('darkMode') === 'true',
-    pageLoaded: false // 🐛 FIX: Initialize pageLoaded state
+    pageLoaded: false,
+    sidebarCollapsed: localStorage.getItem('sidebarCollapsed') === 'true'  // persist choice
 }" :class="{ 'dark': darkMode }">
 
 <head>
