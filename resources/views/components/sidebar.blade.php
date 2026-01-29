@@ -1,4 +1,4 @@
-<aside class="fixed left-0 top-0 h-full bg-[#E4EBE7] dark:bg-[#1f2431] flex flex-col transition-all duration-300 z-40"
+<aside class="fixed left-0 top-0 h-full bg-[#E4EBE7] dark:bg-[#1f2431] dark:border-gray-800 flex flex-col transition-all duration-300 z-40"
       :class="$store.sidebar.collapsed ? 'w-16' : 'w-64'">
     
     <!-- Sidebar header with logo -->

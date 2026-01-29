@@ -26,9 +26,9 @@
                 class="p-2.5 text-gray-400 hover:text-blue-400 hover:bg-white/10 rounded-lg transition-all duration-200 group"
                 aria-label="Toggle Sidebar">
                 <i class="fas text-lg transition-all duration-300" :class="{
-           'fa-bars': $store.sidebar.collapsed || $store.sidebar.isMobile,
-           'fa-arrow-left': !$store.sidebar.collapsed && !$store.sidebar.isMobile
-       }"></i>
+            'fa-bars': $store.sidebar.isMobile || $store.sidebar.collapsed,
+            'fa-arrow-left': !$store.sidebar.collapsed && !$store.sidebar.isMobile
+        }"></i>
             </button>
 
             <!-- Connection Status -->
