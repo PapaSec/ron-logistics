@@ -23,11 +23,10 @@
         <div class="flex items-center gap-4">
             <!-- Sidebar Toggle Button -->
             <button @click="$store.sidebar.toggle()"
-                    class="p-2.5 text-gray-400 hover:text-blue-400 hover:bg-white/10 rounded-lg transition-all duration-200 group"
-                    aria-label="Toggle Sidebar"
-                    x-tooltip="'Toggle Sidebar'">
-                <i class="fas fa-bars text-lg transition-transform duration-300"
-                   :class="$store.sidebar.collapsed ? '' : 'rotate-90'"></i>
+                class="p-2.5 text-gray-400 hover:text-blue-400 hover:bg-white/10 rounded-lg transition-all duration-200 group"
+                aria-label="Toggle Sidebar" x-tooltip="'Toggle Sidebar'">
+                <i class="fas text-lg transition-all duration-300"
+                    :class="$store.sidebar.collapsed ? 'fa-solid fa-arrow-right' : 'fa-bars'"></i>
             </button>
 
             <!-- Connection Status -->
@@ -83,10 +82,8 @@
                     class="w-full pl-11 pr-4 py-2.5 bg-[#2a3042] text-white placeholder-gray-500 rounded-full focus:border-blue-500/50 focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-200">
                 <div x-show="searchFocused" x-transition
                     class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
-                    <kbd
-                        class="px-2 py-0.5 text-xs font-semibold text-gray-400 bg-white/5 rounded">Ctrl</kbd>
-                    <kbd
-                        class="px-2 py-0.5 text-xs font-semibold text-gray-400 bg-white/5 rounded">K</kbd>
+                    <kbd class="px-2 py-0.5 text-xs font-semibold text-gray-400 bg-white/5 rounded">Ctrl</kbd>
+                    <kbd class="px-2 py-0.5 text-xs font-semibold text-gray-400 bg-white/5 rounded">K</kbd>
                 </div>
             </div>
         </div>
@@ -140,7 +137,8 @@
                     </div>
                     <div class="text-left hidden lg:block">
                         <p class="text-sm font-medium text-white group-hover:text-blue-400 transition-colors">
-                            {{ auth()->user()->name }}</p>
+                            {{ auth()->user()->name }}
+                        </p>
                         <p class="text-xs text-gray-400">Admin</p>
                     </div>
                     <i class="fas fa-chevron-down text-xs text-gray-400 group-hover:text-white transition-all duration-200"
