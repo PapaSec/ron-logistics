@@ -23,7 +23,7 @@
         <div class="flex items-center gap-4">
             <!-- Sidebar Toggle Button -->
             <button @click="$store.sidebar.toggle()"
-                    class="p-2.5 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200 group"
+                    class="p-2.5 text-gray-400 hover:text-blue-400 hover:bg-white/10 rounded-lg transition-all duration-200 group"
                     aria-label="Toggle Sidebar"
                     x-tooltip="'Toggle Sidebar'">
                 <i class="fas fa-bars text-lg transition-transform duration-300"
