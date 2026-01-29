@@ -19,63 +19,57 @@
 
     <div class="h-full flex items-center justify-between px-6 max-w-screen-2xl mx-auto">
 
-        <!-- Left Section: Page Title -->
-        <div class="flex items-center gap-4" x-data="{ 
-        // 1. STATE VARIABLES
-        isSlow: false,
-        apiLatency: 150, // Initial simulated API response time (in ms)
-        slowThreshold: 500, // Threshold (anything > 500ms is considered slow)
+        <!-- Left Section: Sidebar Toggle and Connection Status -->
+        <div class="flex items-center gap-4">
+            <!-- Sidebar Toggle Button -->
+            <button @click="$store.sidebar.toggle()"
+                    class="p-2.5 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200 group"
+                    aria-label="Toggle Sidebar"
+                    x-tooltip="'Toggle Sidebar'">
+                <i class="fas fa-bars text-lg transition-transform duration-300"
+                   :class="$store.sidebar.collapsed ? '' : 'rotate-90'"></i>
+            </button>
 
-        // 2. LOGIC FUNCTION (Automatically checks and updates state)
-        checkConnection() {
-            // Simulate random latency between 100ms and 900ms
-            const newLatency = Math.floor(Math.random() * 800) + 100; 
-            this.apiLatency = newLatency; 
-
-            // Update the state based on the threshold
-            this.isSlow = this.apiLatency > this.slowThreshold;
-        }
-    }" x-init="
-        // 3. INITIALIZATION
-        checkConnection();
-        // Automatically re-run the check every 5 seconds (5000ms)
-        setInterval(() => checkConnection(), 5000); 
-    ">
-
-            <div class="flex items-center gap-3">
+            <!-- Connection Status -->
+            <div x-data="{ 
+                isSlow: false,
+                apiLatency: 150,
+                slowThreshold: 500,
+                checkConnection() {
+                    const newLatency = Math.floor(Math.random() * 800) + 100; 
+                    this.apiLatency = newLatency; 
+                    this.isSlow = this.apiLatency > this.slowThreshold;
+                }
+            }" x-init="
+                checkConnection();
+                setInterval(() => checkConnection(), 5000); 
+            ">
 
                 <div class="hidden lg:flex items-center gap-3 px-3 py-1.5 rounded-lg transition-all duration-300"
                     :class="{ 
-                // Color switching based on the 'isSlow' state
-                'bg-blue-600/10 border border-blue-500/20': !isSlow, 
-                'bg-yellow-600/10 border border-yellow-500/30': isSlow 
-            }">
+                        'bg-blue-600/10 border border-blue-500/20': !isSlow, 
+                        'bg-yellow-600/10 border border-yellow-500/30': isSlow 
+                    }">
 
                     <i class="w-4 h-4 transition-colors duration-300" :class="{ 
-                   'fas fa-wifi text-green-500': !isSlow,
-                   'fas fa-wifi text-yellow-500': isSlow
-               }">
-                    </i>
+                        'fas fa-wifi text-green-500': !isSlow,
+                        'fas fa-wifi text-yellow-500': isSlow
+                    }"></i>
 
                     <span class="text-xs font-medium" :class="{ 
-                    'text-blue-400': !isSlow, 
-                    'text-yellow-400': isSlow 
-                }" x-text="isSlow ? 'Slow Connection' : 'Good Connection'">
+                        'text-blue-400': !isSlow, 
+                        'text-yellow-400': isSlow 
+                    }" x-text="isSlow ? 'Slow Connection' : 'Good Connection'">
                     </span>
 
                     <span class="text-xs font-mono text-gray-500 dark:text-gray-500 ml-2"
                         x-text="'(' + apiLatency + 'ms)'"></span>
 
                     <div class="w-2 h-2 rounded-full" :class="{ 
-                    // GREEN PULSE for GOOD connection
-                    'bg-green-500 animate-pulse': !isSlow, 
-                    // YELLOW PULSE for SLOW connection
-                    'bg-yellow-500 animate-pulse': isSlow
-                }">
-                    </div>
-
+                        'bg-green-500 animate-pulse': !isSlow, 
+                        'bg-yellow-500 animate-pulse': isSlow
+                    }"></div>
                 </div>
-
             </div>
         </div>
 
@@ -242,4 +236,4 @@
 
     </div>
 
-</header> 
+</header>

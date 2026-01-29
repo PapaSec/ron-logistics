@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" x-data="{
+<html lang="en" x-data="{ 
     darkMode: localStorage.getItem('darkMode') === 'true',
     pageLoaded: false,
-    sidebarCollapsed: localStorage.getItem('sidebarCollapsed') === 'true'  // persist choice
+    sidebarCollapsed: localStorage.getItem('sidebarCollapsed') === 'true'
 }" :class="{ 'dark': darkMode }">
 
 <head>
@@ -12,32 +12,47 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="unpkg.com"
-     integrity="sha256-p4NxAoDlTnyA38b/0K4V4z3d2+U3w+QJj8Wd3f3f3f3fA="
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
      crossorigin=""/>
 
     <script>
         try {
             const darkMode = localStorage.getItem('darkMode');
+            const sidebarCollapsed = localStorage.getItem('sidebarCollapsed');
             if (darkMode === 'true') {
                 document.documentElement.classList.add('dark');
                 document.documentElement.style.colorScheme = 'dark';
             }
+            if (sidebarCollapsed === 'true') {
+                document.documentElement.classList.add('sidebar-collapsed');
+            }
         } catch (e) {
-            console.log('Dark mode initialization error:', e);
+            console.log('Initialization error:', e);
         }
     </script>
 </head>
 
-<body class="h-full bg-gray-100 dark:bg-[#252b3b] transition-colors duration-200" 
+<body class="h-full bg-gray-100 dark:bg-[#252b3b] transition-all duration-300" 
     x-init="
-        // 🐛 FIX: Set pageLoaded to true when Livewire/page components are finished loading
-        // A short delay ensures all styles/assets have rendered before hiding.
+        // Store sidebar state
+        $watch('sidebarCollapsed', val => {
+            localStorage.setItem('sidebarCollapsed', val);
+            if (val) {
+                document.documentElement.classList.add('sidebar-collapsed');
+            } else {
+                document.documentElement.classList.remove('sidebar-collapsed');
+            }
+        });
+        
+        // Page loaded
         window.addEventListener('load', () => { 
             setTimeout(() => { pageLoaded = true }, 200); 
         });
-        // Also listen for Livewire components being loaded
         document.addEventListener('livewire:initialized', () => {
             setTimeout(() => { pageLoaded = true }, 200);
         });
@@ -49,11 +64,8 @@
         class="fixed inset-0 bg-[#252b3b] dark:bg-[#1a1f2e] z-[9999] flex items-center justify-center flex-col gap-4">
 
         <div class="relative flex items-center justify-center w-24 h-24">
-            
             <div class="absolute inset-0 border-4 border-blue-500/50 rounded-full animate-spin-slow"></div>
-
             <i class="fas fa-truck-moving text-4xl text-blue-400 animate-pulse"></i>
-            
         </div>
         
         <div class="text-white text-lg font-semibold tracking-wider flex items-center gap-2">
@@ -71,14 +83,14 @@
 
 
     <div class="flex h-screen overflow-hidden">
-
         <x-sidebar />
 
-        <div class="flex-1 flex flex-col overflow-hidden">
+        <div class="flex-1 flex flex-col overflow-hidden transition-all duration-300" 
+             :class="sidebarCollapsed ? 'ml-16' : 'ml-64'">
 
             <x-navbar />
 
-            <main class="flex-1 overflow-y-auto p-6 bg-gray-300 dark:bg-[#141822] transition-colors duration-200">
+            <main class="flex-1 overflow-y-auto p-6 bg-gray-300 dark:bg-[#141822] transition-all duration-300">
                 {{ $slot }}
             </main>
 
@@ -93,11 +105,14 @@
 </html>
 
 <style>
-/* Custom keyframes for the simulated progress bar. 
-   You would need to ensure Tailwind CSS can use these keys, or define them in your CSS file. */
+/* Custom keyframes for animations */
 @keyframes progress {
     0% { transform: translateX(-100%) }
     100% { transform: translateX(100%) }
+}
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 .animate-progress {
     animation: progress 2s infinite linear;
@@ -105,5 +120,20 @@
 .animate-spin-slow {
     animation: spin 3s linear infinite;
 }
-</style>
 
+/* Sidebar collapsed global styles */
+.sidebar-collapsed .sidebar-text {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+    margin-left: 0;
+}
+
+.sidebar-collapsed .sidebar-section-title {
+    display: none;
+}
+
+.sidebar-collapsed .sidebar-header-text {
+    display: none;
+}
+</style>
