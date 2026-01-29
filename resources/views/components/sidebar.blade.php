@@ -530,37 +530,7 @@ document.addEventListener('alpine:init', () => {
             window.dispatchEvent(new CustomEvent('sidebar-toggled', { 
                 detail: { collapsed: this.collapsed } 
             }));
-        },
-        
-        // Add responsive behavior
-        init() {
-            // Check initial screen size
-            this.checkScreenSize();
-            
-            // Add resize listener
-            window.addEventListener('resize', () => {
-                this.checkScreenSize();
-            });
-        },
-        
-        checkScreenSize() {
-            // Check if screen is mobile (adjust breakpoint as needed)
-            const isMobile = window.innerWidth < 768; // Tailwind's md: breakpoint
-            
-            if (isMobile && !this.collapsed) {
-                // Auto-collapse on mobile
-                this.collapsed = true;
-                localStorage.setItem('sidebarCollapsed', true);
-                
-                // Dispatch event
-                window.dispatchEvent(new CustomEvent('sidebar-toggled', { 
-                    detail: { collapsed: true } 
-                }));
-            }
         }
     });
-    
-    // Initialize the store
-    Alpine.store('sidebar').init();
 });
 </script>

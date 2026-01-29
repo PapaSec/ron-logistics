@@ -24,9 +24,11 @@
             <!-- Sidebar Toggle Button -->
             <button @click="$store.sidebar.toggle()"
                 class="p-2.5 text-gray-400 hover:text-blue-400 hover:bg-white/10 rounded-lg transition-all duration-200 group"
-                aria-label="Toggle Sidebar" x-tooltip="'Toggle Sidebar'">
-                <i class="fas text-lg transition-all duration-300"
-                    :class="$store.sidebar.collapsed ? 'fa-solid fa-arrow-right' : 'fa-bars'"></i>
+                aria-label="Toggle Sidebar">
+                <i class="fas text-lg transition-all duration-300" :class="{
+           'fa-bars': $store.sidebar.collapsed || $store.sidebar.isMobile,
+           'fa-arrow-left': !$store.sidebar.collapsed && !$store.sidebar.isMobile
+       }"></i>
             </button>
 
             <!-- Connection Status -->
