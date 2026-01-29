@@ -1,23 +1,5 @@
-<aside class="fixed left-0 top-0 h-full bg-[#E4EBE7] dark:bg-[#1f2431] flex flex-col transition-all duration-300 z-40 md:relative"
-      :class="{
-        'w-16': $store.sidebar.collapsed,
-        'w-64': !$store.sidebar.collapsed,
-        '-translate-x-full md:translate-x-0': $store.sidebar.collapsed && window.innerWidth < 768,
-        'translate-x-0': !$store.sidebar.collapsed || window.innerWidth >= 768
-      }"
-      x-data="{
-        isMobile: window.innerWidth < 768,
-        checkScreenSize() {
-          this.isMobile = window.innerWidth < 768;
-          if (this.isMobile && !$store.sidebar.collapsed) {
-            $store.sidebar.collapsed = true;
-          }
-        }
-      }"
-      x-init="
-        checkScreenSize();
-        window.addEventListener('resize', checkScreenSize);
-      ">
+<aside class="fixed left-0 top-0 h-full bg-[#E4EBE7] dark:bg-[#1f2431] flex flex-col transition-all duration-300 z-40"
+      :class="$store.sidebar.collapsed ? 'w-16' : 'w-64'">
     
     <!-- Sidebar header with logo -->
     <div class="h-18 flex items-center justify-center bg-[#232838] dark:border-gray-800 transition-all duration-300 overflow-hidden">
