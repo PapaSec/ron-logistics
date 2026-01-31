@@ -24,10 +24,7 @@
             </div>
 
             <!-- Active dashboard link -->
-            <div x-data="{ tooltipVisible: false }" 
-                 @mouseenter="tooltipVisible = true" 
-                 @mouseleave="tooltipVisible = false" 
-                 class="relative">
+            <div x-data="{ tooltipVisible: false }" @mouseenter="tooltipVisible = true" @mouseleave="tooltipVisible = false" class="relative">
                 <a href="{{ route('dashboard') }}" 
                    class="group flex items-center gap-3 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all duration-200 mx-2
                    {{ request()->routeIs('dashboard') ? 'bg-[#138898] dark:bg-[#138898] text-white dark:text-white' : '' }}"
@@ -37,31 +34,14 @@
                     </div>
                     <span class="sidebar-text font-medium whitespace-nowrap transition-all duration-300 overflow-hidden">Overview</span>
                 </a>
-                
-                <!-- Tooltip for collapsed state -->
                 <div x-show="$store.sidebar.collapsed && tooltipVisible" 
-                     x-transition:enter="transition ease-out duration-150"
-                     x-transition:enter-start="opacity-0 -translate-x-1"
-                     x-transition:enter-end="opacity-100 translate-x-0"
-                     x-transition:leave="transition ease-in duration-100"
-                     x-transition:leave-start="opacity-100 translate-x-0"
-                     x-transition:leave-end="opacity-0 -translate-x-1"
-                     class="absolute left-full top-1/2 -translate-y-1/2 ml-3 z-[100] pointer-events-none">
-                    <div class="relative">
-                        <!-- Tooltip arrow -->
-                        <div class="absolute -left-[5px] top-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-gray-900 dark:bg-gray-700 rotate-45"></div>
-                        <!-- Tooltip content with matching hover colors -->
-                        <div class="bg-gray-900 dark:bg-gray-700 text-white dark:text-gray-100 px-3 py-2 rounded-lg shadow-xl border border-gray-700 min-w-[120px]">
-                            <span class="text-sm font-medium whitespace-nowrap">Overview</span>
-                        </div>
-                    </div>
+                     x-transition
+                     class="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded whitespace-nowrap z-50 shadow-lg">
+                    Overview
                 </div>
             </div>
 
-            <div x-data="{ tooltipVisible: false }" 
-                 @mouseenter="tooltipVisible = true" 
-                 @mouseleave="tooltipVisible = false" 
-                 class="relative">
+            <div x-data="{ tooltipVisible: false }" @mouseenter="tooltipVisible = true" @mouseleave="tooltipVisible = false" class="relative">
                 <a href="#"
                     class="group flex items-center gap-3 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all duration-200 mx-2"
                     :class="$store.sidebar.collapsed ? 'justify-center px-0' : 'px-4'">
@@ -70,29 +50,14 @@
                     </div>
                     <span class="sidebar-text font-medium whitespace-nowrap transition-all duration-300 overflow-hidden">Fleet Status</span>
                 </a>
-                
-                <!-- Tooltip for collapsed state -->
                 <div x-show="$store.sidebar.collapsed && tooltipVisible" 
-                     x-transition:enter="transition ease-out duration-150"
-                     x-transition:enter-start="opacity-0 -translate-x-1"
-                     x-transition:enter-end="opacity-100 translate-x-0"
-                     x-transition:leave="transition ease-in duration-100"
-                     x-transition:leave-start="opacity-100 translate-x-0"
-                     x-transition:leave-end="opacity-0 -translate-x-1"
-                     class="absolute left-full top-1/2 -translate-y-1/2 ml-3 z-[100] pointer-events-none">
-                    <div class="relative">
-                        <div class="absolute -left-[5px] top-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-gray-900 dark:bg-gray-700 rotate-45"></div>
-                        <div class="bg-gray-900 dark:bg-gray-700 text-white dark:text-gray-100 px-3 py-2 rounded-lg shadow-xl border border-gray-700 min-w-[120px]">
-                            <span class="text-sm font-medium whitespace-nowrap">Fleet Status</span>
-                        </div>
-                    </div>
+                     x-transition
+                     class="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded whitespace-nowrap z-50 shadow-lg">
+                    Fleet Status
                 </div>
             </div>
 
-            <div x-data="{ tooltipVisible: false }" 
-                 @mouseenter="tooltipVisible = true" 
-                 @mouseleave="tooltipVisible = false" 
-                 class="relative">
+            <div x-data="{ tooltipVisible: false }" @mouseenter="tooltipVisible = true" @mouseleave="tooltipVisible = false" class="relative">
                 <a href="{{ route('live-map') }}"
                     class="group flex items-center gap-3 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all duration-200 mx-2
                     {{ request()->routeIs('live-map') ? 'bg-[#138898] dark:bg-[#138898] text-white dark:text-white' : '' }}"
@@ -102,22 +67,10 @@
                     </div>
                     <span class="sidebar-text font-medium whitespace-nowrap transition-all duration-300 overflow-hidden">Live Map</span>
                 </a>
-                
-                <!-- Tooltip for collapsed state -->
                 <div x-show="$store.sidebar.collapsed && tooltipVisible" 
-                     x-transition:enter="transition ease-out duration-150"
-                     x-transition:enter-start="opacity-0 -translate-x-1"
-                     x-transition:enter-end="opacity-100 translate-x-0"
-                     x-transition:leave="transition ease-in duration-100"
-                     x-transition:leave-start="opacity-100 translate-x-0"
-                     x-transition:leave-end="opacity-0 -translate-x-1"
-                     class="absolute left-full top-1/2 -translate-y-1/2 ml-3 z-[100] pointer-events-none">
-                    <div class="relative">
-                        <div class="absolute -left-[5px] top-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-gray-900 dark:bg-gray-700 rotate-45"></div>
-                        <div class="bg-gray-900 dark:bg-gray-700 text-white dark:text-gray-100 px-3 py-2 rounded-lg shadow-xl border border-gray-700 min-w-[120px]">
-                            <span class="text-sm font-medium whitespace-nowrap">Live Map</span>
-                        </div>
-                    </div>
+                     x-transition
+                     class="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded whitespace-nowrap z-50 shadow-lg">
+                    Live Map
                 </div>
             </div>
 
@@ -128,10 +81,7 @@
                 </span>
             </div>
 
-            <div x-data="{ tooltipVisible: false }" 
-                 @mouseenter="tooltipVisible = true" 
-                 @mouseleave="tooltipVisible = false" 
-                 class="relative">
+            <div x-data="{ tooltipVisible: false }" @mouseenter="tooltipVisible = true" @mouseleave="tooltipVisible = false" class="relative">
                 <a href="{{ route('shipments.index') }}"
                     class="group flex items-center gap-3 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all duration-200 mx-2
                     {{ request()->routeIs('shipments.index') ? 'bg-[#138898] dark:bg-[#138898] text-white dark:text-white' : '' }}"
@@ -141,29 +91,14 @@
                     </div>
                     <span class="sidebar-text font-medium whitespace-nowrap transition-all duration-300 overflow-hidden">All Shipments</span>
                 </a>
-                
-                <!-- Tooltip for collapsed state -->
                 <div x-show="$store.sidebar.collapsed && tooltipVisible" 
-                     x-transition:enter="transition ease-out duration-150"
-                     x-transition:enter-start="opacity-0 -translate-x-1"
-                     x-transition:enter-end="opacity-100 translate-x-0"
-                     x-transition:leave="transition ease-in duration-100"
-                     x-transition:leave-start="opacity-100 translate-x-0"
-                     x-transition:leave-end="opacity-0 -translate-x-1"
-                     class="absolute left-full top-1/2 -translate-y-1/2 ml-3 z-[100] pointer-events-none">
-                    <div class="relative">
-                        <div class="absolute -left-[5px] top-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-gray-900 dark:bg-gray-700 rotate-45"></div>
-                        <div class="bg-gray-900 dark:bg-gray-700 text-white dark:text-gray-100 px-3 py-2 rounded-lg shadow-xl border border-gray-700 min-w-[120px]">
-                            <span class="text-sm font-medium whitespace-nowrap">All Shipments</span>
-                        </div>
-                    </div>
+                     x-transition
+                     class="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded whitespace-nowrap z-50 shadow-lg">
+                    All Shipments
                 </div>
             </div>
 
-            <div x-data="{ tooltipVisible: false }" 
-                 @mouseenter="tooltipVisible = true" 
-                 @mouseleave="tooltipVisible = false" 
-                 class="relative">
+            <div x-data="{ tooltipVisible: false }" @mouseenter="tooltipVisible = true" @mouseleave="tooltipVisible = false" class="relative">
                 <a href="{{ route('shipments.track') }}"
                     class="group flex items-center gap-3 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all duration-200 mx-2
                     {{ request()->routeIs('shipments.track') ? 'bg-[#138898] dark:bg-[#138898] text-white dark:text-white' : '' }}"
@@ -173,29 +108,14 @@
                     </div>
                     <span class="sidebar-text font-medium whitespace-nowrap transition-all duration-300 overflow-hidden">Track Shipment</span>
                 </a>
-                
-                <!-- Tooltip for collapsed state -->
                 <div x-show="$store.sidebar.collapsed && tooltipVisible" 
-                     x-transition:enter="transition ease-out duration-150"
-                     x-transition:enter-start="opacity-0 -translate-x-1"
-                     x-transition:enter-end="opacity-100 translate-x-0"
-                     x-transition:leave="transition ease-in duration-100"
-                     x-transition:leave-start="opacity-100 translate-x-0"
-                     x-transition:leave-end="opacity-0 -translate-x-1"
-                     class="absolute left-full top-1/2 -translate-y-1/2 ml-3 z-[100] pointer-events-none">
-                    <div class="relative">
-                        <div class="absolute -left-[5px] top-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-gray-900 dark:bg-gray-700 rotate-45"></div>
-                        <div class="bg-gray-900 dark:bg-gray-700 text-white dark:text-gray-100 px-3 py-2 rounded-lg shadow-xl border border-gray-700 min-w-[120px]">
-                            <span class="text-sm font-medium whitespace-nowrap">Track Shipment</span>
-                        </div>
-                    </div>
+                     x-transition
+                     class="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded whitespace-nowrap z-50 shadow-lg">
+                    Track Shipment
                 </div>
             </div>
 
-            <div x-data="{ tooltipVisible: false }" 
-                 @mouseenter="tooltipVisible = true" 
-                 @mouseleave="tooltipVisible = false" 
-                 class="relative">
+            <div x-data="{ tooltipVisible: false }" @mouseenter="tooltipVisible = true" @mouseleave="tooltipVisible = false" class="relative">
                 <a href="#"
                     class="group flex items-center gap-3 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all duration-200 mx-2"
                     :class="$store.sidebar.collapsed ? 'justify-center px-0' : 'px-4'">
@@ -204,22 +124,10 @@
                     </div>
                     <span class="sidebar-text font-medium whitespace-nowrap transition-all duration-300 overflow-hidden">Delayed</span>
                 </a>
-                
-                <!-- Tooltip for collapsed state -->
                 <div x-show="$store.sidebar.collapsed && tooltipVisible" 
-                     x-transition:enter="transition ease-out duration-150"
-                     x-transition:enter-start="opacity-0 -translate-x-1"
-                     x-transition:enter-end="opacity-100 translate-x-0"
-                     x-transition:leave="transition ease-in duration-100"
-                     x-transition:leave-start="opacity-100 translate-x-0"
-                     x-transition:leave-end="opacity-0 -translate-x-1"
-                     class="absolute left-full top-1/2 -translate-y-1/2 ml-3 z-[100] pointer-events-none">
-                    <div class="relative">
-                        <div class="absolute -left-[5px] top-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-gray-900 dark:bg-gray-700 rotate-45"></div>
-                        <div class="bg-gray-900 dark:bg-gray-700 text-white dark:text-gray-100 px-3 py-2 rounded-lg shadow-xl border border-gray-700 min-w-[120px]">
-                            <span class="text-sm font-medium whitespace-nowrap">Delayed</span>
-                        </div>
-                    </div>
+                     x-transition
+                     class="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded whitespace-nowrap z-50 shadow-lg">
+                    Delayed
                 </div>
             </div>
 
@@ -230,10 +138,7 @@
                 </span>
             </div>
             
-            <div x-data="{ tooltipVisible: false }" 
-                 @mouseenter="tooltipVisible = true" 
-                 @mouseleave="tooltipVisible = false" 
-                 class="relative">
+            <div x-data="{ tooltipVisible: false }" @mouseenter="tooltipVisible = true" @mouseleave="tooltipVisible = false" class="relative">
                 <a href="{{ route('drivers.index') }}"
                     class="group flex items-center gap-3 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all duration-200 mx-2
                     {{ request()->routeIs('drivers.index') ? 'bg-[#138898] dark:bg-[#138898] text-white dark:text-white' : '' }}"
@@ -243,29 +148,14 @@
                     </div>
                     <span class="sidebar-text font-medium whitespace-nowrap transition-all duration-300 overflow-hidden">All Drivers</span>
                 </a>
-                
-                <!-- Tooltip for collapsed state -->
                 <div x-show="$store.sidebar.collapsed && tooltipVisible" 
-                     x-transition:enter="transition ease-out duration-150"
-                     x-transition:enter-start="opacity-0 -translate-x-1"
-                     x-transition:enter-end="opacity-100 translate-x-0"
-                     x-transition:leave="transition ease-in duration-100"
-                     x-transition:leave-start="opacity-100 translate-x-0"
-                     x-transition:leave-end="opacity-0 -translate-x-1"
-                     class="absolute left-full top-1/2 -translate-y-1/2 ml-3 z-[100] pointer-events-none">
-                    <div class="relative">
-                        <div class="absolute -left-[5px] top-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-gray-900 dark:bg-gray-700 rotate-45"></div>
-                        <div class="bg-gray-900 dark:bg-gray-700 text-white dark:text-gray-100 px-3 py-2 rounded-lg shadow-xl border border-gray-700 min-w-[120px]">
-                            <span class="text-sm font-medium whitespace-nowrap">All Drivers</span>
-                        </div>
-                    </div>
+                     x-transition
+                     class="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded whitespace-nowrap z-50 shadow-lg">
+                    All Drivers
                 </div>
             </div>
 
-            <div x-data="{ tooltipVisible: false }" 
-                 @mouseenter="tooltipVisible = true" 
-                 @mouseleave="tooltipVisible = false" 
-                 class="relative">
+            <div x-data="{ tooltipVisible: false }" @mouseenter="tooltipVisible = true" @mouseleave="tooltipVisible = false" class="relative">
                 <a href="{{ route('vehicles.index') }}"
                     class="group flex items-center gap-3 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all duration-200 mx-2
                     {{ request()->routeIs('vehicles.index') ? 'bg-[#138898] dark:bg-[#138898] text-white dark:text-white' : '' }}"
@@ -275,28 +165,258 @@
                     </div>
                     <span class="sidebar-text font-medium whitespace-nowrap transition-all duration-300 overflow-hidden">Vehicle List</span>
                 </a>
-                
-                <!-- Tooltip for collapsed state -->
                 <div x-show="$store.sidebar.collapsed && tooltipVisible" 
-                     x-transition:enter="transition ease-out duration-150"
-                     x-transition:enter-start="opacity-0 -translate-x-1"
-                     x-transition:enter-end="opacity-100 translate-x-0"
-                     x-transition:leave="transition ease-in duration-100"
-                     x-transition:leave-start="opacity-100 translate-x-0"
-                     x-transition:leave-end="opacity-0 -translate-x-1"
-                     class="absolute left-full top-1/2 -translate-y-1/2 ml-3 z-[100] pointer-events-none">
-                    <div class="relative">
-                        <div class="absolute -left-[5px] top-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-gray-900 dark:bg-gray-700 rotate-45"></div>
-                        <div class="bg-gray-900 dark:bg-gray-700 text-white dark:text-gray-100 px-3 py-2 rounded-lg shadow-xl border border-gray-700 min-w-[120px]">
-                            <span class="text-sm font-medium whitespace-nowrap">Vehicle List</span>
-                        </div>
-                    </div>
+                     x-transition
+                     class="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded whitespace-nowrap z-50 shadow-lg">
+                    Vehicle List
                 </div>
             </div>
 
-            <!-- Continue this pattern for all menu items... -->
-            <!-- I've shown the pattern above. Apply the same structure to all remaining menu items -->
-            
+            <div x-data="{ tooltipVisible: false }" @mouseenter="tooltipVisible = true" @mouseleave="tooltipVisible = false" class="relative">
+                <a href="{{ route('driver-assignments.index') }}"
+                    class="group flex items-center gap-3 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all duration-200 mx-2
+                    {{ request()->routeIs('driver-assignments.index') ? 'bg-[#138898] dark:bg-[#138898] text-white dark:text-white' : '' }}"
+                    :class="$store.sidebar.collapsed ? 'justify-center px-0' : 'px-4'">
+                    <div class="flex items-center justify-center min-w-[40px]">
+                        <i class="fas fa-user w-5 text-center"></i>
+                    </div>
+                    <span class="sidebar-text font-medium whitespace-nowrap transition-all duration-300 overflow-hidden">Driver Assignments</span>
+                </a>
+                <div x-show="$store.sidebar.collapsed && tooltipVisible" 
+                     x-transition
+                     class="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded whitespace-nowrap z-50 shadow-lg">
+                    Driver Assignments
+                </div>
+            </div>
+
+            <div x-data="{ tooltipVisible: false }" @mouseenter="tooltipVisible = true" @mouseleave="tooltipVisible = false" class="relative">
+                <a href="{{ route('fuel-maintenance.index') }}"
+                    class="group flex items-center gap-3 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all duration-200 mx-2
+                    {{ request()->routeIs('fuel-maintenance.index') ? 'bg-[#138898] dark:bg-[#138898] text-white dark:text-white' : '' }}"
+                    :class="$store.sidebar.collapsed ? 'justify-center px-0' : 'px-4'">
+                    <div class="flex items-center justify-center min-w-[40px]">
+                        <i class="fas fa-gas-pump w-5 text-center"></i>
+                    </div>
+                    <span class="sidebar-text font-medium whitespace-nowrap transition-all duration-300 overflow-hidden">Fuel & Maintenance</span>
+                </a>
+                <div x-show="$store.sidebar.collapsed && tooltipVisible" 
+                     x-transition
+                     class="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded whitespace-nowrap z-50 shadow-lg">
+                    Fuel & Maintenance
+                </div>
+            </div>
+
+            <!-- Orders section -->
+            <div class="sidebar-section-title transition-all duration-300 px-3">
+                <span class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 block mb-1 mt-4">Orders</span>
+            </div>
+
+            <div x-data="{ tooltipVisible: false }" @mouseenter="tooltipVisible = true" @mouseleave="tooltipVisible = false" class="relative">
+                <a href="#"
+                    class="group flex items-center gap-3 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all duration-200 mx-2"
+                    :class="$store.sidebar.collapsed ? 'justify-center px-0' : 'px-4'">
+                    <div class="flex items-center justify-center min-w-[40px]">
+                        <i class="fas fa-clipboard-list w-5 text-center"></i>
+                    </div>
+                    <span class="sidebar-text font-medium whitespace-nowrap transition-all duration-300 overflow-hidden">All Orders</span>
+                </a>
+                <div x-show="$store.sidebar.collapsed && tooltipVisible" 
+                     x-transition
+                     class="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded whitespace-nowrap z-50 shadow-lg">
+                    All Orders
+                </div>
+            </div>
+
+            <div x-data="{ tooltipVisible: false }" @mouseenter="tooltipVisible = true" @mouseleave="tooltipVisible = false" class="relative">
+                <a href="#"
+                    class="group flex items-center gap-3 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all duration-200 mx-2"
+                    :class="$store.sidebar.collapsed ? 'justify-center px-0' : 'px-4'">
+                    <div class="flex items-center justify-center min-w-[40px]">
+                        <i class="fas fa-calendar-alt w-5 text-center"></i>
+                    </div>
+                    <span class="sidebar-text font-medium whitespace-nowrap transition-all duration-300 overflow-hidden">Scheduled Deliveries</span>
+                </a>
+                <div x-show="$store.sidebar.collapsed && tooltipVisible" 
+                     x-transition
+                     class="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded whitespace-nowrap z-50 shadow-lg">
+                    Scheduled Deliveries
+                </div>
+            </div>
+
+            <div x-data="{ tooltipVisible: false }" @mouseenter="tooltipVisible = true" @mouseleave="tooltipVisible = false" class="relative">
+                <a href="#"
+                    class="group flex items-center gap-3 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all duration-200 mx-2"
+                    :class="$store.sidebar.collapsed ? 'justify-center px-0' : 'px-4'">
+                    <div class="flex items-center justify-center min-w-[40px]">
+                        <i class="fas fa-undo w-5 text-center"></i>
+                    </div>
+                    <span class="sidebar-text font-medium whitespace-nowrap transition-all duration-300 overflow-hidden">Returns</span>
+                </a>
+                <div x-show="$store.sidebar.collapsed && tooltipVisible" 
+                     x-transition
+                     class="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded whitespace-nowrap z-50 shadow-lg">
+                    Returns
+                </div>
+            </div>
+
+            <div x-data="{ tooltipVisible: false }" @mouseenter="tooltipVisible = true" @mouseleave="tooltipVisible = false" class="relative">
+                <a href="#"
+                    class="group flex items-center gap-3 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all duration-200 mx-2"
+                    :class="$store.sidebar.collapsed ? 'justify-center px-0' : 'px-4'">
+                    <div class="flex items-center justify-center min-w-[40px]">
+                        <i class="fas fa-ban w-5 text-center"></i>
+                    </div>
+                    <span class="sidebar-text font-medium whitespace-nowrap transition-all duration-300 overflow-hidden">Cancellations</span>
+                </a>
+                <div x-show="$store.sidebar.collapsed && tooltipVisible" 
+                     x-transition
+                     class="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded whitespace-nowrap z-50 shadow-lg">
+                    Cancellations
+                </div>
+            </div>
+
+            <!-- Vendors & Clients section -->
+            <div class="sidebar-section-title transition-all duration-300 px-3">
+                <span class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 block mb-1 mt-4">
+                    VENDORS & CLIENTS
+                </span>
+            </div>
+
+            <div x-data="{ tooltipVisible: false }" @mouseenter="tooltipVisible = true" @mouseleave="tooltipVisible = false" class="relative">
+                <a href="#"
+                    class="group flex items-center gap-3 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all duration-200 mx-2"
+                    :class="$store.sidebar.collapsed ? 'justify-center px-0' : 'px-4'">
+                    <div class="flex items-center justify-center min-w-[40px]">
+                        <i class="fas fa-building w-5 text-center"></i>
+                    </div>
+                    <span class="sidebar-text font-medium whitespace-nowrap transition-all duration-300 overflow-hidden">Vendors Directory</span>
+                </a>
+                <div x-show="$store.sidebar.collapsed && tooltipVisible" 
+                     x-transition
+                     class="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded whitespace-nowrap z-50 shadow-lg">
+                    Vendors Directory
+                </div>
+            </div>
+
+            <div x-data="{ tooltipVisible: false }" @mouseenter="tooltipVisible = true" @mouseleave="tooltipVisible = false" class="relative">
+                <a href="#"
+                    class="group flex items-center gap-3 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all duration-200 mx-2"
+                    :class="$store.sidebar.collapsed ? 'justify-center px-0' : 'px-4'">
+                    <div class="flex items-center justify-center min-w-[40px]">
+                        <i class="fas fa-user-plus w-5 text-center"></i>
+                    </div>
+                    <span class="sidebar-text font-medium whitespace-nowrap transition-all duration-300 overflow-hidden">Add Vendor</span>
+                </a>
+                <div x-show="$store.sidebar.collapsed && tooltipVisible" 
+                     x-transition
+                     class="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded whitespace-nowrap z-50 shadow-lg">
+                    Add Vendor
+                </div>
+            </div>
+
+            <div x-data="{ tooltipVisible: false }" @mouseenter="tooltipVisible = true" @mouseleave="tooltipVisible = false" class="relative">
+                <a href="#"
+                    class="group flex items-center gap-3 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all duration-200 mx-2"
+                    :class="$store.sidebar.collapsed ? 'justify-center px-0' : 'px-4'">
+                    <div class="flex items-center justify-center min-w-[40px]">
+                        <i class="fas fa-users w-5 text-center"></i>
+                    </div>
+                    <span class="sidebar-text font-medium whitespace-nowrap transition-all duration-300 overflow-hidden">Client List</span>
+                </a>
+                <div x-show="$store.sidebar.collapsed && tooltipVisible" 
+                     x-transition
+                     class="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded whitespace-nowrap z-50 shadow-lg">
+                    Client List
+                </div>
+            </div>
+
+            <div x-data="{ tooltipVisible: false }" @mouseenter="tooltipVisible = true" @mouseleave="tooltipVisible = false" class="relative">
+                <a href="#"
+                    class="group flex items-center gap-3 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all duration-200 mx-2"
+                    :class="$store.sidebar.collapsed ? 'justify-center px-0' : 'px-4'">
+                    <div class="flex items-center justify-center min-w-[40px]">
+                        <i class="fas fa-comment-dots w-5 text-center"></i>
+                    </div>
+                    <span class="sidebar-text font-medium whitespace-nowrap transition-all duration-300 overflow-hidden">Client Feedback</span>
+                </a>
+                <div x-show="$store.sidebar.collapsed && tooltipVisible" 
+                     x-transition
+                     class="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded whitespace-nowrap z-50 shadow-lg">
+                    Client Feedback
+                </div>
+            </div>
+
+            <!-- Administration section -->
+            <div class="sidebar-section-title transition-all duration-300 px-3">
+                <span class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 block mb-1 mt-4">
+                    ADMINISTRATION
+                </span>
+            </div>
+
+            <div x-data="{ tooltipVisible: false }" @mouseenter="tooltipVisible = true" @mouseleave="tooltipVisible = false" class="relative">
+                <a href="#"
+                    class="group flex items-center gap-3 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all duration-200 mx-2"
+                    :class="$store.sidebar.collapsed ? 'justify-center px-0' : 'px-4'">
+                    <div class="flex items-center justify-center min-w-[40px]">
+                        <i class="fas fa-file-invoice-dollar w-5 text-center"></i>
+                    </div>
+                    <span class="sidebar-text font-medium whitespace-nowrap transition-all duration-300 overflow-hidden">Invoicing & Billing</span>
+                </a>
+                <div x-show="$store.sidebar.collapsed && tooltipVisible" 
+                     x-transition
+                     class="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded whitespace-nowrap z-50 shadow-lg">
+                    Invoicing & Billing
+                </div>
+            </div>
+
+            <div x-data="{ tooltipVisible: false }" @mouseenter="tooltipVisible = true" @mouseleave="tooltipVisible = false" class="relative">
+                <a href="#"
+                    class="group flex items-center gap-3 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all duration-200 mx-2"
+                    :class="$store.sidebar.collapsed ? 'justify-center px-0' : 'px-4'">
+                    <div class="flex items-center justify-center min-w-[40px]">
+                        <i class="fas fa-chart-bar w-5 text-center"></i>
+                    </div>
+                    <span class="sidebar-text font-medium whitespace-nowrap transition-all duration-300 overflow-hidden">Reports & Analytics</span>
+                </a>
+                <div x-show="$store.sidebar.collapsed && tooltipVisible" 
+                     x-transition
+                     class="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded whitespace-nowrap z-50 shadow-lg">
+                    Reports & Analytics
+                </div>
+            </div>
+
+            <div x-data="{ tooltipVisible: false }" @mouseenter="tooltipVisible = true" @mouseleave="tooltipVisible = false" class="relative">
+                <a href="#"
+                    class="group flex items-center gap-3 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all duration-200 mx-2"
+                    :class="$store.sidebar.collapsed ? 'justify-center px-0' : 'px-4'">
+                    <div class="flex items-center justify-center min-w-[40px]">
+                        <i class="fas fa-user w-5 text-center"></i>
+                    </div>
+                    <span class="sidebar-text font-medium whitespace-nowrap transition-all duration-300 overflow-hidden">Add User</span>
+                </a>
+                <div x-show="$store.sidebar.collapsed && tooltipVisible" 
+                     x-transition
+                     class="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded whitespace-nowrap z-50 shadow-lg">
+                    Add User
+                </div>
+            </div>
+
+            <div x-data="{ tooltipVisible: false }" @mouseenter="tooltipVisible = true" @mouseleave="tooltipVisible = false" class="relative">
+                <a href="#"
+                    class="group flex items-center gap-3 py-3 text-gray-700 dark:text-gray-500 hover:bg-blue-200 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-all duration-200 mx-2"
+                    :class="$store.sidebar.collapsed ? 'justify-center px-0' : 'px-4'">
+                    <div class="flex items-center justify-center min-w-[40px]">
+                        <i class="fas fa-user-cog w-5 text-center"></i>
+                    </div>
+                    <span class="sidebar-text font-medium whitespace-nowrap transition-all duration-300 overflow-hidden">User Management</span>
+                </a>
+                <div x-show="$store.sidebar.collapsed && tooltipVisible" 
+                     x-transition
+                     class="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded whitespace-nowrap z-50 shadow-lg">
+                    User Management
+                </div>
+            </div>
+
         </div>
     </nav>
 </aside>
